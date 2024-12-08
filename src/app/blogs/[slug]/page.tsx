@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
+export default function BlogPost({ params }: { params: { slug: any } }) {
   const blogDir = path.join(process.cwd(), "blogs");
   const mdxFilePath = path.join(blogDir, `${params.slug}.mdx`);
   const latexFilePath = path.join(blogDir, `${params.slug}.tex`);
