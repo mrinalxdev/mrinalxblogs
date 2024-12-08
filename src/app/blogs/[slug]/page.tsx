@@ -23,7 +23,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function BlogPost({ params }: Props) {
+export default async function BlogPost({ params }: any) {
   const { slug } = params;
   const blogDir = path.join(process.cwd(), "src/blogRead");
   const mdxFilePath = path.join(blogDir, `${slug}.mdx`);
