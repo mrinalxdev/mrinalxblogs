@@ -5,7 +5,7 @@ import Link from "next/link";
 import BlogLayout from "@/components/BlogLayout";
 
 export default function BlogsPage() {
-  const blogDir = path.join(process.cwd(), "blogs");
+  const blogDir = path.join(process.cwd(), "src/blogRead");
   const files = fs.readdirSync(blogDir);
 
   const blogs = files.map((filename) => {
