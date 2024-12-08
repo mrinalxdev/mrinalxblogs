@@ -35,7 +35,6 @@ export default function BlogsPage() {
               {blog.title}
             </Link>
             <span className="text-gray-500 ml-2">({blog.date})</span>
-            <span className="text-gray-500 ml-2">[{blog.type}]</span>
           </li>
         ))}
       </ul>

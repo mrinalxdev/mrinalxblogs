@@ -5,7 +5,7 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
     <div className="max-w-4xl mx-auto px-4 py-8 bg-white">
       <header className="mb-8">
         <h1 className="text-4xl font-bold mb-2">
-          <Link href="/">I do Write ✍️</Link>
+          <Link href="/">Mrinal Can Write ✍️</Link>
         </h1>
         <nav>
           <Link href="/blogs" className="text-blue-500 hover:underline">
