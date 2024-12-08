@@ -9,7 +9,7 @@ import LatexRenderer from "@/components/LatexRenderer";
 
 type Props = {
   params: {
-    slug: string;
+    slug: any;
   };
   searchParams: { [key: string]: string | string[] | undefined };
 };
