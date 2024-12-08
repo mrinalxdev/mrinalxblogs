@@ -25,7 +25,7 @@ export async function generateStaticParams(): Promise<Params[]> {
   }));
 }
 
-export default async function BlogPost( params: { slug: any; } ) {
+export default async function BlogPost( params: any ) {
   const blogDir = path.join(process.cwd(), "blogs");
   const mdxFilePath = path.join(blogDir, `${params.slug}.mdx`);
   const latexFilePath = path.join(blogDir, `${params.slug}.tex`);
