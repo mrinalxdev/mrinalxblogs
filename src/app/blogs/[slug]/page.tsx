@@ -7,15 +7,25 @@ import remarkMath from "remark-math";
 import BlogLayout from "@/components/BlogLayout";
 import LatexRenderer from "@/components/LatexRenderer";
 
-export async function generateStaticParams() {
+type Params = {
+  slug: string;
+};
+
+type Props = {
+  params: Params;
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateStaticParams(): Promise<Params[]> {
   const blogDir = path.join(process.cwd(), "blogs");
   const files = fs.readdirSync(blogDir);
+
   return files.map((filename) => ({
     slug: filename.replace(".mdx", "").replace(".tex", ""),
   }));
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
+export default async function BlogPost({ params, searchParams }: Props) {
   const blogDir = path.join(process.cwd(), "blogs");
   const mdxFilePath = path.join(blogDir, `${params.slug}.mdx`);
   const latexFilePath = path.join(blogDir, `${params.slug}.tex`);
