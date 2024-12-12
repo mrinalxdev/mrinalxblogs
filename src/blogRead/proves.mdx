@@ -41,26 +41,44 @@ $$
 
 ## Day 2: 2024-12-12
 
-#### Q. Prove that $\lim_{x \to 0} \frac{\sin x}{x} = 1$
+### Prove that $\lim_{x \to 0} \frac{\sin x}{x} = 1$
 
-* Defining the inequality bounds: for $x \neq 0$, considering the unit circle and from geometry we know that:
-  $$\cos x \leq \frac{\sin x}{x} \leq 1 \quad \text{for } x > 0$$
+##### Proof: We use the Squeeze Theorem to prove this.
 
-* Taking the limit of the bounds as $x \to 0$:
-  $$\lim_{x \to 0} \cos x = 1 \iff \lim_{x \to 0} 1 = 1$$
+The **Squeeze Theorem** states:
 
+If $f(x) \leq g(x) \leq h(x)$ for all $x$ in some interval around $a$ (except possibly at $a$ itself), and
+
+$$ \lim_{x \to a} f(x) = \lim_{x \to a} h(x) = L, $$
+
+then
+
+$$ \lim_{x \to a} g(x) = L. $$
+
+- Step 1: Define the inequality bounds
+
+For $x \neq 0$, consider the unit circle. From geometry, we know:
+
+$$ \cos x \leq \frac{\sin x}{x} \leq 1 \quad \text{for } x > 0 $$
+
+- Step 2: Take the limit of the bounds as $x \to 0$
+
+As $x \to 0$:
+
+1. $\lim_{x \to 0} \cos x = 1$  
+2. $\lim_{x \to 0} 1 = 1$
+
+Thus, by the Squeeze Theorem: $$ \lim_{x \to 0} \frac{\sin x}{x} = 1 $$
+
+- Step 3: Justify using the geometric interpretation
 
 Using the geometry of the unit circle:
-* The length of the arc is $x$ (in radians)
-* The vertical projection is $\sin x$
-* The horizontal projection gives $\cos x$
+- The length of the arc is $x$ (in radians).
+- The vertical projection is $\sin x$.
+- The horizontal projection gives $\cos x$.
 
 By comparing the areas and relationships geometrically, the inequality holds.
 
 #### Final Answer:
 
-Thus, we have proved that:
-
-$$
-\boxed{\lim_{x \to 0} \frac{\sin x}{x} = 1}
-$$
+Thus, we have proved that: $$ \boxed{\lim_{x \to 0} \frac{\sin x}{x} = 1} $$
