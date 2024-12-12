@@ -1,0 +1,21 @@
+---
+title : "Proving everyday 101"
+date : "2024-12-11"
+tags : ["Maths", "Calculus"]
+---
+
+## Day 1 : 2024-12-11
+
+#### Q. Derive the formula for the derivative of the inverse sine function, i.e. find $\frac{d}{dx} (\sin^{-1}x)$
+
+
+**Solution** : The inverse sine function, denoted by $\sin^{-1}x$ is defined as : $$y = \sin^{-1} x \iff \sin y = x $$
+- using implicit differentiation to differentiate with respect to $x$ : $\frac{d}{dx}(\sin y) = \frac{d}{dx} x$
+- Applying chain rule to the left-hand side : $\cos y \cdot \frac{dy}{dx} = 1$
+- Solving $\frac{dy}{dx}$ we get : $\frac{dy}{dx} = \frac{1}{\cos y}$
+- Expressing $\cos y$ in terms of $x$ using pythegorus theorum : $\cos y = \sqrt{1 - \sin^2 y} = \sqrt{1 - x^2}$
+- Substituting the expression for $\cos y$ into the derivative, we get : $\frac{dy}{dx} = \frac{1}{\sqrt{1 - x^2}}$ 
+
+Hence proved : $\boxed{\frac{1}{\sqrt{1 - x^2}}}$
+
+**We can Simplify even more** : $\frac{1}{\sqrt{1 - x^2}} = \frac{1}{\sqrt{1 - x^2}} \cdot \frac{\sqrt{1 - x^2}}{\sqrt{1 - x^2}} = \frac{\sqrt{1 - x^2}}{1 - x^2}$
