@@ -1,21 +1,66 @@
 ---
-title : "Proving everyday 101"
-date : "2024-12-11"
-tags : ["Maths", "Calculus"]
+title: "Proving everyday 101"
+date: "2024-12-11"
+tags: ["Maths", "Calculus"]
 ---
 
-## Day 1 : 2024-12-11
+## Day 1: 2024-12-11
 
 #### Q. Derive the formula for the derivative of the inverse sine function, i.e. find $\frac{d}{dx} (\sin^{-1}x)$
 
+**Solution**: The inverse sine function, denoted by $\sin^{-1}x$ is defined as:
 
-**Solution** : The inverse sine function, denoted by $\sin^{-1}x$ is defined as : $$y = \sin^{-1} x \iff \sin y = x $$
-- using implicit differentiation to differentiate with respect to $x$ : $\frac{d}{dx}(\sin y) = \frac{d}{dx} x$
-- Applying chain rule to the left-hand side : $\cos y \cdot \frac{dy}{dx} = 1$
-- Solving $\frac{dy}{dx}$ we get : $\frac{dy}{dx} = \frac{1}{\cos y}$
-- Expressing $\cos y$ in terms of $x$ using pythegorus theorum : $\cos y = \sqrt{1 - \sin^2 y} = \sqrt{1 - x^2}$
-- Substituting the expression for $\cos y$ into the derivative, we get : $\frac{dy}{dx} = \frac{1}{\sqrt{1 - x^2}}$ 
+$$
+y = \sin^{-1} x \iff \sin y = x
+$$
 
-Hence proved : $\boxed{\frac{1}{\sqrt{1 - x^2}}}$
+Using implicit differentiation to differentiate with respect to $x$:
 
-**We can Simplify even more** : $\frac{1}{\sqrt{1 - x^2}} = \frac{1}{\sqrt{1 - x^2}} \cdot \frac{\sqrt{1 - x^2}}{\sqrt{1 - x^2}} = \frac{\sqrt{1 - x^2}}{1 - x^2}$
+* Using implicit differentiation to differentiate with respect to $x$:
+  $$\frac{d}{dx}(\sin y) = \frac{d}{dx} x$$
+
+* Applying chain rule to the left-hand side:
+  $$\cos y \cdot \frac{dy}{dx} = 1$$
+
+* Solving $\frac{dy}{dx}$ we get:
+  $$\frac{dy}{dx} = \frac{1}{\cos y}$$
+
+* Expressing $\cos y$ in terms of $x$ using Pythagorean theorem:
+  $$\cos y = \sqrt{1 - \sin^2 y} = \sqrt{1 - x^2}$$
+
+* Substituting the expression for $\cos y$ into the derivative, we get:
+  $$\frac{dy}{dx} = \frac{1}{\sqrt{1 - x^2}}$$
+
+Hence proved: $$\boxed{\frac{1}{\sqrt{1 - x^2}}}$$
+
+**We can Simplify even more**:
+
+$$
+\frac{1}{\sqrt{1 - x^2}} = \frac{1}{\sqrt{1 - x^2}} \cdot \frac{\sqrt{1 - x^2}}{\sqrt{1 - x^2}} = \frac{\sqrt{1 - x^2}}{1 - x^2}
+$$
+
+## Day 2: 2024-12-12
+
+#### Q. Prove that $\lim_{x \to 0} \frac{\sin x}{x} = 1$
+
+* Defining the inequality bounds: for $x \neq 0$, considering the unit circle and from geometry we know that:
+  $$\cos x \leq \frac{\sin x}{x} \leq 1 \quad \text{for } x > 0$$
+
+* Taking the limit of the bounds as $x \to 0$:
+  $$\lim_{x \to 0} \cos x = 1 \iff \lim_{x \to 0} 1 = 1$$
+
+
+Using the geometry of the unit circle:
+* The length of the arc is $x$ (in radians)
+* The vertical projection is $\sin x$
+* The horizontal projection gives $\cos x$
+
+By comparing the areas and relationships geometrically, the inequality holds.
+
+#### Final Answer:
+
+Thus, we have proved that:
+
+$$
+\boxed{\lim_{x \to 0} \frac{\sin x}{x} = 1}
+$$
