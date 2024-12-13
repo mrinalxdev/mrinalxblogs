@@ -39,9 +39,12 @@ $$
 \frac{1}{\sqrt{1 - x^2}} = \frac{1}{\sqrt{1 - x^2}} \cdot \frac{\sqrt{1 - x^2}}{\sqrt{1 - x^2}} = \frac{\sqrt{1 - x^2}}{1 - x^2}
 $$
 
+----- 
+
+
 ## Day 2: 2024-12-12
 
-### Prove that $\lim_{x \to 0} \frac{\sin x}{x} = 1$
+#### Prove that $\lim_{x \to 0} \frac{\sin x}{x} = 1$
 
 ##### Proof: We use the Squeeze Theorem to prove this.
 
@@ -82,3 +85,45 @@ By comparing the areas and relationships geometrically, the inequality holds.
 #### Final Answer:
 
 Thus, we have proved that: $$ \boxed{\lim_{x \to 0} \frac{\sin x}{x} = 1} $$
+
+
+-----
+
+## Day 3: 2024-12-13
+
+#### Find the derivative of the function : $f(x) = \frac{x^3 e^x}{(1 + x^2)^2}$
+
+**Solution** According to quotient rule which stats : $$ \frac{d}{dx} \left[ \frac{u(x)}{v(x)} \right] = \frac{u'(x)v(x) - u(x)v'(x)}{v(x)^2}. $$
+
+Given : $u(x) = x^3 e^x$ & $v(x) = (1 + x^2)^2$ --(i)
+
+1. $u' (x) = \frac{d}{dx}[(1 + x^2)^2]$
+    - $\frac{d}{dx}[x^3 e^3] = 3x^2 e^x + x^3 e^x.$ Used product rule
+    - $$ \boxed{u'(x) = e^x(3x^2 + x^3)} $$
+
+2. $v'(x) = \frac{d}{dx}[(1 + x^2)^2]$
+    - Using chain rule $$ \frac{d}{dx}[(1 + x^2)^2] = 2(1 + x^2) \cdot \frac{d}{dx}[1 + x^2] = 2(1 + x^2)(2x). $$
+    - $$ \boxed{v'(x) = 4x(1 + x^2)} $$
+
+Substituting $u(x)$, $u'(x)$, $v(x)$, and $v'(x)$ into (i)
+
+### $$ \frac{d}{dx} \left[ \frac{x^3 e^x}{(1 + x^2)^2} \right] = \frac{u'(x)v(x) - u(x)v'(x)}{v(x)^2}. $$
+
+Substitute the terms:
+
+- $u'(x) = e^x(3x^2 + x^3)$
+- $v(x) = (1 + x^2)^2$
+- $u(x) = x^3 e^x$
+- $v'(x) = 4x(1 + x^2)$
+
+Thus:
+
+### $$ \frac{d}{dx} \left[ \frac{x^3 e^x}{(1 + x^2)^2} \right] = \frac{e^x(3x^2 + x^3)(1 + x^2)^2 - x^3 e^x \cdot 4x(1 + x^2)}{(1 + x^2)^4}. $$
+
+Simplifying the numerator
+
+$$ \text{Numerator} = e^x \left[ (3x^2 + x^3)(1 + x^2)^2 - 4x^4(1 + x^2) \right]. $$
+
+#### Final Answer:
+
+$$ \boxed{\frac{d}{dx} \left[ \frac{x^3 e^x}{(1 + x^2)^2} \right] = \frac{e^x \left[ (3x^2 + x^3)(1 + x^2)^2 - 4x^4(1 + x^2) \right]}{(1 + x^2)^4}} $$
