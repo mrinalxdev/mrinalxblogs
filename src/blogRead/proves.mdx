@@ -127,3 +127,29 @@ $$ \text{Numerator} = e^x \left[ (3x^2 + x^3)(1 + x^2)^2 - 4x^4(1 + x^2) \right]
 #### Final Answer:
 
 $$ \boxed{\frac{d}{dx} \left[ \frac{x^3 e^x}{(1 + x^2)^2} \right] = \frac{e^x \left[ (3x^2 + x^3)(1 + x^2)^2 - 4x^4(1 + x^2) \right]}{(1 + x^2)^4}} $$
+
+---- 
+
+## Day 4 : 2024-12-14
+
+#### Prove that: $$ \int \frac{x^2}{(1 + x^2)^2} dx = \frac{1}{2} \ln(1 + x^2) + \frac{1}{2(1 + x^2)} + C. $$
+<br />
+**Solution** : Let $u = 1 + x^2$. Then: $$ \frac{du}{dx} = 2x \quad \text{or} \quad du = 2x dx. $$
+
+- Rewriting the integral in terms of $u$: $$ \int \frac{x^2}{(1 + x^2)^2} dx = \int \frac{x^2}{u^2} \cdot \frac{du}{2x}. $$
+
+- Simplifying : $$ \int \frac{x^2}{(1 + x^2)^2} dx = \frac{1}{2} \int \frac{x}{u^2} du. $$
+
+- From $u = 1 + x^2$, we have $x^2 = u - 1$.
+
+- Substituting: $$ \frac{1}{2} \int \frac{x^2}{u^2} du = \frac{1}{2} \int \frac{u - 1}{u^2} du. $$
+
+- Splitting the fraction : $$ \frac{1}{2} \int \frac{u - 1}{u^2} du = \frac{1}{2} \ln|u| + \frac{1}{2} \cdot \frac{1}{u}. $$
+
+- Replacing $u$ with $1 + x^2$: $$ \frac{1}{2} \ln|1 + x^2| + \frac{1}{2} \cdot \frac{1}{1 + x^2}. $$
+
+- Hence : 
+
+$$ \boxed{\int \frac{x^2}{(1 + x^2)^2} dx = \frac{1}{2} \ln(1 + x^2) + \frac{1}{2(1 + x^2)} + C.}$$ **proved**
+
+--- 
