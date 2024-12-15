@@ -44,7 +44,7 @@ $$
 
 ## Day 2: 2024-12-12
 
-#### Prove that $\lim_{x \to 0} \frac{\sin x}{x} = 1$
+#### Q. Prove that $\lim_{x \to 0} \frac{\sin x}{x} = 1$
 
 ##### Proof: We use the Squeeze Theorem to prove this.
 
@@ -91,7 +91,7 @@ Thus, we have proved that: $$ \boxed{\lim_{x \to 0} \frac{\sin x}{x} = 1} $$
 
 ## Day 3: 2024-12-13
 
-#### Find the derivative of the function : $f(x) = \frac{x^3 e^x}{(1 + x^2)^2}$
+#### Q. Find the derivative of the function : $f(x) = \frac{x^3 e^x}{(1 + x^2)^2}$
 
 **Solution** According to quotient rule which stats : $$ \frac{d}{dx} \left[ \frac{u(x)}{v(x)} \right] = \frac{u'(x)v(x) - u(x)v'(x)}{v(x)^2}. $$
 
@@ -132,7 +132,7 @@ $$ \boxed{\frac{d}{dx} \left[ \frac{x^3 e^x}{(1 + x^2)^2} \right] = \frac{e^x \l
 
 ## Day 4 : 2024-12-14
 
-#### Prove that: $$ \int \frac{x^2}{(1 + x^2)^2} dx = \frac{1}{2} \ln(1 + x^2) + \frac{1}{2(1 + x^2)} + C. $$
+#### Q. Prove that: $$ \int \frac{x^2}{(1 + x^2)^2} dx = \frac{1}{2} \ln(1 + x^2) + \frac{1}{2(1 + x^2)} + C. $$
 <br />
 **Solution** : Let $u = 1 + x^2$. Then: $$ \frac{du}{dx} = 2x \quad \text{or} \quad du = 2x dx. $$
 
@@ -153,3 +153,35 @@ $$ \boxed{\frac{d}{dx} \left[ \frac{x^3 e^x}{(1 + x^2)^2} \right] = \frac{e^x \l
 $$ \boxed{\int \frac{x^2}{(1 + x^2)^2} dx = \frac{1}{2} \ln(1 + x^2) + \frac{1}{2(1 + x^2)} + C.}$$ **proved**
 
 --- 
+
+## Day 5 : 2024-12-15
+
+#### Q. Prove and Evaluate $$\int \frac{x^3}{(1 + x^2)^3} \, dx = -\frac{x^2}{2(1 + x^2)^2} + \frac{1}{4(1 + x^2)} + C$$
+
+**Solution** : The given integral involves a rational function. To simplify it, observe the denominator $$(1 + x^2)^3$$ and note that $$x^3$$ in the numerator suggests a substitution related to $$1 + x^2$$.
+
+- Let : $$u = 1 + x^2 \quad \text{so that} \quad du = 2x \, dx.$$
+
+- From $$ u = 1 + x^2$$ it follows that $$x^2 = u - 1$$. Rewriting $$x^3$$ as $$x \cdot x^2$$
+
+- ### $$\int \frac{x^3}{(1 + x^2)^3} \, dx = \int \frac{x \cdot (u - 1)}{u^3} \cdot \frac{du}{2x}.$$
+
+- Simplifying : $$\int \frac{x^3}{(1 + x^2)^3} \, dx = \frac{1}{2} \int \frac{u - 1}{u^3} \, du.$$
+
+- Splitting up the fraction becomes : $$\frac{u - 1}{u^3} = \frac{u}{u^3} - \frac{1}{u^3} = \frac{1}{u^2} - \frac{1}{u^3}.$$
+
+- ### $$\frac{1}{2} \int \left( \frac{1}{u^2} - \frac{1}{u^3} \right) \, du.$$
+
+- For $$\int \frac{1}{u^2} \, du$$ : $$\int \frac{1}{u^2} \, du = \int u^{-2} \, du = \frac{u^{-1}}{-1} = -\frac{1}{u}.$$
+
+- Substitute these results back into the integral: $$\frac{1}{2} \int \left( \frac{1}{u^2} - \frac{1}{u^3} \right) \, du = \frac{1}{2} \left( -\frac{1}{u} + \frac{1}{2u^2} \right).$$
+
+- Substitute back $$u = 1 + x^2$$ : $$\frac{1}{2} \left( -\frac{1}{u} + \frac{1}{2u^2} \right) = \frac{1}{2} \left( -\frac{1}{1 + x^2} + \frac{1}{2(1 + x^2)^2} \right).$$
+
+- Distributing $$\frac{1}{2}$$ : $$-\frac{1}{2(1 + x^2)} + \frac{1}{4(1 + x^2)^2}.$$
+
+Including the constant of the integration
+
+$$\boxed{\int \frac{x^3}{(1 + x^2)^3} \, dx = -\frac{x^2}{2(1 + x^2)^2} + \frac{1}{4(1 + x^2)} + C.}$$ **Hence proved..**
+
+----
