@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Attention is all you have</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+  </head>
+  <body class="bg-orange-100 w-full max-w-[90%] md:w-[50%] mx-auto">
+    <nav class="mt-6">
+      <div>
+        <h1 class="font-serif text-4xl">Mrinal's Blog</h1>
+        <div class="mt-5 flex flex-wrap gap-5">
+          <a
+            href="../index.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Home</a
+          >
+          <a
+            href="./blog.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Blogs</a
+          >
+          <a
+            href="#"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Research Notes</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <hr class="mt-3" />
+
+    <div class="mt-2">
+      <h1 class="text-4xl mt-[57px] mb-3 font-serif">
+        Attention from Beginners Point of View
+      </h1>
+      <span class="text-sm text-gray-500">8th March, 2025</span>
+      <p class="mt-4 font-serif text-lg">
+        Transformers are a type of neural network architecture which is
+        popularly used for text generations, machine translations, etc. But
+        before transformers, models like RNNs and LSTMs were used for sequence
+        data. Unfortunately, they had issues with long-range dependencies
+        because the sequential processing made it hard to parallielize and
+        capture context from far away in sequence
+      </p>
+
+      <p class="mt-2 font-serif text-lg">
+        Transformers solved this issue by using attention mechanism to weigh the
+        importance of different parts of the input allowing model to focus on
+        relevant parts regardless of their position.
+      </p>
+
+      <img
+        src="../blogs/assets/attention/attention.png"
+        alt=""
+        class="mx-auto my-5 rounded-lg"
+      />
+      <p class="mt-4 font-serif text-lg">
+        This is what attention under the hood looks like, we will be deep diving
+        into every component one by one. Coming back to our topic which is
+      </p>
+
+      <h1 class="text-4xl mt-[57px] mb-3 font-serif">
+        What is Attention and Why is it needed ?
+      </h1>
+      <p class="mt-4 font-serif text-lg">
+        So attention is a way to compute a weights sum of values (from the
+        input) where the weights are determined by the relevance between the
+        query and the keys.
+      </p>
+
+      <h1
+        class="text-xl mt-[10px] mb-2 font-serif underline underline-offset-4"
+      >
+        How ?
+      </h1>
+      <p class="mt-4 font-serif text-lg">
+        In the context of a sentance, each word (or token) has a query, key and
+        value vectors. The query from a word is compared with the keys of all
+        other words to determine how much attention to pay to each one. The
+        value are then aggregated based on these attention weights.
+      </p>
+
+      <h1
+        class="text-xl mt-[10px] mb-2 font-serif underline underline-offset-4"
+      >
+        How do we exactly generate these query, key and value vectors ?
+      </h1>
+
+      <p class="mt-4 font-serif text-lg">
+        They usually come from linear transformations of the input embeddings.
+        So each input token is embedded into a vector, and then multiplied by
+        weight matrices \(Wq, Wk, Wv\) to get the query, key and value vectors.
+        Then, the attention scores between token are calculated using the dot
+        product of the query and key vectors. These scores are scaled by the
+        square root of the dimension of the key vectors to prevent the dot
+        products from getting too large, which could lead to vanishing
+        gradients.
+      </p>
+      <p class="mt-4 font-serif text-lg">
+        After scaling, a softmax is applied to convert the scores into
+        probabilities (weights) that sum to 1. These weights are then used to
+        take a weighted average of the value vectors. The result is the output
+        of the attention mechanism for each position. This process is called
+        self-attention because each position attends to all positions in the
+        same sequence.
+      </p>
+
+      <h1
+        class="text-xl mt-[10px] mb-2 font-serif underline underline-offset-4"
+      >
+        Mathematical Representation
+      </h1>
+
+      <p class="font-serif text-lg mt-4">
+        Let \( \mathbf{x} \in \mathbb{R}^{d} \) be the input embedding for a
+        token, where \( d \) is the dimensionality of the embedding space.
+      </p>
+
+      <p class="font-serif text-lg mt-4">
+        The query, key, and value vectors are generated by applying linear
+        transformations to the input embedding:
+      </p>
+
+      <div class="font-serif text-lg mt-2">
+        \[ \mathbf{q} = \mathbf{x} \mathbf{W}_q \] \[ \mathbf{k} = \mathbf{x}
+        \mathbf{W}_k \] \[ \mathbf{v} = \mathbf{x} \mathbf{W}_v \]
+      </div>
+
+      <p class="font-serif text-lg mt-2">
+        where \( \mathbf{W}_q, \mathbf{W}_k, \mathbf{W}_v \in \mathbb{R}^{d
+        \times d} \) are learnable weight matrices.
+      </p>
+
+      <p class="font-serif text-lg mt-2">
+        The attention scores between tokens are calculated using the dot product
+        of the query and key vectors:
+      </p>
+
+      <div class="font-serif text-lg mt-2">
+        \[ \mathbf{A} = \frac{\mathbf{q} \mathbf{k}^\top}{\sqrt{d}} \]
+      </div>
+
+      <p class="font-serif text-lg mt-2">
+        where \( \mathbf{A} \in \mathbb{R}^{n \times n} \) is the attention
+        score matrix, \( n \) is the number of tokens, and \( \sqrt{d} \) is the
+        scaling factor to prevent vanishing gradients.
+      </p>
+
+      <p class="font-serif text-lg mt-2">
+        Note: \( \top \) denotes the transpose operation, and \( \mathbb{R}^{d
+        \times d} \) represents the set of \( d \times d \) matrices with
+        real-valued entries.
+      </p>
+    </div>
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">
+      Multi-Head Attention : Attention on RedBull
+    </h1>
+
+    <img
+      src="./assets/attention/multi-head.png"
+      alt=""
+      class="mx-auto my-5 rounded-lg"
+    />
+
+    <p class="font-serif text-lg mt-4">
+      Transformers don't stop at one Attention mechanism - they use
+      <span class="font-semibold">Multi-Head Attention</span>, instead of
+      computing a single attention mechanism, the model splits the input into
+      multiple heads, each computing their own attention. This allows the model
+      to focus on different parts of the input in different ways. The outputs
+      from each head are concatenated and then linearly transformed again to get
+      the final output
+    </p>
+
+    <p class="font-serif text-lg mt-4">
+      Why do they do this? Maybe to capture different types of relationships or
+      dependencies in the data, this also allows the model to attent to multiple
+      relationship in the data at once, making it incredibly flexible and
+      expressive
+    </p>
+
+    <p class="text-sm text-gray-500 font-serif mt-6">
+      We will discuss more about Multi-Head Attention in the upcoming blog :)
+    </p>
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">Self-Attention</h1>
+
+    <p class="font-serif text-lg mt-4">
+        In Transformers, the most common type of attention is <b>Self Attention</b>, where Q, K and V all come from the same input sequence. This means every token in the sequence can attend to every other token, including itself, For example:
+
+        <p class="underline underline-offset-4 my-4"><i>The cat slept because it was tired</i></p>
+        <p class="font-serif text-lg mt-4">Self-Attention lets <span class="font-bold">"it"</span> focus heavily on <span class="font-bold">"cat"</span>to understand the reference</p>
+    </p>
+
+    <p>This biredirectional (or non-bidirectional) awareness is what makes Transformers so good at capturing context, unline RNNs, which only look backward or forward</p>
+
+    <h1 class="text-xl mt-[10px] mb-2 font-serif underline underline-offset-4">
+        Mathematical Representation
+    </h1>
+
+    <div class="font-serif">
+        <p>\[ \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{Q \cdot K^T}{\sqrt{d_k}}\right) \cdot V \]</p>
+
+        <h3>Legend:</h3>
+        <ul class="list-disc ml-4 text-lg">
+            <li><strong>Q (Query matrix)</strong>: What the model is looking for.</li>
+            <li><strong>K (Key matrix)</strong>: What the model can offer (a representation of all tokens).
+
+            </li>
+            <li><strong>V (Value matrix)</strong>: The actual content of the tokens to be weighted and combined.
+
+                )</li>
+        </ul>
+
+        <h3>Steps in Computation:</h3>
+        <ol class="list-disc ml-4 text-lg">
+            <li><strong>Dot Product:</strong> Compute \( Q \cdot K^T \), resulting in a score matrix of shape.</li>
+            <li><strong>Scaling:</strong> Normalize by dividing by \( \sqrt{d_k} \), ensuring stable gradients.</li>
+            <li><strong>Softmax:</strong> Apply the softmax function along the last dimension (keys) to obtain attention weights.</li>
+            <li><strong>Weighted Sum:</strong> Multiply by \( V \), obtaining the final attention output.</li>
+        </ol>
+    </div>
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">Attention in the Transformer Architecture</h1>
+
+    <p class="font-serif text-lg mt-4">
+        The Transformer consists of an Encoder and a Decoder, both stacked with multiple layers (e.g., 6 or 12). Attention plays different roles in each:
+    </p>
+
+    <ul class="list-disc ml-4 font-serif mt-4">
+        <li>
+            <h2 class="text-lg">Encoder</h2>
+            <ul class="list-decimal ml-8">
+                <li>Uses Self-Attention to process the input sequence (e.g., a sentence in English).
+                </li>
+                <li>Each layer refines the representation, passing it to the next.
+                </li>
+            </ul>
+        </li>
+        <li class="pt-2">
+            <h2 class="text-lg">Decoder</h2>
+            <ul class="list-decimal ml-8">
+                <li>Uses <span class="font-bold">Masked Self-Attention</span> to process the output sequence (e.g., a translation in French). “Masked” means it only attends to previous positions to prevent cheating by looking at future tokens during training.
+                </li>
+                <li>Also uses <span class="font-bold">Cross-Attention</span> to connect the Decoder to the Encoder, letting the output attend to the input (e.g., aligning French words with English ones).
+
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">Intuition : Attention as a Spotlight</h1>
+    <p class="font-serif mt-4 text-lg">
+        Single most phrase which made me undertand attention is
+    </p>
+
+    <p class="font-serif mt-5 text-lg">Think of Attention as a spotlight operator in a theater. The Query is the director saying, “Focus on the lead actor!” The Keys are all the actors on stage, and the Values are their lines. The spotlight (Attention) adjusts its beam based on who’s most relevant, illuminating the scene dynamically as the play unfolds.
+
+    </p>
+
+    <hr class="my-10" />
+    <footer class="my-8">By Mrinal</footer>
+  </body>
+</html>
