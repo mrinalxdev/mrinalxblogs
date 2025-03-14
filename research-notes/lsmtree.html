@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LSM tree Research Paper Notes</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VP1VKLPKJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-4VP1VKLPKJ");
+    </script>
+  </head>
+  <body class="bg-orange-100 w-full max-w-[90%] md:w-[50%] mx-auto">
+    <nav class="mt-6">
+      <div>
+        <h1 class="font-serif text-4xl">Mrinal's Research Notes</h1>
+        <div class="mt-5 flex flex-wrap gap-5">
+          <a
+            href="../index.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Home</a
+          >
+          <a
+            href="../blogs/blog.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Blogs</a
+          >
+          <a
+            href="./research.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Research Notes</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <hr class="mt-3" />
+
+    <a href="https://www.cs.umb.edu/~poneil/lsmtree.pdf" id="">
+      <img
+        src="../blogs/assets/research/lsm/lsm.png"
+        class="my-5 rounded-xl hover:shadow-2xl shadow-xl mx-auto border-2 border-orange-500"
+        alt=""
+      />
+    </a>
+    <span class="text-sm text-gray-500">13th March, 2025</span>
+
+    <section class="my-3">
+      <h3 class="text-3xl font-serif">Understanding the LSM-Tree Paper</h3>
+      <p class="text-lg font-serif mt-4">
+        This paper introduces the Log-Structured Merge-Tree, a disk-based data
+        structure tailored for environments with high rates of record insertions
+        (and deletions), such as transactions logs or history tables. It
+        contrasts LSM-Tree with traditional indexing methods like B-Tress, which
+        struggle under heavy write workloads due to excessive disk I/O. The
+        LSM-Tree aims to minimize this I/O cost by leveraging a combination of
+        memory and disk storage, batching operations, and optimizing for
+        sequantial writes
+      </p>
+
+      <h3 class="text-3xl mt-[57px] mb-3 font-serif">
+        1. Summary of the Paper
+      </h3>
+      <p class="text-lg font-serif mt-4">
+        The LSM-Tree is a write-optimized data structure desgined to :
+      </p>
+      <ul class="list-disc ml-4 font-serif text-lg mt-2">
+        <li class="my-2">
+          <span class="underline underline-offset-4"
+            >Handle High Insert/Delete Rates Efficiently</span
+          >
+          : It batches and defers index updates, avoiding immediate disk writes
+          for every operation.
+        </li>
+        <li class="my-2">
+          <span class="underline underline-offset-4"
+            >Use a Hybrid Structure</span
+          >
+          : It combines a memory-resident component (C₀ tree) with one or more
+          disk-resident components (C₁, C₂, etc.), allowing fast in-memory
+          writes and efficient disk management.
+        </li>
+        <li class="my-2">
+          <span class="underline underline-offset-4"
+            >Reduce Dick I/O Costs</span
+          >
+          : Compared to B-Trees, it cuts down on random disk operations,
+          lowering the overall system cost (e.g, disk arm usage)
+        </li>
+      </ul>
+
+      <p class="mt-4 font-serif text-lg">
+        <span class="font-bold">Context</span> : The paper uses the TPC-A
+        benchmark (a transaction processing standard) as a case study. In TPC-A,
+        each transaction inserts a row into a History Table. Maintaining
+        real-time index (e.g by account ID) with a B-Tree I/O costs, while the
+        LSM-Tree reduces this significantly
+      </p>
+
+      <h3 class="text-3xl mt-[57px] mb-3 font-serif">2. Core Concepts</h3>
+
+      <ul class="list-disc ml-4 font-serif text-lg mt-4">
+        <p class="-ml-4">2.1 The Problem with Traditional Indexing (B-Trees)</p>
+
+        <li class="ml-3 my-2">
+          <span class="font-bold">High Insert Cost</span> : B-Trees require
+          immediate updates to disk for each insert. For every new entry, a leaf
+          node must be read into memory (1 I/0), updated, and written back
+          (another I/O), totalling at least 2 I/0s per insert.
+        </li>
+
+        <li class="ml-3 my-2">
+          <span class="font-bold">Random Disk Access </span> : Since insertions
+          can occur anywhere in the tree (e.g random account in IDs in TPC-A),
+          these I/Os are random, causing disk arm movement (seek time and
+          rotational latency), which is slow and expensive
+        </li>
+
+        <li class="ml-3 my-2">
+          <span class="font-bold">System Cost Impact</span> : In high-throughput
+          systems (e.g., 1000 transactions per second), this doubles the disk
+          requirements, increasing costs by up to 50% (e.g., needing 50 extra
+          disk arms in the TPC-A example).
+        </li>
+      </ul>
+
+      <p class="mt-4 font-serif text-lg">
+        <span class="font-bold">Analogy with the Paper</span> : Imagine a
+        librarian (disk arm) updating a card catalog (B-Tree) by physically
+        walking to a random drawer for every new book added—inefficient and
+        time-consuming.
+      </p>
+
+      <ul class="list-disc ml-4 font-serif text-lg mt-8">
+        <p class="-ml-4">2.1 The Solution</p>
+
+        <li class="ml-3 my-2">
+          <span class="font-bold">Memory Buffering</span> : New inserts go into
+          a memory-resident C₀ tree, which is fast (no I/O) and acts as a
+          temporary buffer.
+        </li>
+
+        <li class="ml-3 my-2">
+          <span class="font-bold">Batched Disk Writes </span> : When C₀ fills
+          up, its contents are merged with the disk-resident C₁ tree in batches,
+          using sequential writes instead of random ones.
+        </li>
+
+        <li class="ml-3 my-2">
+          <span class="font-bold">Efficiency Gain</span> : This reduces disk arm
+          movement, leveraging the cheaper cost of sequential I/O (e.g.,
+          multi-page block writes) over random I/O.
+        </li>
+      </ul>
+
+      <p class="mt-4 font-serif text-lg">
+        <span class="font-bold">Analogy with the Paper</span> : Instead of
+        updating the catalog for every book, the librarian writes new entries in
+        a notebook (C₀) and periodically transfers a sorted batch to the catalog
+        (C₁) in one go—faster and less effort.
+      </p>
+    </section>
+
+    <section class="mt-2 font-serif">
+      <h3 class="text-3xl mt-[57px] mb-3 font-serif">
+        3. Breaking down the LSM Tree Algorithm
+      </h3>
+
+      <p class="mt-4 text-lg">
+        While implementing this paper, I personally learnt a lot about tree data
+        structures and its types also used resources like this
+        <a
+          href="https://www.tutorialspoint.com/data_structures_algorithms/tree_data_structure.htm"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline underline-offset-2"
+          >[Link]</a
+        >
+        to know more indepth about B Trees and B+ Trees.
+      </p>
+      <ul class="list-disc ml-4 mt-8">
+        <p class="text-xl -ml-2">3.1 Two Component Model</p>
+        <li class="ml-3 my-2 text-lg">C₀ Tree (Memory-Resident)</li>
+        <ul class="list-none ml-8">
+          <li>
+            > <span class="underline underline-offset-4">Purpose</span> : Acts
+            as the entry point for all new inserts, keeping them in memory for
+            speed.
+          </li>
+          <li>
+            > <span class="underline underline-offset-4">Structure</span> : Can
+            be any efficient in-memory (e.g., AVL or 2-3 tree), not tied to disk
+            page sizes
+          </li>
+          <li>
+            > <span class="underline underline-offset-4">Size Limit</span> :
+            Constrained by memory capacity (e.g., 20 MB in one example), as
+            memory is expensive compared to disk.
+          </li>
+          <li>
+            > <span class="underline underline-offset-4">Recovery Note</span> :
+            Since C₀ is in memory, its contents must be recoverable after a
+            crash (e.g., via transaction logs).
+          </li>
+        </ul>
+
+        <li class="ml-3 my-2 mt-4 text-lg">C₁ Tree (Disk-Resident)</li>
+        <ul class="list-none ml-8 text-md">
+          <li>
+            > <span class="underline underline-offset-4">Purpose</span> : Stores
+            the bulk of the data long-term on disk, which is cheaper but slower.
+          </li>
+          <li>
+            > <span class="underline underline-offset-4">Structure</span> :
+            Similar to a B-Tree but optimized for sequential access—nodes are
+            100% full and packed into multi-page blocks (e.g., 256 KB blocks).
+          </li>
+          <li>
+            > <span class="underline underline-offset-4">Access</span> :
+            Frequently used nodes (e.g., directory nodes) may stay in memory
+            buffers, but leaf nodes typically require disk I/O.
+          </li>
+        </ul>
+
+        <li class="my-5">
+          <span class="underline underline-offset-4 text-lg">Data Flow</span> :
+          Inserts go to C₀ → C₀ merges into C₁ when full.
+        </li>
+      </ul>
+
+      <img
+        src="../blogs/assets/research/lsm/fig2(1).png"
+        class="mx-auto w-full rounded-xl"
+        alt=""
+      />
+      <p class="mt-4 font-serif text-lg">
+        A schematic shows C₀ as a small, fast memory layer feeding into the
+        larger, slower C₁ disk layer. What do we get to know from this ?,
+        batching in C₀ avoids the immediate 2 I/O penalty of B-Trees, deferring
+        disk writes until a merge is needed.
+      </p>
+
+      <p class="text-xl -ml-2 mt-5">3.2 The Rolling Merge Process</p>
+      <li class="text-lg">
+        <span class="underline underline-offset-4">Trigger</span> : When C₀ hits
+        a size threshold (e.g., near its memory limit), a "rolling merge"
+        begins.
+      </li>
+
+      <li class="text-lg">Steps</li>
+      <ul class="ml-10 list-decimal">
+        <li>
+          <span class="underline underline-offset-4">Select a Segment</span> : A
+          contiguous range of entries from C₀ (e.g., smallest key values) is
+          chosen.
+        </li>
+        <li>
+          <span class="underline underline-offset-4">Read from C₁</span> : A
+          multi-page block of C₁ leaf nodes is read into memory (e.g., 256 KB
+          containing multiple 4 KB pages).
+        </li>
+        <li>
+          <span class="underline underline-offset-4">Merge</span> : C₀ entries
+          are combined with C₁ entries, keeping the result sorted.
+        </li>
+        <li>
+          <span class="underline underline-offset-4">Write Back</span> : The
+          merged result is written to a new multi-page block on disk, not
+          overwriting the old one (for recovery purposes).
+        </li>
+        <li>
+          <span class="underline underline-offset-4">Repeat</span> : The process
+          continues, moving through C₀ and C₁ like a "cursor," looping back to
+          the start after reaching the end.
+        </li>
+      </ul>
+
+      <li class="my-2 mt-4 text-lg">Efficiency :</li>
+      <ul class="list-none ml-8 text-md">
+        <li>
+          > <span class="underline underline-offset-4">Sequential I/O</span> :
+          Multi-page block reads/writes (e.g., 64 pages in 125 ms vs. 20 ms per
+          random page) reduce seek and latency costs.
+        </li>
+        <li>
+          > <span class="underline underline-offset-4">Batching</span> :
+          Multiple C₀ entries (e.g., 10 per C₁ page) are merged in one I/O
+          cycle, unlike B-Trees' one-entry-per-I/O model.
+        </li>
+      </ul>
+
+      <img
+        src="../blogs/assets/research/lsm/fig2(2).png"
+        class="mx-auto w-full rounded-xl mt-8"
+        alt=""
+      />
+      <p class="mt-4 font-serif text-lg">
+        Depicts a cascade of components, showing how data flows from memory to
+        deeper disk levels. What do we get to know from this ?, multi-component
+        LSM-Trees scale efficiently by distributing data across multiple disk
+        layers, optimizing both memory and disk usage.
+      </p>
+    </section>
+
+    <section class="font-serif mt-8">
+      <h3 class="text-3xl mt-[57px] mb-3 font-serif">
+        4. Performance Analysis
+      </h3>
+
+      <p class="text-lg font-serif">4.1 Comparing LSM-Trees to B-Trees</p>
+      <img
+        src="../blogs/assets/research/lsm/performance.png"
+        class="mx-auto w-full rounded-xl my-2"
+        alt=""
+      />
+
+      <p class="text-lg mt-4">4.2 Cost Reduction in LSM-Trees</p>
+      <ul class="list-disc text-lg ml-4">
+        <li class="my-2">
+          <span class="underline underline-offset-4">Disk Arm Savings</span> :
+          Sequential writes use disk arms 10x more efficiently (e.g., 400
+          pages/sec vs. 40 pages/sec per disk).
+        </li>
+        <li class="my-2">
+          <span class="underline underline-offset-4">Memory Optimization</span>
+          : C₀ buffers hot data, while cold data stays on disk, balancing cost
+          (e.g., $100/MB memory vs. $1/MB disk).
+        </li>
+      </ul>
+    </section>
+
+    <section class="font-serif mt-8">
+      <h3 class="text-3xl mt-[57px] mb-3 font-serif">
+        5. Handling Queries in LSM-Trees
+      </h3>
+      <ul class="mt-4 list-disc ml-4">
+        <li class="my-4">
+          <span class="underline underline-offset-4">Process</span> : A query
+          (e.g., "find recent transactions for account X") checks C₀ first, then
+          C₁, and so on, until all components are searched or the result is
+          found.
+        </li>
+        <li class="my-4">
+          <span class="underline underline-offset-4">Unique Keys</span> :If keys
+          are unique (e.g., timestamped entries), search stops at the first
+          match. found.
+        </li>
+        <li class="my-4">
+          <span class="underline underline-offset-4">Recent Data</span> :Keeping
+          recent entries in C₀ (e.g., last 60 seconds) speeds up common queries.
+        </li>
+      </ul>
+
+      <p class="text-lg mt-5">
+        <span class="font-bold">Understanding this by an example</span>: In
+        TPC-A, querying recent account activity might hit C₀ (memory) for the
+        last minute's data, then C₁ (disk) for older data, taking slightly
+        longer than a B-Tree but still practical.
+      </p>
+    </section>
+
+    <section class="font-serif text-lg mt-8">
+      <h3 class="text-3xl mt-[57px] mb-3">Intuition</h3>
+      <p>
+        I always go with phrases which can explain anything to anyone. No need
+        of prior context, I recommend to every other engineer to build this
+        habbit along with your learning phase of your life .
+      </p>
+      <p class="mt-3">
+        Remember you were a librarian a while back now you are managing a
+        massive, ever-growing catalog of books (like transaction logs or history
+        records) where new entries pour in constantly, but people rarely look
+        them up. A traditional catalog (like a B-Tree) forces you to walk to a
+        random shelf, pull out a card, update it, and put it back every time a
+        book arrives—slow and exhausting due to all the back-and-forth (random
+        disk I/O). The LSM-Tree is like a smarter system: you jot down new
+        entries in a small notebook (memory-based C₀ tree) that’s quick to use.
+        When the notebook fills up, you don’t update the main catalog
+        one-by-one; instead, you sort the batch and merge it into a big,
+        organized ledger (disk-based C₁ tree) in one smooth sweep (sequential
+        writes). For really huge libraries, you might add more ledgers (C₂, C₃,
+        etc.), passing data down in stages. This cuts down on frantic running
+        around (disk arm costs), saving time and effort (I/O overhead). Finding
+        a book (querying) takes a bit longer since you check the notebook and
+        ledgers, but that’s okay because adding books (inserts) is the priority.
+        In short, the LSM-Tree trades a little read speed for a lot of write
+        efficiency, perfect for systems drowning in new data but light on
+        lookups.
+      </p>
+    </section>
+
+    <hr class="my-10" />
+    <footer class="my-8">By Mrinal</footer>
+  </body>
+</html>
