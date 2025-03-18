@@ -51,46 +51,187 @@
 
     <hr class="mt-3" />
 
+    <div class="my-5 border rounded-xl p-4">
+      <h1 class="text-xl font-serif mb-6">Pre-Requisites to know</h1>
+
+      <div class="ml-4">
+        <ul class="list-disc ml-4">
+          <li class="cursor-pointer font-serif " onclick="toggleCollapse('item1')">
+            Attention : <a href="../blogs/attention.html">[Link]</a>
+            <ul id="item1" class=" pl-4 mt-1 space-y-1 hidden transition-all duration-300 ease-in-out">
+              <li>Complete the attention blog to get an idea why even Multi-Head is needed. Its like a homework you can do to understand better about the topic of this blog. </li>
+            </ul>
+           </li>
+          <li class="cursor-pointer font-serif " onclick="toggleCollapse('item2')">
+           Dot Product Attention
+            <ul id="item2" class=" pl-4 mt-1 space-y-1 hidden transition-all duration-300 ease-in-out">
+              <li>> Dot Product attention is a specific type of attention mechanism that computes attention scores using the dot product between vectors.</li>
+              <li>> Computing the dot product between each query vector \(\text{Q}\) and each key vector \(\text{K}\). This gives a raw measure of similarity between the query and the keys. \[\text{Raw Scores} = \text{Q} \cdot K^T\]</li>
+
+              <span class="text-xs text-gray-500 font-serif">The result is a matrix where each entry represents the similarity between a query and a key</span>
+            </ul>
+          </li>
+          <li class="cursor-pointer font-serif " onclick="toggleCollapse('item5')">
+            Emeddings
+             <ul id="item5" class=" pl-4 mt-1 space-y-1 hidden transition-all duration-300 ease-in-out">
+               <li>> Embeddings are a way to transform raw input data—like words, tokens, or symbols—into dense, continuous vectors of numbers that a machine learning model can understand and process. Here embeddings are crucial because they provide the starting point for computing Queries (Q), Keys (K), and Values (V), which drive how the model focuses on different parts of the input.
+               </li>
+             </ul>
+           </li>
+           <li class="cursor-pointer font-serif " onclick="toggleCollapse('item3')">
+            Dimensionality
+             <ul id="item3" class=" pl-4 mt-1 space-y-1 hidden transition-all duration-300 ease-in-out">
+               <li>> It refers to the number of features, attributes, or components used to represent data in a mathematical space. In simpler terms, it describes how many "dimensions" or variables are present in a dataset or a vector for a machine to learn.</li>
+             </ul>
+           </li>
+
+           <li class="cursor-pointer font-serif " onclick="toggleCollapse('item4')">
+            Softmax Function
+             <ul id="item4" class=" pl-4 mt-1 space-y-1 hidden transition-all duration-300 ease-in-out">
+               <li>> Softmax is a mathematical function which converts a vector of real-valued numbers into a probability distribution, where the values are non-negative and sum to 1. This makes it ideal for scenarios where you need to assign probablities to multiple classes to options.</li>
+             </ul>
+           </li>
+           
+        </ul>
+      </div>
+    </div>
+
     <div class="mt-3">
       <h1 class="text-4xl mt-[57px] mb-3 font-serif">
         Multi-Head Attention from Beginners POV
       </h1>
 
-      <div class="border-2 size-full my-10 rounded-xl border-orange-500">
-        <div class="p-4">
-          <h2 class="font-serif text-lg">You need to know this first !</h2>
+      <p class="font-serif mt-5 text-lg">In Transformers, Multi-Head Attention takes the same Query (Q), Key (K), and Value (V) inputs as single-head attention but splits the work across multiple “heads.” Each head focuses on different aspects of the input—like grammar, meaning, or context—and together, they give the model a more nuanced understanding. It's the secret sauce behind why Transformers are so good at everything from translation to generating text like this!</p>
+      
+      <img src="../blogs/assets/multi/banner-multi.png" class="rounded-xl my-4" alt="">
 
-          <div class="ml-4">
-            <ul>
-              <li class="cursor-pointer font-serif mt-5" onclick="toggleCollapse('item1')">
-                Weights, Bias, Embeddings
-                <ul id="item1" class=" pl-4 mt-1 space-y-1 transition-all duration-300 ease-in-out">
-                  <li> > Subitem 1.1</li>
-                  <li> > Subitem 1.2</li>
-                </ul>
-              </li>
-              <li class="cursor-pointer font-serif" onclick="toggleCollapse('item2')">
-                Scaled Dot Product
-                <ul id="item2" class=" pl-4 mt-1 space-y-1 transition-all duration-300 ease-in-out">
-                  <li>Subitem 2.1</li>
-                  <li>Subitem 2.2</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <p class="mt-4 font-serif text-lg">This is how Multi-Head Attention works inside, we will discuss everything about this diagram later in this blog. For now lets cover a main topic which is</p>
+
+      <h1 class="font-serif text-3xl mt-[57px] mb-3">Why "Scale" the Dot Product ?</h1>
+      <p class="font-serif text-lg mt-4">In the original <span class ="font-bold">dot-product attention</span>, the raw scores can become very large if the dimensionality of the query and key vectors \(
+        (d_k)\) is high. This can cause the softmax function to produce extremely small gradients, leading to numerical instability during training.</p>
+
+        <p class="text-lg font-serif">To address this issue, the scaled dot-product attention introduces a scalling factor</p>
+
+        <p class="text-lg font-serif mt-4">
+          \[\text{Attention{Q, K, V}} = \text{softmax} \left(\frac{Q \cdot K^T}{\sqrt{d_k}}\right) \cdot V\]
+        </p>
+
+        <p class="text-lg font-serif mt-4">Here, \(
+          (d_k)\), is the dimensionality of the key vectors. Dividing by \(\sqrt{d_k}\) ensures that the dot product are scaled appropriately, preventing the softmax function from saturing</p>
     </div>
 
+    <p class="font-serif text-lg mt-4">After all this you might get up with a question</p>
+
+    <div class="mt-8">
+      <h1 class="text-3xl font-serif">Why Multi-Head Attention ?</h1>
+      <p class="text-lg font-serif mt-4">Single head attention is great, but it's limited. It computes one set of attention weights and mixes all the information into single output. That's like trying to hear every instrument in symphony with one ear it works, but you miss the layers. Multi-Head Attention says, "Why settle for one prespective?" By running attention multiple times in parallel. each with its own lens (or "head"), the model captures diverse relationships in the data-like how " it" refers to "cat" in one head, while another head notices the verb tense.</p>
+
+      <p class="text-lg font-serif mt-4">Plus, its still parallelizable (unlike RNN's), so its fast. More heads = more insights, without slowing things down. Genius, right ?</p>
+    </div>
+
+    <p class="mt-6 font-serif text-lg">Now one would wonder if Multi Head Attention helps so much, how does it work under the hood ? So lets start with our second most important topic which is</p>
+
+    <div class="mt-8">
+      <h1 class="font-serif text-3xl mt-5">How Does Multi-Head Attention Work ?</h1>
+      <img src="../blogs/assets/multi/workings.png" class="my-5 rounded-xl" alt="">
+      <p class="text-lg font-serif mt-4">Let’s get into the nitty-gritty. Here’s the step-by-step breakdown, with all the crazy details:</p>
+
+      <ul class="ml-4 list-decimal text-lg font-serif">
+        <li class="font-bold my-3">Start with Q, K, V</li>
+        <ul class="ml-8 list-disc font-serif">
+          <li class="my-3">We've got your input sequence turned into embeddings (say a matrix (X) of shape \(\text{batch_size} \times \text{sequence_length} \times d_{\text{model}}\))</li>
+          <li class="my-3">From (X), we can compute \[Q = X \cdot W_Q \] \[K = X \cdot W_K\] \[V = X \cdot W_V \]</li>
+          <li class="my-3">Here, \(d_{\text{model}}\) is the embedding size (e.g., 512 in the original Transformer). Each (W) is a learned weight matrix</li>
+        </ul>
+        <li class="font-bold my-3">Split Into Heads</li>
+        <ul class="ml-8 list-disc font-serif">
+          <li class="my-3">Instead of using the full \(d_{\text{model}}\) dimensional vectors, split them into (h) heads (e.g h=8)</li>
+          <li class="my-3">Each Head gets a smaller chunk of the dimensions: \(d_k = d_v = d_{\text{model}} / h\) (e.g., 512 / 8 = 64)</li>
+          <li class="my-3">For each head (i): 
+            <br>\[Q_i = X \cdot W_Q^i\] (shape: \(\text{batch_size} \times \text{sequence_length} \times d_k\))
+            <br>\[K_i = X \cdot W_K^i\] (shape: \(\text{batch_size} \times \text{sequence_length} \times d_k\))
+            <br>\[V_i = X \cdot W_V^i\] (shape: \(\text{batch_size} \times \text{sequence_length} \times d_v\))
+          </li>
+          <li class="my-3">Each \(W_Q^i, W_K^i, W_V^i\) is a slice of the original weight matrices, tailored to that head</li>
+        </ul>
+        <li class="font-bold my-3">Run Attention per Head</li>
+        <ul class="ml-8 list-disc font-serif">
+          <li class="my-3">For each head (i), compute Scaled Dot-Product Attention:</li>
+          <li class="my-3">\[\text{head}_i = \text{Attention}(Q_i, K_i, V_i) = \text{softmax}\left(\frac{Q_i \cdot K_i^T}{\sqrt{d_k}}\right) \cdot V_i\]</li>
+          <li class="my-3">Each head produces an output of shape \(\text{batch_size} \times \text{sequence_length} \times d_v\)</li>
+          <li class="my-3">So, with (h) heads, you get (h) different outputs, each capturing a unique perspective</li>
+        </ul>
+        <li class="font-bold my-3">Concatenate the Heads</li>
+        <ul class="ml-8 list-disc font-serif">
+          <li class="my-3">Stack all the head outputs side-by-side:</li>
+          <li class="my-3">\[\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \text{head}_2, ..., \text{head}_h)\]</li>
+          <li class="my-3">Shape becomes \(\text{batch_size} \times \text{sequence_length} \times (h \cdot d_v)\), which matches the original \(d_{\text{model}}\) (e.g., \(8 \cdot 64 = 512\))</li>
+        </ul>
+        <li class="font-bold my-3">Final Linear Transformation</li>
+        <ul class="ml-8 list-disc font-serif">
+          <li class="my-3">Run the concatenated output through a learned linear layer to mix the heads’ insights:</li>
+          <li class="my-3">\[\text{Output} = \text{MultiHead}(Q, K, V) \cdot W_O\]</li>
+          <li class="my-3">\(W_O\) (shape: \(h \cdot d_v \times d_{\text{model}}\)) ensures the output shape is \(\text{batch_size} \times \text{sequence_length} \times d_{\text{model}}\), ready for the next layer</li>
+        </ul>
+      </ul>
+    </div>
+
+    <div class="mt-10">
+      <h1 class="font-serif text-3xl mt-5">The Math, Condensed</h1>
+      <p class="text-lg font-serif mt-4">Here’s the full formula:</p>
+      <p class="text-lg font-serif my-3">\[\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, ..., \text{head}_h) \cdot W_O\]</p>
+      
+      <p class="text-lg font-serif my-3">where:</p>
+      <p class="text-lg font-serif my-3">\[\text{head}_i = \text{softmax}\left(\frac{(X \cdot W_Q^i) \cdot (X \cdot W_K^i)^T}{\sqrt{d_k}}\right) \cdot (X \cdot W_V^i)\]</p>
+      
+      <ul class="ml-4 list-disc text-lg font-serif">
+        <li class="my-3">For self-attention, (Q, K, V) all come from the same (X)</li>
+        <li class="my-3">For cross-attention (e.g., in the decoder), (Q) might come from the decoder, and (K, V) from the encoder</li>
+      </ul>
+    </div>
+
+    <p class="text-lg font-serif my-4">Okkay now we are heading to the part which everyone liked in the previous blog. Yupp the <span class="font-bold">INTUITION</span>. Sorry if I cannot carry up the hype, but I will try my best <3</p>
+
+
+    <div class="mt-8">
+      <h1 class="text-3xl font-serif">Intuition : (Heist Edition)</h1>
+      <img src="../blogs/assets/multi/image.jpg" class="my-4 rounded-xl" alt="">
+      <p class="font-serif text-lg mt-4">Your are a Detective | 刑事 </p>
+      <p class="font-serif text-lg mt-4">There has been a recent Bank Heist in your nearby bank and you are piecing together the details of the heist : <span class="font-bold">The thief escaped after the guard doszed off</span>. With single-head attention, you are like one detective with a flashlight, sweeping the crime scene and connecting clus. You might lock onto "thief" and "escaped" but miss how  "guard" and "dozed off" set the stage for the getaway !!</p>
+
+      <p class="font-serif text-lg mt-4">Now <span class="font-bold">Multi Head attention</span> steps in like a team of detectives, each with their own flashlight and intelligence</p>
+
+      <ul class="font-serif ml-4 mt-4 list-disc">
+        <li class="my-3">Detective 1 :  Focuses on the players (“thief” → “guard”). Who’s involved? They spot the key characters in this drama.
+
+        </li>
+
+        <li class="my-3">Detective 2: Tracks the action and timing (“escaped” → “dozed off”). When did it happen? They link the verbs to figure out the sequence.
+
+        </li>
+
+        <li class="my-3">Detective 3: Sniffs out the cause-and-effect (“after” ties it all together). Why did it work? They catch the sneaky logic of the heist.
+
+        </li>
+      </ul>
+
+      <p class="text-lg font-serif">The result? A richer, multi-layered picture of the heist—way more detailed than what one lone detective could crack on their own.</p>
+    </div>
+
+
+    <hr class="my-10" />
+    <footer class="my-8">By Mrinal</footer>
+
     <script>
-        function toggleCollapse(id) {
-          const element = document.getElementById(id);
-          if (element.classList.contains('hidden')) {
-            element.classList.remove('hidden');
-          } else {
-            element.classList.add('hidden');
-          }
+      function toggleCollapse(id) {
+        const element = document.getElementById(id);
+        if (element.classList.contains('hidden')) {
+          element.classList.remove('hidden');
+        } else {
+          element.classList.add('hidden');
         }
-      </script>
+      }
+    </script>
   </body>
 </html>
