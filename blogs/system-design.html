@@ -52,7 +52,180 @@
     <hr class="mt-3"/>
 
     
-    <h1 class="text-4xl mt-[57px] mb-3 font-serif">System Design 101 : How to think like an architect</h1>
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">System Design 101 : From a Beginners POV</h1>
+    <span class="text-sm text-gray-500">Publishing Soon</span>
+    <p  class="font-serif mt-5 text-lg">I really like to talk about system with people who are either really great at designing it or with peeps who are just getting started with this topic. For me System is very much vast topic to learn and be mastery off, as in tech there will always be something new to explore and learn.  </p>
+    <p  class="font-serif mt-5 text-lg">System Design is not about writing the code, its about figuring out how everything fits together. Its the process defining the architecture, components, modules, interfaces and data flow of a system to meet specefic requirements</p>
+
+    <div class="my-5">
+      <img src="../blogs/assets/system-design/banner.png" class="rounded-xl" alt="">
+      <p class="text-md text-gray-500 font-serif">Small Components of Chat Application</p>
+    </div>
+
+    <section class="mt-4 font-serif">
+      <h1 class="mt-8 font-serif text-3xl">Introduction</h1>
+      <p class="mt-4 font-serif text-lg">I am building a platform which is LeetSys, a small app running on a single server. When a user <span class="font-bold">[client]</span> wants to see questions, thier browser sends a request to our server. The server process this request, which then fetches posts from a database. The database sends back a response with the question data.</p>
+
+      <img class="rounded-xl mx-auto my-6" src="../blogs/assets/system-design/csr.png" alt="">
+
+      <p class="mt-2 font-serif text-lg">This client-server model is the foundation of web interactions. Requests and responses are typically sent over <span class="font-bold">HTTP</span>(HyperText Transfer Protocol), a stateless protocol that governs how clients and server should communicate.
+
+      But soon FanFew started to gain attraction among the users and gained a lot of virality, more and more users joined. So we need to scale our small app to millions of requests which can't be handled by our single CS[Client => Server] model</p>
+
+      <h1 class="mt-8 font-serif text-3xl">Scaling our platform</h1>
+
+      <p class="mt-2 font-serif text-lg">Our server is overwhelmed, and load times are sky rocketting. So what to do now ? We can do two things either opt for</p>
+
+      <p class="mt-2 font-serif text-lg"> <span class="mt-2 font-serif text-xl underline underline-offset-4">Vertical Scaling</span> : Which means we have to upgrade our server with more CPU, RAM and storage, this will boost performance temporarily, but there's a ceiling to how powerful a single server can get, and will cost us wayyyy to much !!</p>
+
+      <p class="mt-2 font-serif text-lg">Or we can opt for</p>
+      
+      <p class="mt-2 font-serif text-lg"> <span class="mt-2 font-serif text-xl  underline underline-offset-4">Horizontal Scaling</span> : Instead of one bigg server, we deploy multiple smaller servers, each handling a subset of requests. This is more cost-effecient and effective, but introduces way more complexity to our systems.</p>
+
+      <p class="text-lg">How do we distribute incoming requests across these servers ? LoadBalancer ?? HELL YEAHHH !!!</p>
+
+      <h1 class="mt-8 font-serif text-3xl">Load Balancers</h1>
+
+      <img src="../blogs/assets/system-design/load.png" class="mx-auto" alt="">
+
+      <p class="mt-2 font-serif text-lg">So you choose horizontal scaling and there are many servers to which 100's of requests can be passed on . But what if a server ends up recieving more requests than others ? </p>
+
+      <p class="mt-2 text-lg">To manage the request we use load balancers to distribute requests among the servers so that no signle server can get huge number of requests. If any of the server is down load balancer will only redirect traffic to healthy servers</p>
+
+      <p class="mt-2 text-lg">
+        <span class="mt-2 font-serif text-xl  underline underline-offset-4">Load Balancer Algorithms </span> : there are several algorithms to distribute the traffic to the healthy servers.
+
+        <ul class="list-disc ml-5 mt-6">
+            <li class="text-lg">
+              <span class="mt-2 font-serif text-xl  underline underline-offset-4">Least Connection</span> : Sends request to server with the fewest active connections. By continuously monitoring the number of active connections on each server, this algorithm adapts in real-time to
+              shifting traffic patterns and workloads, making it particularly effective when handling sessions or tasks that require
+              varying processing times.
+            </li>
+            <li class="text-lg mt-3">
+              <span class="mt-2 font-serif text-xl  underline underline-offset-4">Round Robin</span> :
+              This algorithm cycles through a list server sequentially, each server is assigned a request in turn, ensuring an equal distribution of traffic over time. While this algorithm
+              does not take into account the current load or capacity of individual servers, it works well in scenarios where all
+              servers have similar processing capabilities and are equally equipped to handle requests.
+            </li>
+        </ul>
+      </p>
+
+      <p class="mt-2 text-lg">There are many more interesting topics related to Load Balancing for example, <span class="font-bold">What is IP Hashing technique ?</span>, <span class="font-bold">What is StandBy Load Balancers ?</span> all these will be covered in the blog <span class="underline underline-offset-4">Do you know Load Balancers well ??</span></p>
+
+      <p class="mt-4 text-lg mt-4">Everything is going fine we have a large user base, a load balancer which can redirect traffic . But we get to notice there are request for the same data from our database. Can we optimize it ?? Can we do something to make client not wait much for response from our db ?? HELL YEAHHH !!</p>
+
+
+      <h1 class="mt-8 font-serif text-3xl">Caching</h1>
+      <p class="text-lg mt-2">For a general context caching is like keeping frequently used items on your desk instead of fetching them from a storage room. Caching stores frequently accessed data in a temporary, high-speed storage layer, reducing latency and improving performance by minimizing redundant computations
+      or database queries. It enhances scalability and user experience, it reduces database load and speeds up responses.</p>
+
+      <p class="text-lg">But with caching comes a problem of maintaining the data consistency of cache and the database, we should not source the data from cache if its not up-to-date with the database. What to do now ?? How are we going to update both the source of data and the cache ??</p>
+
+      <ul class="list-disc ml-4 mt-6">
+        <li class="text-lg"><span class="mt-2 font-serif text-xl  underline underline-offset-4">Time Based Expiration</span> : Cache entries are invalidated after a set time period (Time-to-Live), ensuring data is refreshed periodically</li>
+
+
+        <li class="text-lg mt-3"><span class="mt-2 font-serif text-xl  underline underline-offset-4">Write Through</span> : Data is written to the cache and backend simultaneously, ensuring consistency but with higher write latency.</li>
+
+        <img src="../blogs/assets/system-design/cache-writethrough.png" alt="" class="mx-auto my-4">
+      </ul>
+
+      <p class="text-lg mt-3">We also have many interesting topics to cover for more about Caching invalidation strategies and Cache Eviction Policies which we will cover in upcoming blogs !!</p>
+
+      <p class="text-lg mt-4">Now, LeetSys's users are spreading across the globe, and those in distant regions experience latency because our server are in the data center, we need to bring content closer to users.</p>
+
+
+      <h1 class="mt-8 font-serif text-3xl">Content Delivery Networks (CDNs)</h1>
+
+      <div class="my-6">
+        <img src="../blogs/assets/system-design/low-latency.png" alt="">
+        <img src="../blogs/assets/system-design/high-latency.png" alt="">
+      </div>
+
+      <p class="text-lg">To reduce latency, we integrate a Content Delivery Network (CDN). CDNs are networks of geographically distributed
+      servers (edge servers) that cache static content like images, videos, and CSS files closer to users. When a user in
+      Tokyo accesses LeetSys, the CDN’s Tokyo edge server delivers cached content, reducing the round-trip time to our main servers in the India CDNs rely heavily on <span class="font-bold">caching</span>
+      </p>
+
+      <p class="mt-3 text-lg">For now this is what our system has been evolved too, from a single client server request</p>
+
+      <img src="../blogs/assets/system-design/afterUpdate.png" alt="">
+
+      <p class="text-lg mt-3">Time to focus on our Database, becuase there are many things to store now !! There are often questions asked when to choose SQL databases and when to choose NoSQL database ?? But first lets get through each of them to know in-depth</p>
+
+      <h1 class="mt-8 font-serif text-3xl">Structured Query Language (SQL)</h1>
+      <p class="text-lg mt-3">SQL databases like PostgreSQL, Oracle, MySQL, which organizes data into tables with defined schemas, these database excel at structured data and complex queries. SQL databases scale vertically which means we need to upgrade our machine power to scale databases like this. If you had to change or add a new column the changes need to be applied to all the records in the table.</p>
+
+      <p>SQL has Rigid schema which will struggle with massive, unstructured data like user activity logs. For this lets explore NoSQL databases</p>
+
+
+      <h1 class="mt-8 font-serif text-3xl">NoSQL</h1>
+      <p class="text-lg mt-3">NoSQL databases like MongoDB are schema-less, allowing flexible storage for documents, JSON-like for our user activity logs. They scale horizontally better than SQL but sacrifice some ACID rules for better availabiity and performance.</p>
+      <p class="text-lg mt-3">There are majorly 4 types of NoSQL databases</p>
+      <ul class="list-disc ml-4 mt-5">
+        <li class="text-lg"><span class="underline underline-offset-4">Key Value Stores</span> : These databases store data as key-value pairs, making them highly efficient for simple lookups and caching ex : Redis, DynamoDB</li>
+        <li class="text-lg mt-3"><span class="underline underline-offset-4">Document Stores</span> : These database store data as documents (often in JSON or BSON format), allowing for flexible schemas and nested structures. Ex : MongoDB, Firebase Firestore</li>
+        <li class="text-lg mt-3"><span class="underline underline-offset-4">Column Family Stores</span> : These database organize data into columns rather than rows, optimized for large scale data and high write/read performance. ex : Apache Cassandra</li>
+      </ul>
+
+      <h1 class="mt-4 font-serif text-3xl">What to choose and when to choose ??</h1>
+      <p class="text-lg mt-4">If you want strong consistency, reliability with highly structured data and consistent schema go for <span class="font-bold">SQL</span> like PostgreSQL, Oracle Database</p>
+
+      <p class="text-lg my-4">but</p>
+
+      <p class="text-lg mt-4">If your data semi-structured, unstructured or has a dynamic schema also you want high performance with simple queries which also horizontally scales to handle massive amounts of data and high traffic you can go for <span class="font-bold">NoSQL</span> like Cassandra or Neo4j</p>
+
+      <p class="text-lg mt-4">As our user base grows we can notice a slow query performance from our backend, What to do in this situation ??</p>
+
+      <h1 class="mt-4 font-serif text-3xl">Database Indexing</h1>
+      <p  class="text-lg mt-3">Whenever there is a query our algorithm is consistently looking up from the whole database content which is making our response slow, for this we introduce <span class="font-bold">Database Indexing</span> all the primary key, or username can be indexed at a place which will help speeding up our database lookups pointing the actual location of the data.</p>
+
+
+
+      <img src="../blogs/assets/system-design/dbIndexing.png" alt="" class="my-5">
+
+
+      <p class="mt-4 text-lg">There's a point to which we can scale our database but after that threshold point, how we will be scaling our database to meet the requirements for our growing user base ??</p>
+
+      <h1 class="mt-3 font-serif text-3xl">Data Partioning</h1>
+      <p class="text-lg mt-3">When the database can no longer scale vertically then we perform data partitioning which is a technique to breakdown large databases into smaller components which enhances the performance, availabiity and load balancing as our application grows</p>
+
+      <p class="text-lg my-2">There are mainly 4 major ways of breaking down a large database</p>
+      <ul class="ml-4 mt-3 list-disc">
+        <li class="text-lg"><span class="underline underline-offset-4">Horizontal Partitioning</span> : Also known as Sharding in this the data is divided by rows, meaning each partition contains a subset of rows from the dataset. Its ideal for large datasets where different subsets of rows can be stored on separate nodes</li>
+        <img src="../blogs/assets/system-design/partitioning.png" alt="" class="my-4">
+
+        <li class="text-lg">
+          <span class="underline underline-offset-4">Vertical Partitioning</span> :
+          Data is is divided by columns, meaning each partition contains a subset of columns from the dataset, its useful when certain columns are accessed more frequently than others, allowing us to separate "Hot" (frequently accessed) and "Cold" (less frequently accessed) data. Vertical partitioning also simplifies schema design by grouping related attributes.
+        </li>
+      </ul>
+
+      <p class="text-lg mt-3">So these are the to begin our journey with system design, more often you practise questions you get to know more and more topics differenc between HLD [High Level Design] and LLD [Low Level Design]also you will get to know topics like micro services, distributed systems and more. I may write blogs on topics like this but I am leaving it to the future decesions.</p>
+
+      <p class="text-lg mt-3">This is what are system has evolved into with large user base, load balancers, cache to our web servers and database with partitioning</p>
+
+      <img src="../blogs/assets/system-design/afterUpdate2.png" alt="">
+
+      <p class="text-lg mt-3">Hope I was able to add value to your today's learning goal !! Happy Learning ..</p>
+
+    </section>
+
+
+    <hr class="my-10" />
+    <footer class="my-8">By Mrinal</footer>
+
+
+    <script>
+      function toggleCollapse(id) {
+        const element = document.getElementById(id);
+        if (element.classList.contains('hidden')) {
+          element.classList.remove('hidden');
+        } else {
+          element.classList.add('hidden');
+        }
+      }
+    </script>
     
 </body>
 </html>
