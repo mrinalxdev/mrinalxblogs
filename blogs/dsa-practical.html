@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WHY CS SOO CATEGORIZED ?</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VP1VKLPKJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-4VP1VKLPKJ");
+    </script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <style>
+      .code-content {
+        height: auto;
+        opacity: 1;
+        transition: height 300ms ease-in-out, opacity 300ms ease-in-out;
+      }
+      .code-content.hidden {
+        height: 0;
+        opacity: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body class="bg-orange-100 w-full max-w-[97%] md:w-[55%] mx-auto">
+    <nav class="mt-6">
+      <div>
+        <h1 class="font-serif text-4xl">Mrinal's Blog</h1>
+        <div class="mt-5 flex flex-wrap gap-5">
+          <a
+            href="../index.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Home</a
+          >
+          <a
+            href="./blog.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Blogs</a
+          >
+          <a
+            href="../research-notes/research.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Research Notes</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <hr class="mt-3" />
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">
+      Using Data Structures practically
+    </h1>
+    <span class="text-sm text-gray-500">Publishing Soon</span>
+
+    <p class="text-lg font-serif mt-3">
+      Whenever I think of data structures and algorithms it scares me a little
+      because, past few interviews I have been lacking on my alorithms skills a
+      little bit. But when I changed my prespective to learn it through building
+      projects with just raw code like "Just working" mindset and then picking
+      up every topic of data structures, learning it, and then applying the
+      topic in the "Just working" project to make it more optimize
+    </p>
+
+    <img src="../blogs/assets/dsa/banner.png" class="my-5" alt="" />
+
+    <p class="text-lg mt-3 font-serif">
+      I will be covering few ds and algo that I use on everyday basis for my
+      development of project, paid gigs etc. <br />
+      For the very first lets start with data structure topics, so going by the
+      name it means structuring a data or large set of data in a mannered way .
+      :)) WOOWWW !!
+    </p>
+
+    <h1 class="text-3xl mt-6 font-serif">Data Structures and its usage</h1>
+
+    <p class="text-lg mt-3 font-serif">
+      Starting with the easiest one, which is arrays then gradually increase the
+      complexity of topics.
+    </p>
+
+    <h1 class="text-2xl font-bold mt-4 font-serif">Arrays</h1>
+    <p class="text-lg mt-3 font-serif">
+      These are containers for storing multiple data types in a ordered manner,
+      like a bunch of strings, a bunch of integers, or you can mix up the types
+      of data that you want to be stored (only few languages allow this mix-up).
+      Each elements in an array is assigned with a number known as "indexing",
+      and arrays are zero-indexed which means first element's index is 0.
+    </p>
+
+    <img
+      src="../blogs/assets/dsa/arrays.png"
+      class="w-[530px] mx-auto my-4"
+      alt=""
+    />
+
+    <p class="text-lg mt-3 font-serif">
+      Lets talk a little bit about memory here, see arrays are stored in
+      contiguos manner means each elements are stored which means elements of
+      arrays are next to one another this makes reading arrays faster which is
+      O(1) according to time complexity, but this also makes insertion and
+      deletion of items slower
+    </p>
+    <p class="text-lg mt-3 font-serif">
+      How doest insertion and deletion becomes slower ?? So here is the thing,
+      arrays are always grouped together so if user pushes a new variable in the
+      middle the arrays get updated accordingly. But what if the very next
+      memory is not free, whole array with allocated memory needs to shift to a
+      new place. This makes reading easier (O(1)) but insertion (O(n)) and
+      deletion (O(n)) gets a bit slower.
+    </p>
+
+    <img src="../blogs/assets/dsa/memory-array.png" class="my-5" alt="" />
+
+    <p class="font-serif text-lg">
+      Now arrays are basic, foundational data structures commonly used in the
+      first approach itself without even thinking, as they efficiently store and
+      manage collections of elements. But we will look down for problem which it
+      really solves. :))
+    </p>
+
+    <p class="text-lg mt-4 font-serif">
+      You are building a simple to-do list app for yourself, you want to store
+      and display tasks they've completed today.
+    </p>
+    <!-- <div class="mt-4 border rounded-xl p-4 bg-gray-900 text-white font-mono">
+      <div class="flex border-b border-gray-700">
+        <button
+          class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+          data-lang="javascript"
+          onclick="switchLanguage('javascript')"
+        >
+          JavaScript
+        </button>
+        <button
+          class="px-4 py-2 bg-gray-900 text-gray-400 font-semibold rounded-t-md focus:outline-none language-tab"
+          data-lang="python"
+          onclick="switchLanguage('python')"
+        >
+          Python
+        </button>
+      </div>
+      <div class="mt-4">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>// Without arrays - manual handling
+let task1 = "Buy groceries";
+let task2 = "Finish homework";
+let task3 = "Call mom";
+          
+console.log("Completed Tasks:");
+console.log("1. " + task1);
+console.log("2. " + task2);
+console.log("3. " + task3);
+
+// After using Arrays
+let tasks = ["Buy groceries", "Finish homework", "Call mom"];
+
+console.log("Completed Tasks:");
+for (let i = 0; i < tasks.length; i++) {
+    console.log((i + 1) + ". " + tasks[i]);
+}
+</code></pre>
+        <pre id="code-python" class="language-python hidden"><code>
+task1 = "Buy groceries"
+task2 = "Finish homework"
+task3 = "Call mom"
+
+print("Completed Tasks:")
+print(f"1. {task1}")
+print(f"2. {task2}")
+print(f"3. {task3}")
+
+
+# using arrays, in python known as lists
+tasks = ["Buy groceries", "Finish homework", "Call mom"]
+
+print("Completed Tasks:")
+for i in range(len(tasks)):
+    print(f"{i + 1}. {tasks[i]}")
+</code></pre>
+      </div>
+    </div> -->
+
+    <div
+      class="mt-4 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-2"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-2')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-2')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>// Without arrays - manual handling
+let task1 = "Buy groceries";
+let task2 = "Finish homework";
+let task3 = "Call mom";
+          
+console.log("Completed Tasks:");
+console.log("1. " + task1);
+console.log("2. " + task2);
+console.log("3. " + task3);
+
+// After using Arrays
+let tasks = ["Buy groceries", "Finish homework", "Call mom"];
+
+console.log("Completed Tasks:");
+for (let i = 0; i < tasks.length; i++) {
+    console.log((i + 1) + ". " + tasks[i]);
+}
+</code></pre>
+      </div>
+    </div>
+
+    <h1 class="text-2xl font-bold mt-7 font-serif">Linked List</h1>
+
+    <p class="text-lg mt-3 font-serif">
+      Linked list are just opposite to arrays, they are faster while insertion
+      and deletion of items while a bit slow on reading items. It consists of
+      nodes where each node holds data and a pointer(address to another node).
+      Also
+    </p>
+
+    <img src="../blogs/assets/dsa/linkedpointers.png" class="my-4" alt="" />
+
+    <p class="text-lg font-serif mt-3">
+      This structure makes linked lists dynamic and flexible in scenarios where
+      frequent insertions and deletions are required.
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      Let's talk about memory a little bit, each node is stored independently,
+      containing the data and a pointer to next node, which allows linked lists
+      to grow or shrink dynamically without needing to resize a predefined
+      array. This dynamic allocation is memory efficient for datasets which are
+      unpredictable with their sizes. However reading becomes slow as if you
+      want a element from middle you need to get the first element then to the
+      desired item, this some times leads to memory fragmentation over time, as
+      nodes are scattered across memory.
+    </p>
+
+    <img src="../blogs/assets/dsa/Linkedlist.png" class="my-5" alt="" />
+
+    <p class="font-serif text-lg my-4">
+      Okkay how I learned it in a hard way ?? I was building a backend service
+      to manage a queue of user support ticket. Each ticket needs to be
+      processed in order, and new tickets can come in dynamincally.
+    </p>
+
+
+    <p class="my-5 text-lg font-serif">
+      After discussing with GPT, I got to realise this is not the most efficent
+      methods to use, go then I got to know about Linked List and then how to
+      use it, this is how I implemented it from scratch.
+    </p>
+
+    <div
+      class="mt-4 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-4"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-4')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-4')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+          ><code>// this represents the a single node in the linked list
+// holding one ticket
+class TicketNode {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+// this class will be managing the queue of tickets using Linked List
+// keeping the track of head(first node) and tail(last node) nodes
+class TicketQueue {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+    
+    // enqueue method adds a new ticket to the end of the queue
+    // (FIFO principle : last in, processed last)
+    // time complexity : O(1), as it 
+    // only involves creating a node and updating pointers
+
+    enqueue(data) {
+        const newNode = new TicketNode(data);
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+    }
+
+    // this method removes and returns the ticket at the front of the queue
+    // FIFO : first in, processed first
+    // O(1) : as it only updates the pointer
+    dequeue() {
+        if (!this.head) return null;
+        const removed = this.head.data;
+        this.head = this.head.next;
+        if (!this.head) this.tail = null;
+        return removed;
+    }
+
+    // printAll method is like reading and displaying
+    // O(n) : where n is the number of nodes, 
+    // because its going to visit each node once 
+    printAll() {
+        let current = this.head;
+        let index = 1;
+        while (current) {
+            console.log(`${index++}. ${current.data}`);
+            current = current.next;
+        }
+    }
+}
+
+const queue = new TicketQueue();
+queue.enqueue("Ticket #001: Login issue");
+queue.enqueue("Ticket #002: Payment error");
+queue.enqueue("Ticket #003: Forgot password");
+
+console.log("Processing:", queue.dequeue());
+
+console.log("Remaining Tickets:");
+queue.printAll();
+</code></pre>
+      </div>
+    </div>
+    <!-- <div class="mt-4 border rounded-xl p-4 bg-gray-900 text-white font-mono">
+      <div class="flex border-b border-gray-700">
+        <button
+          class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+          data-lang="javascript"
+          onclick="switchLanguage('javascript')"
+        >
+          JavaScript
+        </button>
+      </div>
+      <div class="mt-4">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+          ><code>
+// this represents the a single node in the linked list
+// holding one ticket
+class TicketNode {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+// this class will be managing the queue of tickets using Linked List
+// keeping the track of head(first node) and tail(last node) nodes
+class TicketQueue {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+    
+    // enqueue method adds a new ticket to the end of the queue
+    // (FIFO principle : last in, processed last)
+    // time complexity : O(1), as it only involves creating a node and updating
+    // pointers
+
+    enqueue(data) {
+        const newNode = new TicketNode(data);
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+    }
+
+    // this method removes and returns the ticket at the front of the queue
+    // FIFO : first in, processed first
+    // O(1) : as it only updates the pointer
+    dequeue() {
+        if (!this.head) return null;
+        const removed = this.head.data;
+        this.head = this.head.next;
+        if (!this.head) this.tail = null;
+        return removed;
+    }
+
+    // printAll method is like reading and displaying
+    // O(n) : where n is the number of nodes, because its going to visit each node once 
+    printAll() {
+        let current = this.head;
+        let index = 1;
+        while (current) {
+            console.log(`${index++}. ${current.data}`);
+            current = current.next;
+        }
+    }
+}
+
+const queue = new TicketQueue();
+queue.enqueue("Ticket #001: Login issue");
+queue.enqueue("Ticket #002: Payment error");
+queue.enqueue("Ticket #003: Forgot password");
+
+console.log("Processing:", queue.dequeue());
+
+console.log("Remaining Tickets:");
+queue.printAll();
+</code></pre>
+       
+      </div>
+    </div> -->
+    <p class="text-lg font-serif mt-3">Now what is FIFO ?? its a simple way of saying how the data will be flowing in a particular way, like FIFO means First In First Out, and on the other hand we have LIFO which means Last In First Out</p>
+
+    <p class="text-lg font-serif mt-4">As an engineer I would have questioned, how would I optimize a linked list for faster read operations if traversal time becomes a bottleneck ??</p>
+
+
+    <h1 class="text-2xl font-bold mt-7 font-serif">HashMaps</h1>
+
+    <p class="text-lg font-serif mt-3">Hash maps or Hash tables, are just like arrays but here the values of a key instead of a index number, which makes it a key-value pair. This makes the reading, inserting and deleting process faster typically O(1) on average. Hash maps use a clever trick called hashing to map keys directly to their values, making them incredibly efficient for specific use cases.</p>
+
+    <p class="font-serif text-lg mt-3">For example if we are storing capitals of a country then instead of indexing we can store the country name instead.</p>
+
+    <img src="../blogs/assets/dsa/hashmaps.png" class="my-10 w-[85%] mx-auto" alt="">
+
+    <p class="text-lg font-serif mt-3">Here is a small example which I learned in python, it is also known as dictionary in python</p>
+
+
+    <div
+      class="mt-4 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-5"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-5')"
+          >
+            Python
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-5')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-python"
+          class="language-python"
+          ><code>user_map = {}
+
+# Setting up Key-value pair 
+user_map["mrinaltest@example.com"] = {"name": "Mrinal", "id": 123}
+user_map["mrinaltest2@example.com"] = {"name": "Pramanick", "id": 456}
+
+# Lookup in O(1) average time
+print(user_map["mrinaltest3@example.com"]) 
+# Output: {"name": "Pramanick", "id": 123}
+</code></pre>
+      </div>
+    </div>
+
+    <p class="text-lg font-serif mt-3">Lets talk about memory little bit. Hash maps gives up on memory for speed. They allocate fized-size, which might waste space if not full utilized. Collisions can also slow things down if the hash function isn't well-designed or the load factor (ratio of entries to array size) gets to high. Unlike linked lists, hash maps don't preserve insertion order so they're not suited for sequential processing.</p>
+
+    <h1 class="text-2xl font-bold mt-7 font-serif">Stacks and Queues</h1>
+
+    <p class="text-lg font-serif">So you might have question what if we need to maintain the order of elements while also needing fast lookups ?? Here comes stacks, its a linear data structure that follows the Last In, First Out(LIFO) principle. A simple explaination of stacks would be a stack of plate, the first plate would be at bottom and picked at last, and the last plate would be picked up at first</p>
+    <img src="./assets/dsa/stacks.png" class="w-[55%] my-10 mx-auto" alt="">
+
+    <p class="font-serif text-lg">there are four major operations performed on this and the upcoming data structure which are <span class="font-bold">Push</span> (add an element to the top (O(1)). <span class="font-bold">Pop</span> (remove and return the top element (O(1)). <span class="font-bold"></span> <span class="font-bold">Peek/Top</span> (view the top element without removing it (O(1)). <span class="font-bold">IsEmpty</span> checks if the stack is empty (O(1))</p>
+
+    <p class="text-lg font-serif mt-2">My favourite part MEMORY, stacks can be implemented using arrays or linked lists. An array-based stack requires a fixed or dynamically resized array, which may waste space if not fully utilized(similar to hash maps). A linked list-based stack allocates memory per node (data + pointer), growing or shrinking dynamically like a linked list.    <br> Linked list-based stacks avoid resizing overhead but may cause memory fragmentation, as nodes are non-contiguous. Array-based stacks are more memory-efficient for predictable sizes but require resizing if the stack grows beyond capacity, temporarily doubling memory use during resizing </p>
+
+    <p class="text-lg font-serif mt-3">The best pactical way to use stacks is by building a UNDO or REDO funtion, each user action (e.g., typing or deleting) is to be pushed onto a stack. Pressing "undo" popped the most recent action, reverting the change. A stack is ideal because the last action needed to be undone first
+    </p>
+
+
+    <div
+      class="mt-4 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-6"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-5')"
+          >
+            Python
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-6')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-python"
+          class="language-python"
+          ><code>class UndoStack:
+def __init__(self):
+    self.stack = []
+
+def push_action(self, action):
+    self.stack.append(action)
+
+def undo(self):
+    if self.stack:
+        return self.stack.pop()
+    return None
+
+def is_empty(self):
+    return len(self.stack) == 0
+
+undo_stack = UndoStack()
+undo_stack.push_action({"id": 1, "type": "type", "value": "Hello"})
+undo_stack.push_action({"id": 2, "type": "delete", "value": "o"})
+print(undo_stack.undo())  
+# Output: {"id": 2, "type": "delete", "value": "o"}
+</code></pre>
+      </div>
+    </div>
+
+    <p class="text-lg font-serif mt-4"><span class="font-bold">Queues</span> are just opposite to stacks they follow the FIFO principle which means First In First Out,  like a line at a ticket counter: the first person in line is served first. Queues are ideal for processing tasks in the order they arrive. Also queues and stacks share the same memory implications</p>
+    <p class="text-lg font-serif mt-3">One of the best ways to visualize a stack is with a YouTube channel's video list. The most recently uploaded video appears at the top, while the oldest video is at the bottom, resembling a stack's Last In, First Out (LIFO) structure.    </p>
+
+
+    <p class="text-lg mt-4 font-serif">The upcoming topics are one the best things I have learned so far, also do give some attempts for solving the few questions related to all the topics enlisted here :)</p>
+
+    <h1 class="text-2xl font-bold mt-7 font-serif">Trees</h1>
+   <p class="text-lg font-serif mt-3">Trees are hierarchical data structures consisting of nodes connected by edges, with a single root node at the top and child nodes branching out. Each node can have zero or more children, and nodes without children are called leaves.</p>
+
+   <div class="flex justify-between my-4 max-sm:block">
+    <p class="font-serif text-lg ">Nodes have parent child direction,  where each node (except the root) has exactly one parent, and a parent node can have zero or more children. This directional structure defines the hierarchy, with edges pointing from parent to child, enabling efficient modeling of relationships like organizational charts or file systems.    </p>
+    <img src="../blogs/assets/dsa/parent.png" class="w-[40%]" alt="">
+   </div>
+
+   <p class="text-lg mt-3 font-serif">Knowing little about memory here, trees are memory efficient for hierarchical data but fragmented due to dynamic allocation, if a tree is balanced it optimizes memory and performance by keeping height low, while unbalanced trees waste memory on pointers for deep, linear structures</p>
+
+   <p class="text-lg font-serif mt-3">A question would pop on your mind, what is even a balanced tree ?? So memory scales with the number of nodes (O(n)). A balanced tree with n nodes has a height of O(log n), minimizing traversal time, while an unbalanced tree may resemble a linked list with O(n) height</p>
+
+   <p class="text-lg font-serif mt-3">Lets talk more indepthly about trees using Binary Search tree, a tree where the left child's value is less than the parent's, and the right child's value is greater, this enables O(log n) searches, insertions, deletions if balanced, but O(n) if skewed</p>
+
+   <img src="./assets/dsa/bst.png" class="mx-auto" alt="">
+
+   <p class="text-lg font-serif mt-3">One best usecase for BST could implementing a topic from my blog about <i><a href="https://mrinalxdev.github.io/mrinalxblogs/blogs/system-design.html">System Design</a></i> which is database indexing for ordered data retrieval</p>
+
+   <div
+      class="mt-4 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-7"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-5')"
+          >
+            Python
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-7')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-python"
+          class="language-python"
+          ><code>
+class BSTNode:
+# record ID or file name
+# e.g., metadata (record details)
+def __init__(self, key, value):
+  self.key = key       
+  self.value = value    
+  self.left = None      # Left child
+  self.right = None     # Right child
+
+class DatabaseIndex:
+    def __init__(self):
+        self.root = None
+    
+    def insert(self, key, value):
+        """Insert a key-value pair into the BST."""
+        if not self.root:
+            self.root = BSTNode(key, value)
+        else:
+            self._insert_recursive(self.root, key, value)
+    
+    def _insert_recursive(self, node, key, value):
+        """Helper method for recursive insertion."""
+        if key < node.key:
+            if node.left is None:
+                node.left = BSTNode(key, value)
+            else:
+                self._insert_recursive(node.left, key, value)
+        else:
+            if node.right is None:
+                node.right = BSTNode(key, value)
+            else:
+                self._insert_recursive(node.right, key, value)
+    
+    def inorder_retrieval(self):
+        """Retrieve all records in sorted order (inorder traversal)."""
+        result = []
+        self._inorder_recursive(self.root, result)
+        return result
+    
+    def _inorder_recursive(self, node, result):
+        """Helper method for inorder traversal."""
+        if node:
+            self._inorder_recursive(node.left, result)
+            result.append((node.key, node.value))  # Store key-value pair
+            self._inorder_recursive(node.right, result)
+
+# Database indexing for ordered retrieval
+db_index = DatabaseIndex()
+# Insert records (e.g., file names or IDs with metadata)
+db_index.insert("file1.pdf", {"size": 100, "path": "/docs/file1.pdf"})
+db_index.insert("file3.pdf", {"size": 300, "path": "/docs/file3.pdf"})
+db_index.insert("file2.pdf", {"size": 200, "path": "/docs/file2.pdf"})
+
+# Retrieve records in sorted order (by key)
+ordered_records = db_index.inorder_retrieval()
+for key, value in ordered_records:
+    print(f"Key: {key}, Value: {value}")
+# Output:
+# Key: file1.pdf, Value: {'size': 100, 'path': '/docs/file1.pdf'}
+# Key: file2.pdf, Value: {'size': 200, 'path': '/docs/file2.pdf'}
+# Key: file3.pdf, Value: {'size': 300, 'path': '/docs/file3.pdf'}
+</code></pre>
+      </div>
+    </div>
+
+    <p class="text-lg font-serif mt-3">Graphs and algorithms need separate attention, so I am working on those blogs in my free time. If you urgently need those you can ping me or mention me on X(@Hi_Mrinal) will release it asap. Hope I was able to add few value to your todays learning :)) <br> Happy Learning Anon :)</p>
+
+    <hr class="my-10" />
+    <footer class="my-8">By Mrinal</footer>
+
+    <!-- <script>
+      // function switchLanguage(lang) {
+      //     // Hide all code blocks
+      //     document.querySelectorAll('pre[id^="code-"]').forEach((pre) => {
+      //       pre.classList.add('hidden');
+      //     });
+      //     // Show selected language
+      //     document.getElementById(`code-${lang}`).classList.remove('hidden');
+      //     // Update active tab
+      //     document.querySelectorAll('.language-tab').forEach((tab) => {
+      //       tab.classList.remove('active');
+      //       tab.classList.add('text-gray-400');
+      //       tab.classList.remove('text-white', 'bg-gray-800');
+      //       tab.classList.add('bg-gray-900');
+      //     });
+      //     const activeTab = document.querySelector(`button[data-lang="${lang}"]`);
+      //     activeTab.classList.add('active', 'text-white', 'bg-gray-800');
+      //     activeTab.classList.remove('text-gray-400', 'bg-gray-900');
+      //   }
+
+      //   function toggleCollapse(id) {
+      //     const element = document.getElementById(id);
+      //     if (element.classList.contains('hidden')) {
+      //       element.classList.remove('hidden');
+      //     } else {
+      //       element.classList.add('hidden');
+      //     }
+      //   }
+
+      function switchLanguage(lang, divId) {
+        // Hide all code blocks within the specified div
+        document
+          .querySelectorAll(`#${divId} pre[id^="code-"]`)
+          .forEach((pre) => {
+            pre.classList.add("hidden");
+          });
+        // Show selected language
+        document
+          .getElementById(`code-${lang}-${divId}`)
+          .classList.remove("hidden");
+        // Update active tab
+        document.querySelectorAll(`#${divId} .language-tab`).forEach((tab) => {
+          tab.classList.remove("active");
+          tab.classList.add("text-gray-400");
+          tab.classList.remove("text-white", "bg-gray-800");
+          tab.classList.add("bg-gray-900");
+        });
+        const activeTab = document.querySelector(
+          `#${divId} button[data-lang="${lang}"]`
+        );
+        activeTab.classList.add("active", "text-white", "bg-gray-800");
+        activeTab.classList.remove("text-gray-400", "bg-gray-900");
+      }
+
+      function toggleCollapse(divId) {
+        const element = document.querySelector(`#${divId} .code-content`);
+        const button = document.querySelector(
+          `#${divId} button[onclick^="toggleCollapse"]`
+        );
+        if (element.classList.contains("hidden")) {
+          element.classList.remove("hidden");
+          button.textContent = "Collapse";
+        } else {
+          element.classList.add("hidden");
+          button.textContent = "Expand";
+        }
+      }
+    </script>
+     -->
+
+    <script>
+      function switchLanguage(lang, divId) {
+        // Hide all code blocks within the specified div
+        document
+          .querySelectorAll(`#${divId} pre[id^="code-"]`)
+          .forEach((pre) => {
+            pre.classList.add("hidden");
+          });
+        // Show selected language
+        document
+          .getElementById(`code-${lang}-${divId}`)
+          .classList.remove("hidden");
+        // Update active tab
+        document.querySelectorAll(`#${divId} .language-tab`).forEach((tab) => {
+          tab.classList.remove("active");
+          tab.classList.add("text-gray-400");
+          tab.classList.remove("text-white", "bg-gray-800");
+          tab.classList.add("bg-gray-900");
+        });
+        const activeTab = document.querySelector(
+          `#${divId} button[data-lang="${lang}"]`
+        );
+        activeTab.classList.add("active", "text-white", "bg-gray-800");
+        activeTab.classList.remove("text-gray-400", "bg-gray-900");
+      }
+
+      function toggleCollapse(divId) {
+        const element = document.querySelector(`#${divId} .code-content`);
+        const button = document.querySelector(
+          `#${divId} button[onclick^="toggleCollapse"]`
+        );
+        if (element.classList.contains("hidden")) {
+          // Expand: Remove hidden, restore height and opacity
+          element.classList.remove("hidden");
+          element.style.height = element.scrollHeight + "px";
+          element.style.opacity = "1";
+          button.textContent = "Collapse";
+        } else {
+          // Collapse: Set height to 0 and opacity to 0, then hide
+          element.style.height = element.scrollHeight + "px"; // Set to current height first
+          element.style.opacity = "1";
+          // Trigger reflow to ensure transition starts
+          element.offsetHeight; // Force reflow
+          element.style.height = "0";
+          element.style.opacity = "0";
+          // Wait for transition to complete before hiding
+          setTimeout(() => {
+            element.classList.add("hidden");
+            element.style.height = ""; // Reset height for next expand
+            element.style.opacity = ""; // Reset opacity
+          }, 300); // Match duration-300
+          button.textContent = "Expand";
+        }
+      }
+    </script>
+  </body>
+</html>
+
+
+
+<!-- <pre
+          id="code-javascript"
+          class="language-javascript"
+          ><code>
+// this represents the a single node in the linked list
+// holding one ticket
+class TicketNode {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+// this class will be managing the queue of tickets using Linked List
+// keeping the track of head(first node) and tail(last node) nodes
+class TicketQueue {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+    
+    // enqueue method adds a new ticket to the end of the queue
+    // (FIFO principle : last in, processed last)
+    // time complexity : O(1), as it only involves creating a node and updating
+    // pointers
+
+    enqueue(data) {
+        const newNode = new TicketNode(data);
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+    }
+
+    // this method removes and returns the ticket at the front of the queue
+    // FIFO : first in, processed first
+    // O(1) : as it only updates the pointer
+    dequeue() {
+        if (!this.head) return null;
+        const removed = this.head.data;
+        this.head = this.head.next;
+        if (!this.head) this.tail = null;
+        return removed;
+    }
+
+    // printAll method is like reading and displaying
+    // O(n) : where n is the number of nodes, because its going to visit each node once 
+    printAll() {
+        let current = this.head;
+        let index = 1;
+        while (current) {
+            console.log(`${index++}. ${current.data}`);
+            current = current.next;
+        }
+    }
+}
+
+const queue = new TicketQueue();
+queue.enqueue("Ticket #001: Login issue");
+queue.enqueue("Ticket #002: Payment error");
+queue.enqueue("Ticket #003: Forgot password");
+
+console.log("Processing:", queue.dequeue());
+
+console.log("Remaining Tickets:");
+queue.printAll();
+</code></pre> -->
