@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Algorithms are everywhere !!</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VP1VKLPKJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-4VP1VKLPKJ");
+    </script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <style>
+      .code-content {
+        height: auto;
+        opacity: 1;
+        transition: height 300ms ease-in-out, opacity 300ms ease-in-out;
+      }
+      .code-content.hidden {
+        height: 0;
+        opacity: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+    </style>
+  </head>
+  <body class="bg-orange-100 w-full max-w-[97%] md:w-[55%] mx-auto">
+    <nav class="mt-6">
+      <div>
+        <h1 class="font-serif text-4xl">Mrinal's Blog</h1>
+        <div class="mt-5 flex flex-wrap gap-5">
+          <a
+            href="../index.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Home</a
+          >
+          <a
+            href="./blog.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Blogs</a
+          >
+          <a
+            href="../research-notes/research.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Research Notes</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <hr class="mt-3" />
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">
+      Where are Algorithms used ??
+    </h1>
+    <span class="text-sm text-gray-500">11th June, 2025</span>
+
+    <p class="text-lg font-serif mt-3">
+      Everywhere, before writing this I took a minute and remembered how I
+      imagined myself writing algorithms for optimizing data models which
+      fastens up the data retrieval rate would look like. But by time I grew in
+      this field I got to know that algorithms aren’t just code. These are some
+      of the smart ways to takle a problem and make data work faster
+    </p>
+
+    <img src="./assets/dsa-2/banner.png" class="w-[75%] mx-auto my-10" alt="" />
+
+    <p class="font-serif text-serif text-lg">
+      As ritual I will be covering few algo topics here which I use/have used on
+      basis of my projects, paid gigs etc. The complexity of these algorithms
+      will rise up gradually as the blog continues.
+      <br />
+      I hope you all know what is <span class="font-bold">Linear Search</span> ?
+      <br />
+      If not no worries this is the most common technique used by algorithms to
+      lookup for a solution to the problem, take it as searching for word in
+      dictionary before knowing "How to search words in dictionary" going
+      through all the pages, but its okkay if the dictionary had only 10 to 15
+      pages but you would need a better and optimised way when there are
+      literally 800+ pages
+    </p>
+
+    <h1 class="font-serif text-2xl my-6">Binary Search</h1>
+    <p class="text-lg font-serif">
+      This is a fast and efficient algorithms but only for sorted array or list,
+      works by repeateddly dividing in the search space in half, which reduces
+      the number of elements to check. Starting at the middle of the array, it
+      compares the target value to middle element. If the target matches, the
+      search is complete.
+      <br />If the target is smaller, it searches the left half, if larger the
+      right half. This process continues until the value is found
+    </p>
+
+    <p class="text-lg font-serif">
+      For algorithms we will be talking more about time complexity. So Binary
+      Search's time complexity is \(O (\log n)\), making it faster than linear
+      search for large sorted datasets
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      This is mainly used in searching databases, lookup tables, or implementing
+      features like autocomplete. Here is an example of an api function which
+      searches for a user by ID in a sorted list of users.
+    </p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-2"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-2')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-2')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>// Using Linear Search an going in sequential order
+// it will take 10k iterations if we want to find the last user
+const users = [
+{ id: 1, name: "Sonita" },
+{ id: 2, name: "Bonita" },
+{ id: 3, name: "Aarav" },
+// ... 10 thousand more more
+];
+function findUser(userId) {
+  return users.find(user => user.id === userId); // O(n)
+}
+</code></pre>
+      </div>
+    </div>
+
+    <p class="mt-4 font-serif text-lg">
+      After using Binary Search Algorithm, for 10k users it just needs 14
+      comparisons at most to find any user
+    </p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-1"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-1')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-1')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>// ideal for static, sorte data like indexes or databases 
+function binarySearch(users, userId) {
+  let left = 0, right = users.length - 1;
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    if (users[mid].id === userId) return users[mid];
+    if (users[mid].id < userId) left = mid + 1;
+    else right = mid - 1;
+  }
+  return null;
+}
+</code></pre>
+      </div>
+    </div>
+
+    <p class="text-lg font-serif mt-4">
+      This algorithm can also be applied in client side for searching an item in
+      a sorted dropdown list
+    </p>
+
+    <h1 class="font-serif text-2xl my-6">Depth First Search</h1>
+
+    <p class="font-serif text-lg">
+      The idea of DFS is starting with the root node and go as far down one
+      branch as possible, all the way to the end.
+    </p>
+
+    <img src="./assets/dsa-2/dfs.png" class="w-[63%] mx-auto my-10" alt="" />
+
+    <p class="text-lg font-serif">
+      After reaching the dead end we come back to the last visited node, this
+      process of going back to the last visited node is called
+      <span class="font-bold">Backtracking</span>[2]. We check if there are any
+      unvisited nodes left. If there are, we explore those nodes next. If not,
+      we backtrack again to the previous node. This process repeats until every
+      node in the graph or tree has been visited[3].
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      The time complexity of DFS depends on the graph's structure. For a graph
+      with <span class="font-bold">V</span>vertices (nodes) and
+      <span class="font-bold">E</span> edges (connections), using a list of
+      connected nodes. DFS takes \(O(V + E)\) time. This becuase it visits each
+      vertex once and checks all edges to explore neighbours. It’s fast for most
+      graphs, especially sparse ones like social networks, as it only processes
+      the actual connections
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      One of the OSS issue on which I worked was related to ui rendering nested
+      comments inefficiently with manual looping, which struggled with deep
+      nesting
+    </p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-3"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-3')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-3')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>// the comments where fetched from db and stored in a list
+const comments = [
+  { id: 1, text: "Great!", replies: [{ id: 2, text: "Thanks!" }] },
+  { id: 3, text: "Cool", replies: [] },
+];
+function renderComments() {
+  let html = "";
+  for (let comment of comments) {
+    html += `<div>${comment.text}</div>`;
+    if (comment.replies) {
+      for (let reply of comment.replies) {
+        html += `<div style="margin-left: 20px">${reply.text}</div>`;
+      }
+    }
+  }
+  return html;
+}
+</code></pre>
+      </div>
+    </div>
+
+    <p class="text-lg font-serif my-4">My Pull request for the same issue, used DFS. I have attached the full anatomy here</p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-4"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-4')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-4')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>//  Ideal for exploring all paths, detecting cycles, or solving problems requiring exhaustive search.
+
+// "comments" is an array of comment objects
+// "deep" is an optional parameter indicating how deep in the reply
+// hierarchy we are, will be starting at 0 (top-comment)
+function renderComments(comments, depth = 0) {
+  // this will hold the final html output that gets
+  // returned
+  let html = "";
+  // helps in iterating through each comment
+  for (let comment of comments) {
+    // appending the current comment's text to
+    // the html string
+    "html += `${comment.text}`;"
+
+    // using recursion here
+    if (comment.replies) {
+
+      // if the comment has replies 'comment.replies' exits, then recursively renderComments
+      // on those replies
+      // and increase the depth by 1 to indicate you are now
+      // rendering a deeper level of replies
+      html += renderCommentsDFS(comment.replies, depth + 1);
+    }
+  }
+  return html;
+}
+</code></pre>
+      </div>
+    </div>
+
+    <p class="text-lg font-serif mt-3">This can also be used for detecting cycles in dependency graphs for building package managers.</p>
+
+    <hr class="my-10" />
+    <footer class="my-8">By Mrinal</footer>
+  </body>
+
+  <script>
+    function switchLanguage(lang, divId) {
+      // Hide all code blocks within the specified div
+      document.querySelectorAll(`#${divId} pre[id^="code-"]`).forEach((pre) => {
+        pre.classList.add("hidden");
+      });
+      // Show selected language
+      document
+        .getElementById(`code-${lang}-${divId}`)
+        .classList.remove("hidden");
+      // Update active tab
+      document.querySelectorAll(`#${divId} .language-tab`).forEach((tab) => {
+        tab.classList.remove("active");
+        tab.classList.add("text-gray-400");
+        tab.classList.remove("text-white", "bg-gray-800");
+        tab.classList.add("bg-gray-900");
+      });
+      const activeTab = document.querySelector(
+        `#${divId} button[data-lang="${lang}"]`
+      );
+      activeTab.classList.add("active", "text-white", "bg-gray-800");
+      activeTab.classList.remove("text-gray-400", "bg-gray-900");
+    }
+
+    function toggleCollapse(divId) {
+      const element = document.querySelector(`#${divId} .code-content`);
+      const button = document.querySelector(
+        `#${divId} button[onclick^="toggleCollapse"]`
+      );
+      if (element.classList.contains("hidden")) {
+        element.classList.remove("hidden");
+        element.style.height = element.scrollHeight + "px";
+        element.style.opacity = "1";
+        button.textContent = "Collapse";
+      } else {
+        element.style.height = element.scrollHeight + "px";
+        element.style.opacity = "1";
+        element.offsetHeight; // Force reflow
+        element.style.height = "0";
+        element.style.opacity = "0";
+        setTimeout(() => {
+          element.classList.add("hidden");
+          element.style.height = "";
+          element.style.opacity = "";
+        }, 300);
+        button.textContent = "Expand";
+      }
+    }
+  </script>
+</html>
