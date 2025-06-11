@@ -297,7 +297,10 @@ function renderComments() {
       </div>
     </div>
 
-    <p class="text-lg font-serif my-4">My Pull request for the same issue, used DFS. I have attached the full anatomy here</p>
+    <p class="text-lg font-serif my-4">
+      My Pull request for the same issue, used DFS. I have attached the full
+      anatomy here
+    </p>
 
     <div
       class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
@@ -355,8 +358,116 @@ function renderComments(comments, depth = 0) {
       </div>
     </div>
 
-    <p class="text-lg font-serif mt-3">This can also be used for detecting cycles in dependency graphs for building package managers.</p>
+    <p class="text-lg font-serif mt-3">
+      This can also be used for detecting cycles in dependency graphs for
+      building package managers.
+    </p>
 
+    <h1 class="font-serif text-2xl my-6">Breadth First Search</h1>
+
+    <p class="text-lg font-serif mt-3">
+      In Breadth first search it explores graphs differently. Instead of diving
+      deep like DFS, BFS visits all nodes at the current "level" before moving
+      to next.
+    </p>
+
+    <img src="./assets/dsa-2/bfs.png" class="my-10 w-[70%] mx-auto" alt="" />
+
+    <p class="text-lg font-serif mt-3">
+      Starting from a chosen node, it explores all its immediate neighbors
+      first, then their neighbors, and so on. This makes BFS ideal for finding
+      the shortest path in unweighted graphs for exploring nodes closer to
+      starting point.
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      For the time complexity part we can say its similar to DFS which is \(O (V
+      + E) \) but the only difference is, BFS uses queue to track nodes,
+      ensuring it explores closer nodes first, which is why its great for
+      finding shortest paths in unweighted graphs, like in navigation apps or
+      GPS
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      Code Disection of Friends graph is written below
+    </p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-5"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-5')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-5')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre id="code-javascript" class="language-javascript"><code>
+const users = {
+  'Sonita': ['Aarav', 'Charlie'],
+  'Bonita': ['Vegeta', 'David'],
+  'Gojita': ['Vegito'],
+  'Majin Buu': ['Mr. Satan']
+};
+
+function findConnection(user1, user2) {
+  // starting with user1 with a connection distance of 0
+  const queue = [[user1, 0]];
+  // this const keeps track and avoids revisiting
+  const visited = new Set([user1]);
+
+  // this is the main loop for BFS
+  while (queue.length) {
+    // taking the front node using 'shift()' is used because it's a
+    // queue, 'user' is the current person being explored
+    // distance is how many steps away this user is from user1
+    const [user, distance] = queue.shift();
+
+    // if the current user is the target, return the distance
+    // this also shows no.of steps needed to get from user1 to user2
+    if (user === user2) return distance;
+
+    // for every friend of current user
+    // if we haven't seen this friend before
+    // mark them as visited
+    // add them to queue with an updated distance (distance + 1) 
+    // one more step away from user1
+    for (let friend of users[user]) {
+      if (!visited.has(friend)) {
+        visited.add(friend);
+        queue.push([friend, distance + 1]);
+      }
+    }
+  }
+
+  // if loop finishes without any friends
+  // than we return -1 means (not found)
+  return -1;
+}
+</code></pre>
+      </div>
+    </div>
+
+    <h1 class="font-serif text-2xl my-6">Insertion Sort Algorithms</h1>
+
+    <p class="mt-4 font-serif text-lg">
+      Insertion sort is a simple sorting algorithm that builds a sorted array
+      one element at a time.
+    </p>
+
+    <img src="./assets/dsa-2/insertion.png" class="" alt="">
     <hr class="my-10" />
     <footer class="my-8">By Mrinal</footer>
   </body>
