@@ -84,7 +84,7 @@
       imagined myself writing algorithms for optimizing data models which
       fastens up the data retrieval rate would look like. But by time I grew in
       this field I got to know that algorithms aren’t just code. These are some
-      of the smart ways to takle a problem and make data work faster
+      of the smart ways to tackle a problem and make data work faster
     </p>
 
     <img src="./assets/dsa-2/banner.png" class="w-[75%] mx-auto my-10" alt="" />
@@ -100,14 +100,14 @@
       lookup for a solution to the problem, take it as searching for word in
       dictionary before knowing "How to search words in dictionary" going
       through all the pages, but its okkay if the dictionary had only 10 to 15
-      pages but you would need a better and optimised way when there are
+      pages but you would need a better and optimized way when there are
       literally 800+ pages
     </p>
 
     <h1 class="font-serif text-2xl my-6">Binary Search</h1>
     <p class="text-lg font-serif">
       This is a fast and efficient algorithms but only for sorted array or list,
-      works by repeateddly dividing in the search space in half, which reduces
+      works by repeatedly dividing in the search space in half, which reduces
       the number of elements to check. Starting at the middle of the array, it
       compares the target value to middle element. If the target matches, the
       search is complete.
@@ -197,7 +197,7 @@ function findUser(userId) {
         <pre
           id="code-javascript"
           class="language-javascript"
-        ><code>// ideal for static, sorte data like indexes or databases 
+        ><code>// ideal for static, sorted data like indexes or databases 
 function binarySearch(users, userId) {
   let left = 0, right = users.length - 1;
   while (left <= right) {
@@ -239,8 +239,8 @@ function binarySearch(users, userId) {
       The time complexity of DFS depends on the graph's structure. For a graph
       with <span class="font-bold">V</span>vertices (nodes) and
       <span class="font-bold">E</span> edges (connections), using a list of
-      connected nodes. DFS takes \(O(V + E)\) time. This becuase it visits each
-      vertex once and checks all edges to explore neighbours. It’s fast for most
+      connected nodes. DFS takes \(O(V + E)\) time. This because it visits each
+      vertex once and checks all edges to explore neighbors. It’s fast for most
       graphs, especially sparse ones like social networks, as it only processes
       the actual connections
     </p>
@@ -553,8 +553,8 @@ function insertionSort(arr) {
     <p class="text-lg font-serif mt-3">
       It works by splitting the array into two halves, sorting each half
       recursively, and then merging the sorted halves back together to create a
-      fully sorted array. Its stable meaning, it preserves the realtive order of
-      equal elements, and is ideal for large datasets, like sorting cutomer
+      fully sorted array. Its stable meaning, it preserves the relative order of
+      equal elements, and is ideal for large datasets, like sorting customer
       records or database entries, due to its consistent performance.
     </p>
 
@@ -570,7 +570,7 @@ function insertionSort(arr) {
     </p>
 
     <p class="text-lg font-serif mt-3">
-      At each level, all \(n\) elemets are merged. Merging two sorted lists
+      At each level, all \(n\) elements are merged. Merging two sorted lists
       compares and combines elements in linear time. Merging four pairs \(([4,
       2], [5, 1], [8, 3], [7, 6])\) into two groups takes about 8 comparisons
       total. Merging two groups \(([1, 2, 4, 5], [3, 6, 7, 8])\) into one takes
