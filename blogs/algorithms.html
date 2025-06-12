@@ -77,7 +77,7 @@
     <h1 class="text-4xl mt-[57px] mb-3 font-serif">
       Where are Algorithms used ??
     </h1>
-    <span class="text-sm text-gray-500">11th June, 2025</span>
+    <span class="text-sm text-gray-500">Publishing Soon </span>
 
     <p class="text-lg font-serif mt-3">
       Everywhere, before writing this I took a minute and remembered how I
@@ -460,14 +460,272 @@ function findConnection(user1, user2) {
       </div>
     </div>
 
-    <h1 class="font-serif text-2xl my-6">Insertion Sort Algorithms</h1>
+    <h1 class="font-serif text-2xl my-6">Insertion Sort Algorithm</h1>
 
     <p class="mt-4 font-serif text-lg">
       Insertion sort is a simple sorting algorithm that builds a sorted array
       one element at a time.
     </p>
 
-    <img src="./assets/dsa-2/insertion.png" class="" alt="">
+    <img src="./assets/dsa-2/insertion.png" class="my-10" alt="" />
+
+    <p class="text-lg font-serif mt-3">
+      Starting with the second element, insertion sort compares it to the
+      previous ones, shifting larger elements right until it finds the right
+      spot to "insert" the element. This process repeats for each element until
+      the entire array is sorted. Works well for small datasets or nearly sorted
+      lists, like organizing a short list of names or numbers.
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      The time complexity of Insertion Sort depends on the array size and its
+      initial order. For an array with n elements, the worst-case time
+      complexity is \(O(n_2)\), as each element may need to be compared and
+      shifted against all previous elements, like when the array is
+      reverse-sorted. In the best case, such as a nearly sorted array, it runs
+      in \(O(n)\) time, as each element requires minimal comparisons and shifts.
+      This makes Insertion Sort efficient for small or nearly sorted datasets
+      but less ideal for large, unsorted lists compared to faster algorithms
+      like Quick Sort.
+    </p>
+
+    <p class="text-lg font-serif my-2">
+      We can code a Search history using insertion sort
+    </p>
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-6"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-6')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-6')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre id="code-javascript" class="language-javascript"><code>
+function insertionSort(arr) {
+  // Start from the second element (i = 1), since the first element is considered "sorted"
+  for (let i = 1; i < arr.length; i++) {
+    
+    // 'key' is the current element we want to insert into the sorted part of the array
+    let key = arr[i];
+
+    // 'j' marks the end of the sorted portion (just before the current element)
+    let j = i - 1;
+
+    // Move elements of arr[0..i-1], that are less than 'key.time', one position ahead
+    // We sort in descending order based on 'time' property
+    while (j >= 0 && arr[j].time < key.time) {
+      // Shift the element to the right
+      arr[j + 1] = arr[j];
+      j--; // Move one step back in the array
+    }
+
+    // Insert the 'key' in its correct position
+    arr[j + 1] = key;
+  }
+
+  // Return the sorted array
+  return arr;
+}
+</code></pre>
+      </div>
+    </div>
+
+    <h1 class="font-serif text-2xl my-6">Merge Sort Algorithm</h1>
+
+    <p class="text-lg font-serif mt-3">
+      Its a reliable sorting algorithm which uses a divide and conquer approach
+      to sort arrays efficiently.
+    </p>
+    <p class="text-lg font-serif mt-3">
+      It works by splitting the array into two halves, sorting each half
+      recursively, and then merging the sorted halves back together to create a
+      fully sorted array. Its stable meaning, it preserves the realtive order of
+      equal elements, and is ideal for large datasets, like sorting cutomer
+      records or database entries, due to its consistent performance.
+    </p>
+
+    <img src="./assets/dsa-2/attention.png" class="my-10" alt="" />
+
+    <p class="text-lg font-serif mt-3">
+      Lets talk a little about the time complexity here, merge sort has a time
+      complexity of \(O(n log n)\) in all cases from best, average to worst. For
+      example lets take the above figure which is [4, 2, 5, 1, 8, 3, 7, 6] here
+      \(n=8\) elements and for \(n=8\), it takes \(log_2 8 = 3\) levels of
+      division (8 -> 4 pairs -> 2 groups of 4 -> 1 group of 8). Our figure
+      starts with four groups of two, which is part of this process
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      At each level, all \(n\) elemets are merged. Merging two sorted lists
+      compares and combines elements in linear time. Merging four pairs \(([4,
+      2], [5, 1], [8, 3], [7, 6])\) into two groups takes about 8 comparisons
+      total. Merging two groups \(([1, 2, 4, 5], [3, 6, 7, 8])\) into one takes
+      another 8 comparisons <br />
+      The O(n log n) complexity holds because the number of divisions is
+      logarithmic \(log n \), and each merge step scales linearly with \(n \).
+      Unlike Insertion Sort's \(O(n^2)\) (upto 64 operations for n = 8)
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      <span class="font-bold">Before</span> <br />
+      The API gets session data from the DB. Uses
+      <span>.sort()</span> which may be unstable or optimized differently
+      depending on V8 engine. So we get less control over performance in large
+      datasets
+    </p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-7"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-7')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-7')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>// routes/sessionStats.js
+app.get('/api/sessions/sorted', async (req, res) => {
+  const sessions = await db.getUserSessions(); // returns array like [120, 30, 45, 60]
+  
+  // Using built-in sort (not always stable or predictable)
+  const sorted = sessions.sort((a, b) => a - b);
+
+  res.json({ sorted });
+});
+
+</code></pre>
+      </div>
+    </div>
+
+    <p class="text-lg font-serif mt-3">
+      <span class="font-bold">After using Merge Sort</span> <br />
+      After using our own implementation of merge sort and replacing it with
+      buil-in sort, it helped with performance tuning and custom rules which can
+      handling large logs or preprocessing logs offline
+    </p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-8"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('javascript', 'code-div-8')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-8')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>// utils/mergeSort.js
+function mergeSort(arr) {
+  if (arr.length <= 1) return arr;
+
+  const mid = Math.floor(arr.length / 2);
+  const left = mergeSort(arr.slice(0, mid));
+  const right = mergeSort(arr.slice(mid));
+
+  return merge(left, right);
+}
+
+function merge(left, right) {
+  const result = [];
+  let i = 0, j = 0;
+
+  while (i < left.length && j < right.length) {
+    if (left[i] < right[j]) result.push(left[i++]);
+    else result.push(right[j++]);
+  }
+
+  return result.concat(left.slice(i)).concat(right.slice(j));
+}
+
+module.exports = { mergeSort };
+
+
+// on different file we can call the function and use it
+const { mergeSort } = require('../utils/mergeSort');
+
+app.get('/api/sessions/sorted', async (req, res) => {
+  const sessions = await db.getUserSessions();
+
+  const sorted = mergeSort(sessions);
+
+  res.json({ sorted });
+});
+</code></pre>
+      </div>
+    </div>
+
+    <h1 class="font-serif text-2xl my-6">Quick Sort Algorithm</h1>
+
+    <p class="text-lg font-serif mt-3">
+      This uses the same strategy as Merge Sort algorithm which is divide and
+      conquer strategy to sort arrays. But it works by picking a "pivot"
+      element, partitioning the array so that element smaller than the pivot are
+      on its left and larger ones on its right, then recursively sorting the
+      left and right sub-arrays.
+    </p>
+
+    <img src="./assets/dsa-2/quick.png" alt="" class="my-10" />
+
+    <p class="text-lg font-serif mt-3">
+      Quick Sort is fast and widely used for large datasets, like sorting
+      student grades or product lists, due to its average-case speed.
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      For an array with n elements, Quick Sort’s time complexity is \(O (n log
+      n)\) on average, making it very fast for most cases. It divides the array
+      into two parts around a pivot, ideally halving the problem size each time,
+      requiring log n levels and n comparisons per level. sorting an array of 8
+      elements takes about 24 operations (8 * log 8). In the worst case, like a
+      sorted or reverse-sorted array with a poor pivot choice, it can degrade to
+      O(n²), but this is rare with good pivot strategies.
+    </p>
+
     <hr class="my-10" />
     <footer class="my-8">By Mrinal</footer>
   </body>
