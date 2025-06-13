@@ -75,12 +75,12 @@
     <hr class="mt-3" />
 
     <h1 class="text-4xl mt-[57px] mb-3 font-serif">
-      Where are Algorithms used ??
+      Algorithms 101 : From a Beginners POV
     </h1>
-    <span class="text-sm text-gray-500">Publishing Soon </span>
+    <span class="text-sm text-gray-500">12th June, 2025 </span>
 
     <p class="text-lg font-serif mt-3">
-      Everywhere, before writing this I took a minute and remembered how I
+      Before writing this I took a minute and remembered how I
       imagined myself writing algorithms for optimizing data models which
       fastens up the data retrieval rate would look like. But by time I grew in
       this field I got to know that algorithms aren’t just code. These are some
@@ -480,7 +480,7 @@ function findConnection(user1, user2) {
     <p class="text-lg font-serif mt-3">
       The time complexity of Insertion Sort depends on the array size and its
       initial order. For an array with n elements, the worst-case time
-      complexity is \(O(n_2)\), as each element may need to be compared and
+      complexity is \(O(n^2)\), as each element may need to be compared and
       shifted against all previous elements, like when the array is
       reverse-sorted. In the best case, such as a nearly sorted array, it runs
       in \(O(n)\) time, as each element requires minimal comparisons and shifts.
@@ -630,8 +630,8 @@ app.get('/api/sessions/sorted', async (req, res) => {
     <p class="text-lg font-serif mt-3">
       <span class="font-bold">After using Merge Sort</span> <br />
       After using our own implementation of merge sort and replacing it with
-      built-in sort, it helped with performance tuning and custom rules which can
-      handling large logs or preprocessing logs offline
+      built-in sort, it helped with performance tuning and custom rules which
+      can handling large logs or preprocessing logs offline
     </p>
 
     <div
@@ -726,8 +726,171 @@ app.get('/api/sessions/sorted', async (req, res) => {
       O(n²), but this is rare with good pivot strategies.
     </p>
 
+    <p class="text-lg font-serif mt-3">
+      Choosing a good pivot is crucial for efficiency, as it effects how evenly
+      the array is split. Here are some common steps you can include while
+      choosing one :
+    </p>
+
+    <ul class="text-lg ml-4 mt-3 font-serif list-disc">
+      <li>
+        <span class="font-bold">First / Last Element</span>: Pick the first or
+        last element, but this can lead to \(O(n^2)\) time in sorted or
+        reverse-sorted average performance.
+      </li>
+      <li class="mt-3">
+        <span class="font-bold">Random Pivot</span> : Select a random element to
+        reduce the chance of worst-case scenarios, improving average
+        performance. But how you would ask. Choosing a random pivot in quick
+        sort increases avg. performance by reducing the likelihood of
+        consistently poor partitions, which can lead to worst-case \(O(n^2)\)
+        time complexity.When a pivot is randomly selected from the array, it’s
+        unlikely to repeatedly pick the smallest or largest element, as happens
+        in sorted or nearly sorted arrays with fixed pivots (e.g., first
+        element). Instead, random pivots tend to create more balanced
+        partitions, splitting the array closer to half each time, which aligns
+        with the ideal \(O(n log n)\) average-case performance. For example, in
+        \([4, 3, 5, 2, 6, 1, 7, 8]\), a random pivot like 5 might split into [4,
+        3, 2, 1] and [6, 7, 8], keeping sub-arrays roughly equal. This
+        randomness averages out bad cases over many runs, ensuring partitions
+        are balanced more often, with each level taking O(n) comparisons across
+        log n levels.
+      </li>
+    </ul>
+
+    <p class="text-lg font-serif mt-3">
+      <span class="font-bold">Before</span> <br />
+      The best way I learned quick sort algorithm was by implementing it in a
+      e-commerce api in which products were sorted by price, at first I thought
+      using <span>.sort()</span> would be but NVM XDD. It was simple and short
+      but lacked control and it can't handle complex logic lick preprocessing,
+      side effects, or tracing steps for debugging
+    </p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-9"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage( 'code-div-9')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-9')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>// routes/products.js
+app.get('/api/products/sorted', async (req, res) => {
+  const products = await db.getProducts(); // [{ name: "Shoes", price: 80 }, ...]
+
+  const sorted = products.sort((a, b) => a.price - b.price);
+
+  res.json({ sorted });
+});
+</code></pre>
+      </div>
+    </div>
+
+    <p class="text-lg font-serif mt-3">
+      <span class="font-bold">After</span> <br />
+      After learning and implementing my own Quick Sort to sort products by
+      price, this let me add debug logs, skip invalid prices, add thresholds or
+      filtering inline, or customize order (ascending / descending)
+    </p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-10"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage( 'code-div-10')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-10')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>function quickSortProducts(arr, ascending = true) {
+  if (arr.length <= 1) return arr;
+
+  const pivot = arr[arr.length - 1];
+  const left = [];
+  const right = [];
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (!arr[i].price) continue; // skip if price is missing
+
+    if (ascending ? arr[i].price < pivot.price : arr[i].price > pivot.price) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
+
+  return [
+    ...quickSortProducts(left, ascending),
+    pivot,
+    ...quickSortProducts(right, ascending),
+  ];
+}
+
+module.exports = { quickSortProducts };
+
+const { quickSortProducts } = require('../utils/quickSortProducts');
+
+app.get('/api/products/sorted', async (req, res) => {
+  const products = await db.getProducts();
+
+  const order = req.query.order || 'asc'; // ?order=desc
+  const sorted = quickSortProducts(products, order === 'asc');
+
+  res.json({ sorted });
+});
+</code></pre>
+      </div>
+    </div>
+
+    <p class="mt-6 text-lg font-serif">
+      I wanted to add greedy algorithm and DP but that would be an overkill for
+      this blog, these are searching and sorting algorithms which is mainly used
+      during development <br />
+      Hope I was able to add few value to your today's learning :)
+    </p>
+
     <hr class="my-10" />
-    <footer class="my-8">By Mrinal</footer>
+    <footer class="my-8">
+      <div class="flex justify-between items-center">
+        <p>By Mrinal</p>
+
+        <a href="https://buymeacoffee.com/mrinalxdev">BuyMeACoffee</a>
+      </div>
+    </footer>
   </body>
 
   <script>
