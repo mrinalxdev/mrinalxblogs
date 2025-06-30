@@ -24,8 +24,16 @@
 
       gtag("config", "G-4VP1VKLPKJ");
     </script>
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
   </head>
-  <body class="bg-orange-100 w-full max-w-[95%] md:w-[50%] mx-auto">
+  <body class="bg-orange-100 w-full max-w-[99%] md:w-[60%] mx-auto">
     <nav class="mt-6">
       <div>
         <h1 class="font-serif text-4xl">Mrinal's Blog</h1>
@@ -58,7 +66,7 @@
 
     <p class="font-serif mt-5 text-lg">
       So a graph data structure is like a map of connections, like a bunch of
-      dots that represent stuffs like people, cities or even web pages. Thenm
+      dots that represent stuffs like people, cities or even web pages. Then
       you've got lines which connects these dots, showing some kind off
       relationships, like who's friends with who or which cities have direct
       roads between them.
@@ -72,8 +80,316 @@
       />
     </div>
 
+    <p class="font-serif text-lg mt-3">Unlike linear data structures like arrays or linked lists, graphs represent relationships between entities in way that mirrors how connections are formed. At its core, graph is simply collection of nodes connected by edges. Its like  a network where each point represents an entity, and the lines between them represent relationships or connections</p>
     <h1 class="font-serif text-2xl my-6">Covering the fundamentals</h1>
 
+    <p class="font-serif text-lg mt-3">Graphs are simple and flexible, every graph consists of just two fundamental components which are vertices and edges. Vertices are the individual data point or nodes that store information, while edges are the connections that define relationships between these vertices.</p>
+
+    <img src="./assets/graphs/fundamentals.png" class="" alt="">
+
+    <p class="font-serif text-lg mt-4">Taking an example like LinkedIN. Yeahh LinkedIN XDD Each user would be represented as a vertex, containing information like name, age and location. The friendship/connection between users would be represented as edges connecting these vertices. This simple model can represent millions of users and their complex web of relationships</p>
+
+    <p class="font-serif text-lg mt-2">Edges can carry additional information too. In a weighted graph, each edge has numerical value associated with it. For instance we in a road network, vertices might represent cities, and edges might represent roads with weights indicating the distance or travel time between cities. This additional information transforms a simple connection into a rich data relationship.</p>
+
+    <p class="font-serif text-lg mt-3">Now that we understand the basic building blocks, how do we actually store and organize this information in computer memory?</p>
+    <h1 class="font-serif text-2xl my-4">Graph Representation and Memory</h1>
+
+    <p class="font-serif text-lg mt-3">When it comes to storing graphs in computer memory, we have two primary approaches: adjacency matrices and adjacency lists. Each method has its own strengths and is suited for different scenarios, depending on whether the graph is directed or undirected. In a directed graph, edges have a direction, meaning the relationship from vertex A to vertex B is not necessarily reciprocal. In an undirected graph, edges are bidirectional, so an edge between A and B implies a mutual connection..</p>
+
+    <p class="font-serif text-lg mt-2">Adjacency matrices use a 2D array where entry (i,j) indicates whether there's an edge between vertex i and vertex j. For a graph with n vertices, this creates an n×n matrix. In an undirected graph, the matrix is symmetric because an edge from i to j implies an edge from j to i, whereas in a directed graph, the matrix may be asymmetric since edges are one-way. While this approach uses more memory (O(n²) space), it provides constant-time lookup (O(1)) to check if two vertices are connected, making it ideal for dense graphs or when frequent edge queries are needed.</p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-9"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage( 'code-div-9')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-9')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>class AdjacencyMatrix {
+  constructor(n) {
+    this.numVertices = n;
+    // Initialize a 2D matrix with false (no edges initially)
+    this.matrix = new Array(n);
+    for (let i = 0; i < n; i++) {
+        this.matrix[i] = new Array(n).fill(false);
+    }
+}
+
+    // Add an undirected edge between u and v
+    addEdge(u, v) {
+      this.matrix[u][v] = true;
+      this.matrix[v][u] = true; // For undirected graph
+    }
+
+    // Check if there is an edge between u and v
+    hasEdge(u, v) {
+      return this.matrix[u][v];
+    }
+}
+
+
+</code></pre>
+      </div>
+    </div>
+
+    <img src="./assets/graphs/matrix.png" class="my-10" alt="">
+
+    <p class="font-serif mt-3 text-lg">Lets talk about some memory here, For n vertices, adjacency matrices require exactly n² memory locations, regardless of the actual number of edges. With boolean values, this means n²/8 bytes (since booleans can be packed). For a social network with 1 million users, this translates to 125 GB of memory just for the adjacency matrix, even if most users have only a few hundred connections.
+      The memory layout is cache-friendly for row-wise access patterns, but checking all neighbors of a vertex requires scanning an entire row, touching n memory locations regardless of the actual degree.</p>
+
+
+    <p class="font-serif text-lg mt-6">Adjacency lists, conversely, store a graph by maintaining a list for each vertex, where each list contains the vertices adjacent to it. For an undirected graph, each edge appears in the lists of both vertices it connects, while in a directed graph, an edge from i to j appears only in i's list. This method is more memory-efficient for sparse graphs (O(V + E) space, where V is vertices and E is edges) but requires O(degree(v)) time to check if an edge exists, where degree(v) is the number of neighbors of vertex v.</p>
+
+    <img src="./assets/graphs/list.png" class="my-10" alt="">
+
+    <p class="font-serif mt-3 text-lg">In adjaceny lists emory usage scales with O(V + E), where V is vertices and E is edges. For our million-user social network with an average of 300 connections per user, this requires only about 2.4 GB of memory - a 50x improvement over adjacency matrices.
+      However, checking if a specific edge exists becomes O(degree) operation, requiring a linear search through the neighbor list. This can be optimized using hash sets instead of vectors for neighbor storage.</p>
+
+    
+      <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-2"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('code-div-2')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-2')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>class AdjacencyList {
+    constructor(n) {
+        this.numVertices = n;
+        this.adjList = new Array(n);
+        for (let i = 0; i < n; i++) {
+            this.adjList[i] = []; // Initialize each vertex's neighbor list
+        }
+    }
+
+    // Add an undirected edge between u and v
+    addEdge(u, v) {
+        this.adjList[u].push(v);
+        this.adjList[v].push(u); // For undirected graph
+    }
+
+    // Get neighbors of vertex u
+    getNeighbors(u) {
+        return this.adjList[u];
+    }
+}
+
+const graph = new AdjacencyList(5);
+
+graph.addEdge(0, 1);
+graph.addEdge(1, 2);
+graph.addEdge(2, 3);
+
+console.log(graph.getNeighbors(0)); // [1]
+console.log(graph.getNeighbors(1)); // [0, 2]
+console.log(graph.getNeighbors(2)); // [1, 3]
+</code></pre>
+      </div>
+    </div>
+
+
+    <p class="text-lg font-serif mt-3">With our data properly organized, what can actually do with these graph structures ??</p>
+
+
+    <h1 class="text-2xl font-serif my-7">Exploring Graphs</h1>
+
+    <p class="text-lg font-serif mt-3">Graph traversal algorithms are the foundation for most graph operations. They allow us to systematically visit every vertex in a graph, forming the basis for more complex algorithms. The two fundamental traversal methods are Depth-First Search (DFS) and Breadth-First Search (BFS).</p>
+
+    <p class="text-lg font-serif mt-2">For new audience (if any, yeah I am delusional) I have explained <span class="font-bold">Depth First Search</span> and <span class="font-bold">Breadth First Search</span> in my previous blog about <a class="italic underline underline-offset-2" href="./algorithms.html">Algorithms from Beginners POV</a> do check it out. I will be just skimming through the topics here :))</p>
+
+    <p class="text-lg font-serif mt-3">Depth-First Search explores a graph by going as deep as possible along each branch before backtracking. It's like we are exploring a maze by always taking the first available path and only turning back when we hit a dead end. DFS uses a stack (either explicitly or through recursion) to keep track of vertices to visit. This approach is excellent for problems like detecting cycles, finding connected components, or exploring all possible paths.</p>
+
+    <!-- <img src="./assets/dsa-2/dfs.png" class="w-[40%]" alt=""> -->
+
+    <p class="text-lg font-serif mt-3">Breadth-First Search, conversely, explores all vertices at the current depth before moving to vertices at the next depth level. It's like ripples spreading out from a stone dropped in water. BFS uses a queue to ensure vertices are visited in order of their distance from the starting point. This makes it perfect for finding the shortest path in unweighted graphs or for level-order traversals.</p>
+
+    <img src="./assets/dsa-2/bfs.png" class="w-[55%] mx-auto my-10" alt="">
+    <p class="text-lg font-serif mt-3">These traversal methods sound useful, but how do they help us solve real-world problems like finding the shortest route between two locations?</p>
+
+    <h1 class="font-serif text-2xl mt-4">Finding the Optimal Route</h1>
+
+    <p class="font-serif text-lg mt-3">Finding the shortest path between two points is one of the most practical applications of graph algorithms. While BFS can find the shortest path in unweighted graphs, real-world scenarios often involve weighted edges where we need more sophisticated approaches.</p>
+
+    <p class="font-serif text-lg mt-3">Dijkstra's algorithm is the gold standard for finding shortest paths in weighted graphs with non-negative edge weights. It works by maintaining a set of vertices whose shortest distance from the source is known, gradually expanding this set by always choosing the vertex with the minimum tentative distance. Think of it as simultaneously exploring all possible routes from your starting point, but always prioritizing the most promising paths.</p>
+
+    <video autoplay loop muted class="mx-auto my-10 rounded-xl p-2"><source src="./assets/graphs/dijkit.mp4" type="video/mp4"></video>
+
+    <p class="font-serif text-lg mt-3">The algorithm maintains a priority queue of vertices to visit, always processing the one with the smallest known distance first. As it visits each vertex, it updates the distances to its neighbors if a shorter path is found. This greedy approach guarantees finding the optimal solution.</p>
+
+    <video autoplay loop muted class="mx-auto my-10 rounded-xl"><source src="./assets/graphs/dijkit2.mp4" type="video/mp4"></video>
+
+    <p class="font-serif text-lg mt-3">For graphs with negative edge weights, the Bellman-Ford algorithm provides a solution, though it's slower than Dijkstra's algorithm. It works by repeatedly relaxing all edges, gradually improving distance estimates until no further improvements are possible.</p>
+
+    <p class="font-serif text-lg mt-2">These algorithms power GPS navigation systems, network routing protocols, and any application where finding optimal paths is crucial.</p>
+
+    <p class="font-serif text-lg mt-5">Shortest paths are fascinating, but what about scenarios where we need to connect multiple points efficiently, like designing a network infrastructure ??</p>
+
+    <h1 class="text-2xl font-serif my-7">Connecting Everything Efficiently</h1>
+    <p class="font-serif text-lg mt-3">When we need to connect all vertices in a graph with the minimum total cost, we are looking for a Minimum Spanning Tree (MST). This is crucial in network design, where we want to ensure all nodes are connected while minimizing the total cost of connections.</p>
+
+    <p class="font-serif text-lg mt-3">A spanning tree of a graph is a subgraph that includes all vertices and is connected (you can reach any vertex from any other vertex) but contains no cycles. The minimum spanning tree is the spanning tree with the smallest total edge weight.</p>
+
+    <!-- video  -->
+
+    <!-- video end  -->
+
+    <p class="font-serif text-lg mt-4 ">Kruskal's algorithm approaches this problem by sorting all edges by weight and adding them to the MST one by one, skipping any edge that would create a cycle. It uses a disjoint set data structure to efficiently detect cycles. This greedy approach works because the optimal solution always includes the cheapest available connection that doesn't create redundancy.</p>
+
+    <video autoplay loop muted class="mx-auto my-10 rounded-xl"><source src="./assets/graphs/kruskal.mp4" type="video/mp4"></video>
+
+    <p class="font-serif text-lg mt-3">Prim's algorithm takes a different approach, starting with an arbitrary vertex and growing the MST by repeatedly adding the cheapest edge that connects a vertex in the MST to a vertex outside it. Both algorithms guarantee finding the optimal solution, but they approach the problem from different angles.</p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-6"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('code-div-6')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-6')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>class PriorityQueue {
+    constructor() {
+        this.items = [];
+    }
+
+    enqueue(item, priority) {
+        this.items.push({ item, priority });
+        this.items.sort((a, b) => a.priority - b.priority);
+    }
+
+    dequeue() {
+        return this.items.shift().item;
+    }
+
+    isEmpty() {
+        return this.items.length === 0;
+    }
+}
+
+function primMST(graph) {
+    const vertices = Object.keys(graph);
+    if (vertices.length === 0) return [];
+
+    // Initialize data structures
+    const parent = {};
+    const key = {};
+    const inMST = {};
+    const pq = new PriorityQueue();
+
+    // Initialize all keys to Infinity and parents to null
+    vertices.forEach(vertex => {
+        key[vertex] = Infinity;
+        parent[vertex] = null;
+        inMST[vertex] = false;
+    });
+
+    // Start with the first vertex
+    const startVertex = vertices[0];
+    key[startVertex] = 0;
+    pq.enqueue(startVertex, 0);
+
+    while (!pq.isEmpty()) {
+        const currentVertex = pq.dequeue();
+        inMST[currentVertex] = true;
+
+        // Explore all adjacent vertices
+        for (const neighbor in graph[currentVertex]) {
+            const weight = graph[currentVertex][neighbor];
+
+            // If neighbor is not in MST and weight is less than current key
+            if (!inMST[neighbor] && weight < key[neighbor]) {
+                parent[neighbor] = currentVertex;
+                key[neighbor] = weight;
+                pq.enqueue(neighbor, key[neighbor]);
+            }
+        }
+    }
+
+    // Construct the MST edges (excluding the root)
+    const mst = [];
+    for (const vertex in parent) {
+        if (parent[vertex] !== null) {
+            mst.push({
+                from: parent[vertex],
+                to: vertex,
+                weight: graph[parent[vertex]][vertex]
+            });
+        }
+    }
+
+    return mst;
+}
+
+// using Prim's algorithm
+const graph = {
+    'A': { 'B': 2, 'D': 6 },
+    'B': { 'A': 2, 'C': 3, 'D': 8, 'E': 5 },
+    'C': { 'B': 3, 'E': 7 },
+    'D': { 'A': 6, 'B': 8, 'E': 9 },
+    'E': { 'B': 5, 'C': 7, 'D': 9 }
+};
+
+const minimumSpanningTree = primMST(graph);
+console.log("Minimum Spanning Tree Edges:");
+console.log(minimumSpanningTree);
+</code></pre>
+      </div>
+    </div>
+
+    <p class="font-serif text-lg mt-3">These algorithms are essential in designing telecommunication networks, electrical grids, and any infrastructure where you need universal connectivity at minimum cost.</p>
     <hr class="my-10" />
     <footer class="my-8">
       <div class="flex justify-between items-center">
@@ -82,5 +398,57 @@
         <a href="https://buymeacoffee.com/mrinalxdev">BuyMeACoffee</a>
       </div>
     </footer>
+
+
+
+    <script>
+      function switchLanguage(lang, divId) {
+        // Hide all code blocks within the specified div
+        document.querySelectorAll(`#${divId} pre[id^="code-"]`).forEach((pre) => {
+          pre.classList.add("hidden");
+        });
+        // Show selected language
+        document
+          .getElementById(`code-${lang}-${divId}`)
+          .classList.remove("hidden");
+        // Update active tab
+        document.querySelectorAll(`#${divId} .language-tab`).forEach((tab) => {
+          tab.classList.remove("active");
+          tab.classList.add("text-gray-400");
+          tab.classList.remove("text-white", "bg-gray-800");
+          tab.classList.add("bg-gray-900");
+        });
+        const activeTab = document.querySelector(
+          `#${divId} button[data-lang="${lang}"]`
+        );
+        activeTab.classList.add("active", "text-white", "bg-gray-800");
+        activeTab.classList.remove("text-gray-400", "bg-gray-900");
+      }
+  
+      function toggleCollapse(divId) {
+        const element = document.querySelector(`#${divId} .code-content`);
+        const button = document.querySelector(
+          `#${divId} button[onclick^="toggleCollapse"]`
+        );
+        if (element.classList.contains("hidden")) {
+          element.classList.remove("hidden");
+          element.style.height = element.scrollHeight + "px";
+          element.style.opacity = "1";
+          button.textContent = "Collapse";
+        } else {
+          element.style.height = element.scrollHeight + "px";
+          element.style.opacity = "1";
+          element.offsetHeight; // Force reflow
+          element.style.height = "0";
+          element.style.opacity = "0";
+          setTimeout(() => {
+            element.classList.add("hidden");
+            element.style.height = "";
+            element.style.opacity = "";
+          }, 300);
+          button.textContent = "Expand";
+        }
+      }
+    </script>
   </body>
 </html>
