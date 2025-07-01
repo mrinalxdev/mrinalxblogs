@@ -62,7 +62,7 @@
     <h1 class="text-4xl mt-[57px] mb-3 font-serif">
       Graph : From a Begginers POV
     </h1>
-    <span class="text-sm text-gray-500">30th June, 2025</span>
+    <span class="text-sm text-gray-500">1st July, 2025</span>
 
     <p class="font-serif mt-5 text-lg">
       So a graph data structure is like a map of connections, like a bunch of
@@ -390,6 +390,206 @@ console.log(minimumSpanningTree);
     </div>
 
     <p class="font-serif text-lg mt-3">These algorithms are essential in designing telecommunication networks, electrical grids, and any infrastructure where you need universal connectivity at minimum cost.</p>
+
+    <h1 class="text-2xl my-6 font-serif">Directed Graphs and Network Flow</h1>
+    <p class="font-serif text-lg">Directed graphs introduce concepts like in-degree and out-degree (the number of incoming and outgoing edges for each vertex). They also enable topological sorting, which arranges vertices in a linear order such that for every directed edge from vertex A to vertex B, A appears before B in the ordering. This is crucial for scheduling tasks with dependencies.</p>
+
+    <p class="font-serif text-lg mt-3">Network flow problems take directed graphs further by adding capacity constraints to edges. Like a network of pipes where each pipe can only carry a certain amount of fluid. The maximum flow problem asks: what's the maximum amount of flow you can push from a source to a sink?</p>
+
+    <p class="font-serif text-lg mt-3">The Ford-Fulkerson algorithm solves this by repeatedly finding augmenting paths (paths from source to sink with available capacity) and pushing flow along them until no more augmenting paths exist. This approach has applications in traffic management, resource allocation, and even matching problems.</p>
+
+    <div
+      class="mt-6 border rounded-xl p-4 bg-gray-900 text-white font-mono"
+      id="code-div-7"
+    >
+      <div class="flex justify-between items-center border-b border-gray-700">
+        <div class="flex">
+          <button
+            class="px-4 py-2 bg-gray-800 text-white font-semibold rounded-t-md focus:outline-none language-tab active"
+            data-lang="javascript"
+            onclick="switchLanguage('code-div-7')"
+          >
+            JavaScript
+          </button>
+        </div>
+        <button
+          class="px-4 py-2 text-gray-400 hover:text-white focus:outline-none"
+          onclick="toggleCollapse('code-div-7')"
+        >
+          Expand
+        </button>
+      </div>
+      <div class="mt-4 code-content hidden">
+        <pre
+          id="code-javascript"
+          class="language-javascript"
+        ><code>/**
+* Ford-Fulkerson Algorithm for Maximum Flow in a Flow Network
+* 
+* This implementation uses the Edmonds-Karp approach (BFS for finding augmenting paths)
+* to ensure polynomial time complexity O(VE²).
+* 
+* The algorithm finds the maximum possible flow from a source node to a sink node
+* in a directed graph where each edge has a capacity.
+*/
+
+class FlowNetwork {
+    /**
+    * Initialize the flow network with adjacency list representation
+    * @param {number} vertices - Number of vertices in the graph
+    */
+    constructor(vertices) {
+        this.V = vertices; // Number of vertices
+        this.graph = new Array(vertices); // Residual graph
+        
+        // Initialize adjacency list for each vertex
+        for (let i = 0; i < vertices; i++) {
+            this.graph[i] = new Array(vertices).fill(0);
+        }
+    }
+
+    /**
+    * Add an edge to the flow network with a given capacity
+    * @param {number} u - Source vertex
+    * @param {number} v - Destination vertex
+    * @param {number} capacity - Maximum flow capacity of the edge
+    */
+    addEdge(u, v, capacity) {
+        this.graph[u][v] = capacity; // Forward edge capacity
+        this.graph[v][u] = 0; // Backward edge initially 0 (for residual graph)
+    }
+
+    /**
+    * Breadth-First Search to find if there's a path from source to sink with available capacity
+    * Also stores the path found in parent[] array
+    * @param {number} s - Source vertex
+    * @param {number} t - Sink vertex
+    * @param {number[]} parent - Array to store the path
+    * @returns {boolean} - True if path exists, False otherwise
+    */
+    bfs(s, t, parent) {
+        // Create a visited array and mark all vertices as not visited
+        const visited = new Array(this.V).fill(false);
+        
+        // Create a queue for BFS, enqueue source vertex
+        const queue = [];
+        queue.push(s);
+        visited[s] = true;
+        parent[s] = -1; // Source has no parent
+
+        // Standard BFS loop
+        while (queue.length > 0) {
+            const u = queue.shift();
+
+            // Explore all adjacent vertices
+            for (let v = 0; v < this.V; v++) {
+                // If vertex not visited and residual capacity > 0
+                if (!visited[v] && this.graph[u][v] > 0) {
+                    // If we reach the sink, we have a path
+                    if (v === t) {
+                        parent[v] = u;
+                        return true;
+                    }
+                    
+                    queue.push(v);
+                    parent[v] = u;
+                    visited[v] = true;
+                }
+            }
+        }
+
+        // We didn't reach the sink
+        return false;
+    }
+
+    /**
+    * Main function implementing Ford-Fulkerson algorithm
+    * @param {number} source - Source vertex
+    * @param {number} sink - Sink vertex
+    * @returns {number} - Maximum flow from source to sink
+    */
+    fordFulkerson(source, sink) {
+        // Validate input
+        if (source < 0 || source >= this.V || sink < 0 || sink >= this.V) {
+            throw new Error("Invalid source or sink vertex");
+        }
+        if (source === sink) {
+            return 0; // No flow if source and sink are same
+        }
+
+        // This array is filled by BFS and stores path
+        const parent = new Array(this.V).fill(-1);
+        let maxFlow = 0; // Initialize max flow to 0
+
+        // Augment the flow while there is path from source to sink
+        while (this.bfs(source, sink, parent)) {
+            // Find minimum residual capacity of the edges along the path
+            let pathFlow = Infinity;
+            
+            // Traverse from sink to source using parent array
+            for (let v = sink; v !== source; v = parent[v]) {
+                const u = parent[v];
+                pathFlow = Math.min(pathFlow, this.graph[u][v]);
+            }
+
+            // Update residual capacities of the edges and reverse edges
+            for (let v = sink; v !== source; v = parent[v]) {
+                const u = parent[v];
+                // Subtract path flow from forward edge
+                this.graph[u][v] -= pathFlow;
+                // Add path flow to reverse edge
+                this.graph[v][u] += pathFlow;
+            }
+
+            // Add path flow to overall flow
+            maxFlow += pathFlow;
+        }
+
+        return maxFlow;
+    }
+}
+
+
+function main() {
+    // Create a flow network with 6 vertices (0 to 5)
+    const g = new FlowNetwork(6);
+
+    // Add edges with capacities
+    g.addEdge(0, 1, 16); // s -> v1
+    g.addEdge(0, 2, 13); // s -> v2
+    g.addEdge(1, 2, 10); // v1 -> v2
+    g.addEdge(1, 3, 12); // v1 -> v3
+    g.addEdge(2, 1, 4);  // v2 -> v1
+    g.addEdge(2, 4, 14); // v2 -> v4
+    g.addEdge(3, 2, 9);  // v3 -> v2
+    g.addEdge(3, 5, 20); // v3 -> t
+    g.addEdge(4, 3, 7);  // v4 -> v3
+    g.addEdge(4, 5, 4);  // v4 -> t
+
+    const source = 0; // Source vertex (s)
+    const sink = 5;   // Sink vertex (t)
+
+    console.log("Running Ford-Fulkerson algorithm...");
+    const maxFlow = g.fordFulkerson(source, sink);
+    console.log(`The maximum possible flow from ${source} to ${sink} is: ${maxFlow}`);
+}
+
+main();
+</code></pre>
+      </div>
+    </div>
+
+
+    <h1 class="mt-6 text-xl font-serif">Here's my few notes on graphs and why am I investing my time in graphs </h1>
+    <p class="mt-4 text-lg font-serif">Web search engines model the internet as a massive directed graph where web pages are vertices and hyperlinks are edges. Google's PageRank algorithm uses this graph structure to determine page importance based on the link structure, revolutionizing how we find information online.</p>
+
+    <p class="mt-4 text-lg font-serif">After spending so much time with machine learning algorithms and neural network,  ml on graphs is an ongoing thing which everyone should once go through, with graph neural networks learning representations directly from graph structure. This opens new possibilities for problems like node classification, link prediction, and graph generation.</p>
+
+
+    <p class="mt-4 text-lg font-serif">This is all from myside on Graphs. Hope I was able to add few value to your today's learning :) </p>
+
+
+
     <hr class="my-10" />
     <footer class="my-8">
       <div class="flex justify-between items-center">
