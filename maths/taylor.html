@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taylor Series Convergence</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VP1VKLPKJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-4VP1VKLPKJ");
+    </script>
+  </head>
+  <body class="bg-orange-100 w-full max-w-[95%] md:w-[75%] mx-auto">
+    <nav class="mt-6">
+      <div>
+        <h1 class="font-serif text-4xl">Mrinal's Blog</h1>
+        <div class="mt-5 flex flex-wrap gap-5">
+          <a
+            href="../index.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Home</a
+          >
+          <a
+            href="./blog.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Blogs</a
+          >
+          <a
+            href="../research-notes/research.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Research Notes</a
+          >
+          <a
+            href="../maths/maths.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Maths</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <hr class="mt-3" />
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">
+      Understanding Taylor Series Convergence
+    </h1>
+    <span class="text-sm text-gray-500">9th July, 2025</span>
+
+    <p class="font-serif mt-3 text-lg">
+      The more research paper related to ML I read the more I see these topics
+      out here, will try to explain everything I have ever learned or
+      implemented through this.
+    </p>
+
+    <img src="./assets/banner.png" class="my-10" alt="" />
+
+    <p class="text-lg font-serif text-lg">
+      Today we will talk about one of the most important questions (I have ever
+      came across is) How do we prove that a taylor series actually converges to
+      the function it's supposed to represent ??
+    </p>
+
+    <p class="text-lg font-serif text-lg">
+      This isn't just academic curiosity for me but in machine learning taylor
+      approximations constantly, from optimization algorithms to neural network
+      activations. Understanding when and why these approximations work is
+      important for you and me to learn build a well conditioned system.
+    </p>
+
+    <h1 class="text-2xl font-serif my-4">Basics first</h1>
+
+    <p class="text-lg font-serif text-lg">
+      <span class="font-bold">Taylor Series</span> is something that simplifies
+      complex functions like \(sin(x)\) or taking exponential like \(e^x\) into
+      a sum of simple polynomial terms (like \(x, x^2, x^3\) and so on).
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      In simple words this is like a single point on the function, like \(x=0 \)
+      , and you want to describe the whole function just by knowing what’s
+      happening right there. The Taylor series uses the function’s value, its
+      slope (first derivative), its curvature (second derivative), and higher
+      derivatives at that point to build a polynomial that mimics the function.
+      The formula goes something like this. \[f(x) \approx f(a) + f'(a)(x - a) +
+      \frac{f''(a)}{2}(x - a)^2 + \frac{f'''(a)}{6}(x - a)^3 + \cdots\] If the
+      point is a=0 , it’s called a Maclaurin series, so the Maclaurin series for
+      \(e^x\) is \[e^x \approx 1 + x + \frac{x^2}{2} + \frac{x^3}{6} + \cdots\]
+      Add more terms, and the polynomial gets closer to real \(e^x\), especially
+      near \(x = 0\).
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      Does this polynomial, as you keep adding terms, actually become the
+      function ?? <span class="font-bold">Convergence</span> describes whether
+      the Taylor series actually equals the function as you add more terms. A
+      series converges if the sum of its terms approaches the function’s value
+      as the number of terms goes to infinity. The interval of convergence is
+      the range of ( x )-values where this happens. ...
+    </p>
+
+    <ul class="ml-4 list-disc font-serif text-lg mt-3">
+      <li>
+        Some series, like the Taylor Series for \(e^x\), converges for all (x).
+      </li>
+      <li class="my-2">
+        Others, like the series for \(ln(1 + x)\). only converge within a
+        specific range (example : -1 < x ≤ 1)
+      </li>
+      <li class="my-2">
+        The radius of convergence can often be found using the ratio test,
+        checking the limit of the ratio of consecutive terms’ coefficients.
+      </li>
+    </ul>
+
+    <p class="text-lg font-serif mt-3">
+      This is what convergence looks like we have taken 6.0 as the x value so
+      according to first rule it will converge.
+    </p>
+
+    <img src="./assets/convergence.png" class="my-10 rounded-xl" alt="" />
+
+    <p class="text-lg font-serif mt-3">
+      Okay so coming back to our main question which is
+    </p>
+
+    <h1 class="font-serif text-2xl my-6">
+      How Do We Determine Taylor Series Convergence?
+    </h1>
+    <p class="text-lg font-serif mt-2">
+      To determine if a Taylor series converges to the function, we need to
+      check two things:
+    </p>
+
+    <ul class="list-decimal mt-3 font-serif ml-4 text-lg">
+      <li>the series converges (i.e., the sum approaches a finite value)</li>
+      <li class="my-2">
+        the sum equals the function ( f(x) ). Convergence is often analyzed
+        using the radius of convergence, and equality is verified using the
+        remainder term.
+      </li>
+    </ul>
+
+    <p class="font-serif text-lg mt-3">
+      The radius of convergence is found using the ratio test for the series
+      <span class="text-xl">\(\sum a_n x^n\)</span>, where
+      <span class="text-xl">\( a_n = \frac{f^{(n)}(a)}{n!} \)</span>. If the
+      limit
+      <span class="text-xl"
+        >\[ \lim_{n \to \infty} \left| \frac{a_{n+1}}{a_n} \right| = L, \]</span
+      >
+
+      exists, the series converges for \( |x| < \frac{1}{L} \). If ( L = 0 ),
+      the series converges for all (x).
+    </p>
+
+    <p class="font-serif text-lg mt-3">
+      For \( e^x \), the series is
+      <span class="text-xl">\( \sum_{n=0}^{\infty} \frac{x^n}{n!} \)</span>, so
+      \( a_n = \frac{1}{n!} \). Compute the ratio: \[ \left| \frac{a_{n+1}}{a_n}
+      \right| = \frac{\frac{1}{(n+1)!}}{\frac{1}{n!}} = \frac{n!}{(n+1)!} =
+      \frac{1}{n+1} \to 0 \text{ as } n \to \infty. \] Since ( L = 0 ), the
+      series converges for all ( x ). However, convergence alone isn’t enough—we
+      need to ensure the sum equals \( e^x \).
+    </p>
+
+    <p class="font-serif text-lg mt-3">Moving onto our next question we have</p>
+
+    <h1 class="font-serif text-2xl my-7">
+      How Do We Prove the Taylor Series Equals the Function?
+    </h1>
+
+    <p class="font-serif text-lg mt-3">
+      To prove the Taylor series equals the function, we use the remainder term.
+      The ( n )-th partial sum of the Taylor series is: \[ s_n(x) =
+      \sum_{k=0}^{n} \frac{f^{(k)}(a)}{k!} (x - a)^k. \]
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      The remainder is \( R_n(x) = f(x) - s_n(x) \). For the series to equal \(
+      f(x) \), we need: \[ \lim_{n \to \infty} R_n(x) = 0. \] Lagrange’s form of
+      the remainder is: \[ R_n(x) = \frac{f^{(n+1)}(c)}{(n+1)!} (x - a)^{n+1},
+      \]
+    </p>
+
+    <p class="font-serif text-lg mt-3">
+      where \( c \) is some point between \( a \) and \( x \). For \( e^x \) at
+      \( a = 0 \) ==> \( f^{(n+1)}(x) = e^x \), so \( f^{(n+1)}(c) = e^c \). The
+      remainder is: \[ R_n(x) = \frac{e^c}{(n+1)!} x^{n+1}, \] where \( c \) is
+      between 0 and \( x \). Since \( e^c \leq e^{|x|} \) (as \( c \leq |x| \)),
+      we have: \[ |R_n(x)| \leq \frac{e^{|x|}}{(n+1)!} |x|^{n+1}. \] As \( n \to
+      \infty \), \( (n+1)! \) grows factorially, so \( |R_n(x)| \to 0 \) for any
+      fixed \( x \). Thus, the series converges to \( e^x \).
+    </p>
+
+    <h1 class="text-2xl font-serif my-4">
+      Does the Approach Work for \( \sin(x) \) and \( \cos(x) \)?
+    </h1>
+
+    <p class="text-lg font-sherif mt-2">
+      The approach applies to \( \sin(x) \) and \( \cos(x) \). Let’s derive the
+      Maclaurin series for \( \sin(x) \):
+    </p>
+
+    <ul class="list-disc ml-6 font-serif text-lg mt-4">
+      <li>\( f(x) = \sin(x) \), so \( f(0) = 0 \)</li>
+      <li>\( f'(x) = \cos(x) \), so \( f'(0) = 1 \)</li>
+      <li>\( f''(x) = -\sin(x) \), so \( f''(0) = 0 \)</li>
+      <li>\( f'''(x) = -\cos(x) \), so \( f'''(0) = -1 \)</li>
+      <li>
+        The pattern alternates: \( f^{(n)}(0) = \sin(n\pi/2) \), giving 0, 1, 0,
+        -1
+      </li>
+    </ul>
+
+    <p class="font-serif text-lg mt-3">
+      The series is \[ \sin(x) = \sum_{n=0}^{\infty} \frac{(-1)^n
+      x^{2n+1}}{(2n+1)!} = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots. \] For
+      convergence, apply the ratio test to the non-zero terms
+      <span class="text-xl">\( a_n = \frac{(-1)^n}{(2n+1)!} x^{2n+1} \)</span>:
+      \[ \left| \frac{a_{n+1}}{a_n} \right| = \frac{|x|^{2n+3} /
+      (2n+3)!}{|x|^{2n+1} / (2n+1)!} = \frac{|x|^2}{(2n+3)(2n+2)} \to 0. \]
+    </p>
+
+    <p class="font-serif text-lg mt-3">
+      The series converges for all \( x \). For the remainder, \( |f^{(n+1)}(c)|
+      = |\sin(c)| \leq 1 \) or \( |\cos(c)| \leq 1 \), so: \[ |R_n(x)| \leq
+      \frac{|x|^{n+1}}{(n+1)!} \to 0. \] Similarly, for \( \cos(x) \), the
+      series is: \[ \cos(x) = \sum_{n=0}^{\infty} \frac{(-1)^n x^{2n}}{(2n)!},
+      \] with the same convergence properties. Thus, both converge to their
+      functions for all \( x \).
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      <span class="italic">Note the pattern</span> : \(e^x\), sin(x), and cos(x)
+      all have the property that their derivatives don't grow too fast. For
+      \(e^x\), the derivatives grow exponentially, but the factorial in the
+      denominator grows even faster. For sin(x) and cos(x), the derivatives are
+      bounded by 1.
+      <br />
+      Moving to our next question which you might have ...
+    </p>
+
+    <h1 class="text-2xl font-serif my-6">When Taylor Series Fail</h1>
+
+    <p class="text-lg font-serif mt-3">
+      Some functions have Taylor series that converge only within a limited
+      interval or not to the function itself. For example, consider \( f(x) =
+      \frac{1}{1+x^2} \). Its Maclaurin series is: \[ \sum_{n=0}^{\infty} (-1)^n
+      x^{2n}, \] which converges for \( |x| < 1 \) (by the ratio test). Outside
+      this interval, the series diverges, unlike the function, which is defined
+      for all \( x \).
+    </p>
+
+    <div class="my-10">
+      <img src="./assets/fail.png" class="" alt="" />
+      <p class="font-serif text-sm text-gray-500 text-center">
+        The graph will clearly illustrate how the Maclaurin series approximates
+        the function well within \( |x| < 1 \).
+      </p>
+    </div>
+
+    <p class="text-lg font-serif mt-3">
+      Another example is \( f(x) = e^{-1/x^2} \) for \( x \neq 0 \), and \( f(0)
+      = 0 \). All derivatives at \( x = 0 \) are zero, so the Taylor series is
+      identically zero, but \( f(x) \neq 0 \) for \( x \neq 0 \). Thus, the
+      series doesn’t represent the function except at \( x = 0 \).
+    </p>
+
+    <p class="text-lg font-serif mt-3">But</p>
+
+    <h1 class="text-2xl font-serif my-6">
+      How do we actually use these convergence proofs in practice?
+    </h1>
+
+    <p class="text-lg font-serif mt-3">
+      In neural networks, we often use activation functions like \( \tanh(x) \) or
+      sigmoid functions. These can be computed using Taylor series, but there's
+      a clever trick: instead of computing the series directly, we often use the
+      fact that these functions satisfy simple differential equations. For
+      instance, the sigmoid function \( \sigma(x) = \frac{1}{1+e^{-x}} \) is
+      related to \( \tanh(x) \) by \( \sigma(x) = \frac{1+\tanh(x/2)}{2} \). And \(
+      \tanh(x) \) can be computed efficiently using its Taylor series, especially
+      for small \( x \).
+    </p>
+
+     <p class="text-lg mt-4 font-serif">Hope I was able to add value to your today's learning goal !! Happy Learning ..</p>
+
+    <hr class="my-10" />
+    <footer class="my-8">
+      <div class="flex justify-between items-center">
+        <p>By Mrinal</p>
+
+        <a href="https://buymeacoffee.com/mrinalxdev">BuyMeACoffee</a>
+      </div>
+    </footer>
+  </body>
+</html>
