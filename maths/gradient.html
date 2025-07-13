@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Gradients 101</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VP1VKLPKJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-4VP1VKLPKJ");
+    </script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <style>
+      /* html {
+        scroll-behavior: smooth;
+      } */
+    </style>
+  </head>
+  <body class="bg-orange-100 w-full max-w-[97%] md:w-[65%] mx-auto">
+    <nav class="mt-6">
+      <div>
+        <h1 class="font-serif text-4xl">Mrinal's Blog</h1>
+        <div class="mt-5 flex flex-wrap gap-5">
+          <a
+            href="../index.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Home</a
+          >
+          <a
+            href="../blogs/blog.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Blogs</a
+          >
+          <a
+            href="../research-notes/research.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Research Notes</a
+          >
+
+          <a
+            href="../maths/maths.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Maths</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <hr class="mt-3" />
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">Understanding Gradients</h1>
+    <span class="text-sm text-gray-500">13th July, 2025</span>
+
+    <p class="mt-3 font-serif text-lg">
+      From the simplest linear regression to the most complex neural networks,
+      this concept serves as the backbone of how machines learn from data. But
+      what exactly drives this learning process, and how do algorithms
+      automatically improve their predictions?
+    </p>
+
+    <img src="./assets/gradients/banner.png" class="my-10" alt="" />
+
+    <h1 class="text-2xl font-serif my-7">The Foundation</h1>
+    <p class="text-lg font-serif mt-2">
+      To answer this question, we must first understand the concept of
+      gradients. In mathematics, a gradient represents the direction and rate of
+      steepest increase of a function.
+    </p>
+    <p class="text-lg font-serif mt-2">
+      In machine learning, we work with functions that have multiple variables -
+      often thousands or millions of them. These functions typically represent
+      the "loss" or "error" of our model. The gradient of such a function tells
+      us how changing each variable would affect the overall error. It's a
+      vector that points in the direction of steepest increase, with each
+      component representing the rate of change with respect to one specific
+      variable.
+    </p>
+
+    <img src="./assets/gradients/graph-2.png" class="my-10" alt="" />
+
+    <p class="text-lg font-serif mt-3">
+      Mathematically, for a function \(f(x_1, x_2, x_3, ..., x_n)\) \[\nabla f =
+      \left( \frac{\partial f}{\partial x_1}, \frac{\partial f}{\partial x_2},
+      \ldots, \frac{\partial f}{\partial x_n} \right)\]
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      But what exactly are these partial derivatives that make up the gradient,
+      and why are they so crucial for optimization?
+    </p>
+
+    <h1 class="text-2xl font-serif my-7">Partial Derivatives</h1>
+
+    <p class="text-lg font-serif mt-2">
+      Partial derivatives are the fundamental components of gradients. When we
+      have a function that depends on multiple variables, a partial derivative
+      tells us how the function changes when we modify just one variable while
+      keeping all others constant.
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      Lets take a simple example : Like we have a function \(f(x,y) = x^2 + 2xy
+      + y^2\). The partial derivative with respect to \(x\) is \( \frac{\partial
+      f}{\partial x} = 2x + 2y \) which tells us how \( f \) changes as we
+      increase \( x \) while keeping \( y \) fixed. Similarly, \(\frac{\partial
+      f}{\partial y} = 2x + 2y\) tells us how \(f\) changes as we modify \(y\)
+      while keeping \(x\) constant.
+    </p>
+
+    <img src="./assets/gradients/graph3.png" class="my-10" alt="" />
+
+    <p class="text-lg font-serif mt-3">
+      In machine learning, these partial derivatives have a direct
+      interpretation. If our function represents the error of a model, then the
+      partial derivative with respect to a particular parameter tells us how
+      much the error would increase or decrease if we slightly adjusted that
+      parameter. This information is invaluable because it guides us toward
+      parameter values that minimize error.
+    </p>
+
+    <p class="font-serif text-lg mt-3">
+      PDE's are mainly used for their computational efficiency. Using techniques
+      like backpropagation in neural networks, we can compute these derivatives
+      for millions of parameters simultaneously. But knowing the direction of
+      steepest increase is only half the knowledge .... how do we use this
+      information to actually minimize our loss function?
+    </p>
+
+    <h1 class="text-2xl font-serif my-7">The Core Algorithm</h1>
+
+    <p class="font-serif text-lg mt-3">
+      Here's where gradient descent comes into play. Since gradients point in
+      the direction of steepest increase, we can minimize a function by moving
+      in the opposite direction, the direction of steepest decrease. This is the
+      fundamental insight behind gradient descent.
+    </p>
+
+    <p class="font-serif text-lg mt-3">the algorithm is simple</p>
+
+    <ul class="font-serif text-lg mt-3 ml-5 list-disc">
+      <li>Starting with initial parameter values</li>
+      <li class="my-4">
+        Compute the gradient of the loss function at the current position
+      </li>
+      <li class="my-3">Move in the opposite direction of the gradient</li>
+      <li>Repeat until convergence</li>
+    </ul>
+
+    <p class="text-lg font-serif mt-3">
+      Mathematically, the update rule is \(\theta = \theta - \alpha \nabla
+      J(\theta) \)
+      <br />
+      Where \(\theta\) represents our parameters, \(\alpha\) is the learning
+      rate (step size), and \(\nabla J(\theta)\) is the gradient of our loss
+      function J.
+    </p>
+
+    <p class="text-lg font-serif mt-3">
+      The learning rate \(\alpha\) is crucial too large, and we might overshoot
+      the minimum; too small and convergence will be painfully slow. Its like
+      determining how big steps you take while walking down when mom came from
+      market. But how exactly does this abstract concept apply to real machine
+      learning problems?
+    </p>
+
+    <h1 class="text-2xl font-serif my-7">Practical Implementation</h1>
+
+    <p class="text-lg font-serif">
+      Let's see how gradient descent works in linear regression, one of the
+      simplest yet most important machine learning algorithms. In linear
+      regression, we're trying to find the best line (or hyperplane) that fits
+      our data.
+    </p>
+
+    <p class="font-serif text-lg mt-3">
+      For a simple case with one feature, our model is: \[ \hat{y} = \theta_0 +
+      \theta_1 x \] Our loss function is typically the Mean Squared Error (MSE):
+      \[ J(\theta_0, \theta_1) = \frac{1}{2m} \sum_{i=1}^m (\hat{y}_i - y_i)^2
+      \] To minimize this loss, we need the partial derivatives: \[
+      \frac{\partial J}{\partial \theta_0} = \frac{1}{m} \sum_{i=1}^m (\hat{y}_i
+      - y_i) \] \[ \frac{\partial J}{\partial \theta_1} = \frac{1}{m}
+      \sum_{i=1}^m (\hat{y}_i - y_i) x_i \]
+    </p>
+
+    <p class="font-serif text-lg mt-3">
+      These derivatives tell us how to adjust our parameters. If the partial
+      derivative with respect to θ₁ is positive, it means increasing θ₁ would
+      increase our error, so we should decrease it. The gradient descent
+      algorithm automatically makes these adjustments, iteratively improving our
+      model's fit to the data.
+    </p>
+
+    <p class="mt-4 text-lg font-serif">
+      This is all from myside on Gradients. Hope I was able to add few
+      value to your today's learning :)
+    </p>
+
+    <hr class="my-10" />
+    <footer class="my-8">
+      <div class="flex justify-between items-center">
+        <p>By Mrinal</p>
+
+        <a href="https://buymeacoffee.com/mrinalxdev">BuyMeACoffee</a>
+      </div>
+    </footer>
+  </body>
+</html>
