@@ -650,41 +650,43 @@ void return_connection(connection_pool_t *pool, int sockfd) {
       approach significantly improves performance for file serving applications.
     </p>
 
-
-    <p class="text-lg my-4 font-serif">Network programming is ultimately about enabling communication between processes, whether they're on the same machine or across the globe. Hope I was able to add value to your today's learning :)</p>
-
     <details class="my-6 bg-gray-700 text-gray-100 rounded-lg overflow-x-auto">
       <summary class="p-4 cursor-pointer font-serif text-lg outline-none">
         Zero Copy operations
       </summary>
       <pre class="font-mono text-sm p-4">
-<code class="language-c">#include <sys/sendfile.h>
-
-// Use sendfile() for efficient file transfers
-ssize_t send_file_efficient(int out_fd, int in_fd, off_t offset, size_t count) {
-    return sendfile(out_fd, in_fd, &offset, count);
-}
-
-// Use splice() for pipe-to-socket transfers (Linux)
-ssize_t splice_data(int fd_in, int fd_out, size_t len) {
-    int pipefd[2];
-    pipe(pipefd);
-    
-    // Move data from input to pipe
-    ssize_t bytes_in = splice(fd_in, NULL, pipefd[1], NULL, len, SPLICE_F_MOVE);
-    
-    // Move data from pipe to output
-    ssize_t bytes_out = splice(pipefd[0], NULL, fd_out, NULL, bytes_in, SPLICE_F_MOVE);
-    
-    close(pipefd[0]);
-    close(pipefd[1]);
-    
-    return bytes_out;
-}
-</code>
-  </pre>
+        <code class="language-c">#include <sys/sendfile.h>
+          
+          // Use sendfile() for efficient file transfers
+          ssize_t send_file_efficient(int out_fd, int in_fd, off_t offset, size_t count) {
+            return sendfile(out_fd, in_fd, &offset, count);
+          }
+          
+          // Use splice() for pipe-to-socket transfers (Linux)
+          ssize_t splice_data(int fd_in, int fd_out, size_t len) {
+            int pipefd[2];
+            pipe(pipefd);
+            
+            // Move data from input to pipe
+            ssize_t bytes_in = splice(fd_in, NULL, pipefd[1], NULL, len, SPLICE_F_MOVE);
+            
+            // Move data from pipe to output
+            ssize_t bytes_out = splice(pipefd[0], NULL, fd_out, NULL, bytes_in, SPLICE_F_MOVE);
+            
+            close(pipefd[0]);
+            close(pipefd[1]);
+            
+            return bytes_out;
+          }
+        </code>
+      </pre>
     </details>
 
+    <p class="text-lg my-4 font-serif">
+      Network programming is ultimately about enabling communication between
+      processes, whether they're on the same machine or across the globe. Hope I
+      was able to add value to your today's learning :)
+    </p>
     <hr class="my-10" />
     <footer class="my-8">
       <div class="flex justify-between items-center">
