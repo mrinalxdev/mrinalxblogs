@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Distributed Systems 101</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VP1VKLPKJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-4VP1VKLPKJ");
+    </script>
+  </head>
+  <body class="bg-orange-100 w-full max-w-[95%] md:w-[60%] mx-auto">
+    <nav class="mt-6">
+      <div>
+        <h1 class="font-serif text-4xl">Mrinal's Blog</h1>
+        <div class="mt-5 flex flex-wrap gap-5">
+          <a
+            href="../index.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Home</a
+          >
+          <a
+            href="./blog.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Blogs</a
+          >
+          <a
+            href="../research-notes/research.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Research Notes</a
+          >
+          <a
+            href="../maths/maths.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Maths</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <hr class="mt-3" />
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">
+      Distributed Systems 101 : From a Beginners POV
+    </h1>
+    <span class="text-sm text-gray-500">8th August, 2025</span>
+
+    <p class="text-lg font-serif mt-6">
+      Distributed Systems is one best topics which I encounter on daily basis. A
+      collection of computers or nodes which are independent have to work
+      together to perform a task, isn't this alone so much interesting to know
+      how does it all work behind the scene ??
+    </p>
+
+    <img
+      src="./assets/distributed-systems/banner.png"
+      class="w-[70%] mx-auto my-10"
+      alt=""
+    />
+
+    <h1 class="text-2xl font-serif">The Foundation</h1>
+
+    <p class="text-lg font-serif mt-4">
+      For the very simple start, distributed system is a collection of
+      independent computers or we also call it nodes, that appear to users as a
+      single coherent (as one) system. These computers communicate over a
+      network to coordinate their actions and share resources.
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      But the fundamental challenge is making multiple independent computers
+      work together seamlessly while dealing with network delays, failures and
+      inconsistency
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      Cool isn't it, but what happens when these independent computers can't
+      agree on something ?? What happens then ??
+    </p>
+
+    <h1 class="text-2xl font-serif my-7">
+      Why distributed systems can't be perfect ?
+    </h1>
+
+    <p class="text-lg font-serif">
+      When independent computers in a distributed system can't agree, it creates
+      a conflict that must be resolved to main system reliability. This
+      challenge is addressed by the CAP theorem, which states that a distributed
+      system can only guarantee two out of three properties which is
+      <span class="font-bold">Consistency</span> this ensure all nodes have the
+      same data at the same time,
+      <span class="font-bold">Availability</span> ensures every request receives
+      a response, and <span class="font-bold">Partition Tolerance</span> ensures
+      the system continues to operate despite network failures. Now according to
+      this theorem we need to have 2/3 ratio and sacrifice one :(
+    </p>
+
+    <img
+      src="./assets/distributed-systems/cap.png"
+      class="w-[60%] my-10 mx-auto"
+      alt=""
+    />
+
+    <p class="text-lg font-serif">
+      Here comes another one, network partition (P) will happen in any real
+      distributed system. Internet get cut, routers fail, data centers lose
+      connectivity. So we must choose between C and A
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      Consistency focused systems (CP), like banking databases, ensures all
+      nodes have the same accurate data, such as correct account balances, even
+      if it means temporarily halting operations during a failure (that means
+      sacrificing A of CAP). For example, MongoDB stops accepting updates during
+      network issues to maintain data accuracy
+    </p>
+
+    <img src="./assets/distributed-systems/CP.png" class="my-10" alt="" />
+
+    <p class="text-lg font-serif">
+      Whereas, Availability focused systems like DNS or Amazon's shopping cart,
+      keep operating despite failure, even if it risks delivering slightly
+      outdated information (that means sacrificing C of CAP). For example an old
+      IP address or an inconsistent cart count
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      Everything is cool, but if we have to choose between consistency and
+      availability, how do we actually make that choice in practice?
+    </p>
+
+    <h1 class="text-2xl font-serif my-6">
+      The Spectrum of "Good Enough" | Consistency Models
+    </h1>
+
+    <p class="text-lg font-serif">
+      The answer lies in selecting the right consistency model a set of rules
+      defining how “consistent” the system’s data needs to be. Different
+      applications have different needs. <span>Strong Consistency</span> ensures
+      that every read retrieves the latest write, providing a unified view of
+      data across all nodes. This is serious for systems like banking databases,
+      where showing an outdated account balance could cause serious issues.
+      Traditional databases like PostgreSQL often use this model, but it comes
+      at a cost: slower response times and reduced availability during network
+      issues, as the system waits to ensure all nodes agree. <br />
+      <span class="font-bold">Eventual Consistency</span> prioritizes
+      availability, allowing temporary differences in data across nodes, with
+      the promise that updates will sync over time. For example, in Amazon’s
+      DynamoDB or email systems, a sent message might take a moment to appear
+      everywhere, but the system stays operational. This model suits
+      applications where slight delays are acceptable, offering high
+      availability and the ability to scale easily. <br />
+      <span class="font-bold">Casual Consistency</span> ensures that events with
+      a cause-and-effect relationship are seen in the correct order. Like on
+      social media platforms, everyone sees a reply after its original post, but
+      unrelated posts might appear in different orders for different users. This
+      strikes a balance between strict consistency and flexibility, maintaining
+      logical order for related actions without requiring instant global
+      agreement. <br />
+      <span class="font-bold">Session Consistency</span> ensures that within a
+      single user session, a user sees their own changes immediately. For
+      example, when we upload a photo to a platform like Facebook, we see it
+      right away, even if it takes a moment to appear for others. This model
+      enhances user experience by prioritizing personal consistency while
+      allowing slight delays for others. <br />
+      <span></span>
+    </p>
+
+    <p class="text-lg font-serif mt-4">Why "Eventual Consistency" wins ??</p>
+
+    <p class="text-lg font-serif mt-4">
+      Most successful companies, especially those operating at massive scale,
+      lean toward eventual consistency. Why? Users rarely notice brief delays in
+      data syncing, and the high availability and scalability it offers outweigh
+      the need for instant consistency in many cases. Systems like Amazon’s
+      shopping cart or WhatsApp prioritize staying online and responsive, even
+      if it means occasional, minor inconsistencies. By carefully choosing a
+      consistency model that aligns with their priorities, companies ensure
+      their distributed systems are both reliable and efficient, meeting user
+      needs without overcomplicating the infrastructure.
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      This makes sense, but how do we actually implement these consistency
+      guarantees ?? What happens under the hood when we're trying to keep data
+      synchronized across multiple machines?
+    </p>
+
+    <h1 class="font-serif text-2xl my-7">Getting Computers to Agree | Consensus Algorithms</h1>
+
+    <p class="text-lg font-serif">Here consensus algorithms work in, they are the mechanisms that allow nodes to agree on shared state, even when some are unreliable. Consensus algorithms ensure everyone ends up on the same page</p>
+
+    <p class="text-lg font-serif mt-4">The challenge, often called the Byzantine Generals Problem, tells the core issue: a group of generals (nodes) must agree to attack or retreat together, but some messages might get lost, and some generals could even act maliciously. In distributed systems, nodes face similar obstacles—network delays, crashes, or even intentional sabotage and still need to reach a unified decision.</p>
+
+    <p class="text-lg font-serif mt-4">One widely used solution is the <span class="font-bold">Raft algorithm</span>, which simplifies consensus by electing a leader. The process works in three steps: nodes vote to select a leader, the leader handles all client requests and replicates them to follower nodes, and changes are finalized only when a majority of nodes confirm they’ve received them. For example <span class="font-bold">etcd</span>, a key-value store used by Kubernetes, relies on Raft to maintain consistent cluster state across nodes, ensuring reliable coordination even if some nodes fail.</p>
+
+    <p class="text-lg font-serif mt-3">Another approach is the <span class="font-bold">Paxos algorithm</span>, favored in academic settings and used by systems like Google’s Chubby lock service. Paxos is robust, handling complex failure scenarios, but it’s harder to implement due to its complexity. <br> <Wbr></Wbr>here malicious nodes are a concern, like in blockchain, the <span class="font-bold">Practical Byzantine Fault Tolerance (PBFT)</span> algorithm steps in. PBFT ensures agreement even when some nodes behave dishonestly, though it’s slower and more resource-intensive.</p>
+
+    <p class="text-lg font-serif mt-3">Few Notes on trade offs we are making while using these</p>
+
+    <p class="text-lg font-serif mt-3">Raft is fast and straightforward but assumes nodes fail innocently. PBFT handles malicious nodes but sacrifices speed. Proof of Work offers high security at the cost of efficiency.</p>
+
+    <p class="text-lg font-serif mt-3">Okay, so we can get computers to agree on things, but what about the actual data ?? How do we store and retrieve information across multiple machines efficiently ??</p>
+
+    <h1 class="text-2xl font-serif my-7">Data Partitioning and Sharding</h1>
+
+    <p class="text-lg font-serif">I have written an overview of data partitioning in this blog <a class="italic underline underline-offset-4" href="./system-design.html">System Design 101</a> you can check this out too. </p>
+
+    <p class="text-lg font-serif mt-4">To handle massive datasets in distributed systems, data partitioning or sharding splits information across multiple machines, enabling scalability and faster queries. <span class="font-bold">Range Based Partitioning</span> divides data into segments based on a key’s value range, such as sorting user records by surname. For example, one node might store surnames A–F, another G–M, and a third N–Z. This approach shines for range queries, like finding all users with surnames starting with “C,” as the system knows exactly which node to check. However, it can lead to uneven data distribution if some ranges are more populated like having many “Singh”s in one partition causing bottlenecks.</p>
+
+    <p class="text-lg font-serif mt-4"><span class="font-bold">Hash-Based Partitioning </span> uses a hash function to evenly distribute data across nodes. Like, a user ID might be hashed and assigned to one of several partitions, ensuring a balanced spread. If user ID 12345 hashes to partition 1 and 67890 to partition 3, the load stays roughly equal across nodes. This method excels for scalability and uniform data distribution, making it ideal for systems like Apache Cassandra.</p>
+
+    <img src="./assets/distributed-systems/hash-partition.png" class="w-[70%] my-10 mx-auto" alt="">
+
+    <p class="text-lg font-serif">The downside? Range queries become slower, as the system may need to check all partitions, since hashed values don’t preserve order.</p>
+
+    <p class="text-lg font-serif mt-4"><span class="font-bold">Directory Based Partitioning</span> relies on a lookup service to track where each piece of data is stored. Instead of calculating a partition based on the data itself, the system queries a directory to find the right node. Amazon’s DynamoDB uses this approach to route data efficiently using partition keys. This method offers flexibility, as it can adapt to complex data placement needs, but the lookup service must be fast and reliable to avoid becoming a performance bottleneck.</p>
+
+    <p class="text-lg font-serif mt-3">All these are cool for storing data, but how do we ensure our data doesn't disappear when machines fail ??</p>
+
+
+    <h1 class="text-2xl font-serif my-7">Replication</h1>
+
+    <p class="text-lg font-serif">It plays as a major role, replication is technique that create multiple copies of data across different nodes to ensure fault tolerance. Like keeping copies of vital documents in a safe deposit box and the cloud, replication ensures your data remains accessible and secure even if a machine goes offline. </p>
+
+    <p class="text-lg font-serif mt-4">There are types of replications too (I am way too cooked while writing this)</p>
+
+    <p class="text-lg font-serif mt-4"><span class="font-bold">Master-Slave (Primary - Replica) Replication</span> <br> In this model, one primary server handles all write operations, while multiple replica servers handle read requests. The primary server sends updates to the replicas, which store copies of the data. For example, MySQL’s master-slave setup uses this approach. A client writes to the primary, and the changes are copied to replicas, from which clients can read. This setup is straightforward, ensures consistent writes through a single source of truth, and scales well for read-heavy workloads, but if the primary server fails, writes are disrupted until a new primary is chosen. Additionally, replication lag can lead to slightly outdated data on replicas</p>
+
+    
+    <img src="./assets/distributed-systems/master-slave.png" class="my-10 mx-auto" alt="">
+    <p class="text-lg font-serif mt-4"><span class="font-bold">Master - Master (Multi Primary) Replication</span> <br>
+    Here, multiple servers can handle both reads and writes, synchronizing changes between them. Systems like CouchDB or MySQL’s master-master configuration use this model, allowing clients to interact with any primary node. This is useful for geographically distributed systems, where users in different regions can write to nearby servers. This eliminates a single point of failure for writes and improves scalability for both reads and writes but synchronizing writes across multiple primaries can lead to conflicts, requiring complex resolution mechanisms, and managing the system is more challenging. 
+    </p>
+
+    <p class="text-lg font-serif mt-5"><span class="font-bold">Peer to Peer Replication</span> <br> 
+    In peer-to-peer replication, all nodes are equal, capable of handling both read and write requests, with data copied to multiple nodes. Systems like Apache Cassandra and Amazon DynamoDB use this approach, often relying on consensus algorithms to maintain consistency. Any node can serve client requests, and data is replicated to a set number of nodes for redundancy.
+    </p>
+
+    
+    <img src="./assets/distributed-systems/master-master.png" class="my-10 mx-auto" alt="">
+    <p class="font-serif text-lg">Small Note : MySQL’s master-slave setup is ideal for read-heavy applications, while Cassandra’s peer-to-peer model suits systems needing high availability across regions</p>
+
+    <p class="text-lg font-serif mt-4">replication protects our data, but what about when users are scattered across the globe ?? How do we serve them efficiently from the closes location ??</p>
+
+    <h1 class="text-2xl font-serif my-7">Content Delivery Network (CDNs)</h1>
+
+    <p class="text-lg font-serif">CDNs comes in clutch to deliver content from the closest possible location, slashing latency and performance. Like you can imagine the frustration of waiting for a webpage to load, CDNs solves this by bringing data closer to you.</p>
+
+    <img src="./assets/distributed-systems/cdn.png" class="mx-auto my-10" alt="">
+
+    <p class="text-lg font-serif">The problem starts with physics: data travels through fiber optic cables at about 200,000 km/second, which sounds fast but isn’t enough for today’s expectations. For instance, a round trip from New York to Sydney (~15,000 km) takes ~75ms just for light to travel, and with routing, processing, and queuing, you’re looking at 200–300ms of delay. Yet, users demand web pages to load in under 100ms. CDNs resolve this by acting like local coffee shops scattered worldwide, serving content quickly instead of relying on one distant central hub.</p>
+
+    <p class="text-lg font-serif mt-4">CDNs work by deploying edge servers, or Points of Presence (PoPs), in strategic locations: major cities like New York and Tokyo (Tier 1), regional hubs like Austin or Osaka (Tier 2), and even smaller cities for popular content (Tier 3). When a user requests content, like a video or webpage, the request goes to the nearest edge server. If the content is cached there, it’s served instantly. If not, the edge server fetches it from the origin server, caches it locally, and delivers it to the user, minimizing future delays.</p>
+
+    <img src="./assets/distributed-systems/cdn-working.png" class="w-[70%] my-10 mx-auto" alt="">
+
+    <p class="text-lg font-serif mt-3">CDNs works well with static content, like images, CSS, JavaScript files, videos, or software downloads, which can be cached for hours, days, or weeks since they rarely change. Dynamic content, like personalized web pages or real-time API responses, is trickier. Solutions like Edge-Side Includes (ESI) cache page templates while inserting dynamic parts, or caching different versions for user segments, help balance speed and accuracy.</p>
+
+    <p class="text-lg font-serif mt-3">Netflix serves 95% of its traffic through its custom CDN, Open Connect, with appliances in ISP data centers. Popular shows are pre-positioned worldwide based on predictive algorithms, ensuring fast streaming with minimal buffering. YouTube delivers billions of hours of video daily, caching popular videos at edge servers and adjusting quality based on your connection. Steam uses CDNs to distribute massive game downloads, saturating your connection while reducing strain on central servers.</p>
+
+    <p class="text-lg font-serif mt-3">There are challenges here too, one is known as <span class="font-bold">Cache Invalidation</span> updating cached content when the origin changes—is notoriously tough. Strategies like Time To Live (TTL) for automatic expiration, manual purging, or URL versioning help. <span class="font-bold">Cache coherence</span> is another different edge servers might hold different versions of content. Eventual consistency or regional cache hierarchies can address this.</p>
+
+
+    <p class="text-lg font-serif mt-6">All this from my side on Distributed System 101 : Part 1, for the part 2 I have some interesting topics to cover and some use cases to share which I learned during my internships. Hope I was able to make you learn something new today .. HAVE A GREAT DAY AHEAD :)</p>
+
+  
+    
+    <hr class="my-10" />
+    <footer class="my-8">
+      <div class="flex justify-between items-center">
+        <p>By Mrinal</p>
+
+        <a href="https://buymeacoffee.com/mrinalxdev">BuyMeACoffee</a>
+      </div>
+    </footer>
+  </body>
+</html>
