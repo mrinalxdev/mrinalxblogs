@@ -83,7 +83,7 @@
 
     <p class="font-serif text-lg mt-3">Third reason being <span class="font-bold">highly optimized C code and data structures</span>, redis is written in ANSI C, a language known for its performance. Beyond the language, it uses custom, highly-tuned data structures. For example, its Simple Dynamic String (SDS) and the various encodings for Hashes and Sets (like ziplists) are designed to minimize memory usage and CPU cycles for common operations, ensuring that not only is the data in RAM, but it's stored in the most efficient way possible.</p>
 
-    <p class="text-lg font-serif mt-4">You might get a question that redis must handle thougsand of concurrent client connections and execute commands with microsecond latency, what architectural mode allows it to manage this so effieciently??</p>
+    <p class="text-lg font-serif mt-4">You might get a question that redis must handle thousand of concurrent client connections and execute commands with microsecond latency, what architectural mode allows it to manage this so effieciently??</p>
 
     <h1 class="my-6 text-2xl font-serif">The single threaded nature</h1>
 
@@ -147,7 +147,7 @@
 
     <img src="./assets/redis/rdb.png" class="my-10" alt="">
 
-    <p class="text-lg font-serif">Here we need to maintain a realtime leaderboard where player scores are constantly updated and we need to display the top 10 players instantly. So here we can use redus as sorted set data structure to store player scores, each player score is added to the sorted set with their ID as the key and the score as the value this automatically sorts the scores so we can quickly retrieve the top 10 players using a single command like <span class="font-bold">ZREVRANGE leaderboard 0 9</span>. Redis can then process this data to disk using RDB or AOF to ensure durability. </p>
+    <p class="text-lg font-serif">Here we need to maintain a realtime leaderboard where player scores are constantly updated and we need to display the top 10 players instantly. So here we can use redis as sorted set data structure to store player scores, each player score is added to the sorted set with their ID as the key and the score as the value this automatically sorts the scores so we can quickly retrieve the top 10 players using a single command like <span class="font-bold">ZREVRANGE leaderboard 0 9</span>. Redis can then process this data to disk using RDB or AOF to ensure durability. </p>
 
     <p class="text-lg font-serif mt-4">What internal data structures and optimizations allow it to store complex data types with minimal overhead?</p>
 
