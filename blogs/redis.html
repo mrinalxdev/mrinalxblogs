@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redis 101</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VP1VKLPKJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-4VP1VKLPKJ");
+    </script>
+  </head>
+  <body class="bg-orange-100 w-full max-w-[95%] md:w-[60%] mx-auto">
+    <nav class="mt-6">
+      <div>
+        <h1 class="font-serif text-4xl">Mrinal's Blog</h1>
+        <div class="mt-5 flex flex-wrap gap-5">
+          <a
+            href="../index.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Home</a
+          >
+          <a
+            href="./blog.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Blogs</a
+          >
+          <a
+            href="../research-notes/research.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Research Notes</a
+          >
+          <a
+            href="../maths/maths.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Maths</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <hr class="mt-3" />
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">
+      Redis 101 : From a Beginners POV
+    </h1>
+    <span class="text-sm text-gray-500">8th August, 2025</span>
+
+    
+    <p class="text-lg font-serif mt-4">
+        Whenever I have talked about redis in my projects people woud think it as a cache to use . But redis is more than that we can use redis as rate limiter, message broker and as a database ... But what is even redis, why is it even so fast and how are we even using it . Raising all this question made me curious about this topic and so I want you to be ...
+    </p>
+
+
+    <img src="../blogs/assets/redis/banner.png" class="w-[750px] mx-auto my-10" alt="">
+
+    <h1 class="text-2xl font-serif">Foundation</h1>
+
+    <p class="font-serif mt-4 text-lg">Lets first start with <span class="font-bold">What is Cache</span> so its simple caching is like keeping frequently used items on your desk instead of fetching them from a storage room. Caching stores frequently accessed data in a temporary, high-speed storage layer, reducing latency and improving performance by minimizing redundant computations or database queries. Now Redis is our <span class="font-bold">high speed storage layer</span> stands for remote dictionary server, its a single threaded, in memory data structure storage model .. Which means unlike databases like PostgreSQL, MySQL which stores data on slower mechanical or solid state drives, redis keeps all its data in RAM. This means every read and write operation happens at memory speed wihtout the worrying about disk input / output </p>
+
+    <h1 class="text-2xl font-serif my-7">Why Redis is this fast ??</h1>
+
+    <p class="font-serif text-lg mt-3">There are three main pillers behind this speed, first being the <span class="font-bold">In Memory Data Storage</span>, this is the most significant factor as accessing data from RAM is orders of magnitude faster than from even the fastest SSDs or NVMe drives. Main memory access latency is typically in the nanosecond range, while disk access is in the microsecond to millisecond range. By keeping the entire dataset in RAM, redis eliminates biggest bottleneck in database systems which is disk I/O</p>
+
+    <img src="./assets/redis/ram.png" class="my-10" alt="">
+
+    <p class="font-serif text-lg mt-3">Second reason being <span class="font-bold">Single threaded command execution</span>, redis processes all commands on a single thread. This design avoids the overhead of multithreading. There are no locks to acquire, no context switching between threads and no race conditions to manage. The CPU can focus purely on executing commands sequentially without interruption, which is incredibly efficient for the workload Redis is designed for (many small, fast operations).</p>
+
+    <p class="font-serif text-lg mt-3">Third reason being <span class="font-bold">highly optimized C code and data structures</span>, redis is written in ANSI C, a language known for its performance. Beyond the language, it uses custom, highly-tuned data structures. For example, its Simple Dynamic String (SDS) and the various encodings for Hashes and Sets (like ziplists) are designed to minimize memory usage and CPU cycles for common operations, ensuring that not only is the data in RAM, but it's stored in the most efficient way possible.</p>
+
+    <p class="text-lg font-serif mt-4">You might get a question that redis must handle thougsand of concurrent client connections and execute commands with microsecond latency, what architectural mode allows it to manage this so effieciently??</p>
+
+    <h1 class="my-6 text-2xl font-serif">The single threaded nature</h1>
+
+    <img src="assets/concurrency/multi-threaded.png" class="my-10" alt="">
+
+    <p class="text-lg font-serif mt-3">The core of Redis's command processing is single threaded. This means it uses a single CPU core to process all incoming commands, parse them and execute them. This choice is intentional,as it eliminates the complexity and performance overhead of multithreading, such as lock contention, race condition and context switching</p>
+
+    <p class="text-lg font-serif mt-3">To handle concurrency, redis employes an event driven architecture using an <span class="font-bold">I/O multiplexing</span> mechanism. The main thread runs an event loop that uses system calls epoll, kqueue or IOCP to effieciently observe multiple network sockets</p>
+
+    <p class="text-lg font-serif mt-3">Lets take up a scene in which you are the only one who knows how to cook and chop veggies, but you can only chop one ingredient at a time(the single redis thread). But you have multiple assistants (your friends ofc) (the operating system's I/0 multiplexing features, like kqueue and IOCP). You told your friends to watch all these pots on the stove. The moment one is ready, they should inform you. All this to not waste your time standing and string at the pots. Instead you chop veggies, when one of your assistant shouts, "pot#3 is boiling !!" then you immediately stop what ever was being done, deal with that pot and then go back to chopping. So in this scenario <span class="font-bold">you</span> are the redis main event loop, <span class="font-bold">pots</span> are client connections and <span class="font-bold">your friends</span>  are the operating system's kernel, which efficiently notifies Redis when a client has sent a request or is ready to receive a response.</p>
+
+    <img src="./assets/redis/io.png" class="my-10" alt="">
+
+    <p class="text-lg font-serif mt-3">So this is what the actual process looks like : </p>
+
+    <ul class="font-serif text-lg list-disc ml-6 my-4">
+      <li>The event loop registers all client sockets with the multiplexing API.</li>
+      <li>The API notifies the Redis event loop only when a socket is ready for an I/O operation (e.g., a client has sent data, or a TCP buffer is ready to receive a response).</li>
+      <li>The single thread then processes the ready event: it reads the command from the socket, parses it, executes it, and writes the response back to the socket.</li>
+    </ul>
+
+    <p class="text-lg font-serif mt-3">This non-blocking I/O model ensures the single thread is never idle waiting for network or disk operations. It is always busy processing events, which is how it achieves high throughput and concurrency with a single thread.</p>
+
+    <p class="text-lg font-serif mt-3">As a engineer you should get this question, that Redis's primary storage is volatile RAM. What mechanisms does it provide to ensure data persistence and durability, allowing it to recover from server restarts or crashes? </p>
+
+    <h1 class="my-6 text-2xl font-serif">Lets talk about Persistance</h1>
+
+    <p class="font-serif text-lg mt-3">Redis provides two distinct, complementary persistence mechanisms to save the in-memory dataset to non-volatile storage.</p>
+
+    <ul class="font-serif text-lg list-disc ml-6 my-4">
+      <li>RDB (Redis Database): This persistence method creates point-in-time snapshots of the dataset. It works by forking a child process, as described previously. The child process writes the entire dataset to a single, compact, binary .rdb file on disk. This is efficient in terms of CPU and I/O. The main advantage is that the resulting file is perfect for backups and allows for fast data restoration on restart. The primary disadvantage is the potential for data loss: if the server crashes between two configured snapshots, all writes since the last snapshot are lost.</li>
+
+      <li>AOF (Append Only File): This method logs every write operation command that modifies the dataset. These commands are appended to an appendonly.aof file. Upon restart, Redis re-executes these commands in sequence to reconstruct the original dataset. Durability is controlled by the appendfsync configuration:
+
+        
+        <ul class="ml-4 list-decimal">
+          <li>always: Syncs after every write. Slowest but safest.</li>
+
+        <li>everysec: Syncs once per second. The recommended default, providing a good balance of speed and safety (max 1 second of data loss).</li>
+
+        <li>no: Lets the OS decide when to flush. Fastest but least safe.</li>
+        </ul>
+      </li>
+
+
+    </ul>
+
+    <p class="font-serif text-lg mt-3">To prevent the AOF file from growing indefinitely, Redis can automatically rewrite it in the background. It forks a child process that writes the minimal set of commands needed to recreate the current dataset into a new, temporary AOF file, which is then atomically swapped with the old one.</p>
+
+    <p class="font-serif text-lg mt-3">For maximum durability, it is common practice to use both AOF for near-real-time persistence and RDB for periodic backups.</p>
+
+    <p class="font-serif text-lg mt-3">Lets take a some good use cases of redis in production grade application</p>
+
+    <p class="font-serif text-lg mt-3">First which is commonly known and used by every developers and engineers out there, <span class="font-bold">Redis as cache layer</span>.</p>
+
+    <img src="./assets//redis/basic-sys.png" class="my-10" alt="">
+
+    <p class="font-serif text-lg mt-3">Lets say you have a web application where users frequently view their profiles fetching this data from a disk based database like MySQL everytime can be slow instead we can use redis to cache the user profile data so when a user requests their profile the application first checks redis, if the desired data is in redis it's a <span class="font-bold">cache hit</span> it is returned immediately, if the data is not in redis it's a <span class="font-bold">cache miss</span> the cache miss the application fetches it from the primary database stores it in redis and then returns it to the user. The data in redis can have <span class="font-bold">TTL</span> or <span class="font-bold">Time To Live</span> so it can automatically expire after a certain time for example say 15 to 20 minutes to ensure fresh is there all the time.</p>
+
+    <p class="font-serif text-lg mt-3">Second scenario is using <span class="font-bold">Redis as Database</span> specially for use cases where speed and low latency are very much important, just like building a gaming application.</p>
+
+    <img src="./assets/redis/rdb.png" class="my-10" alt="">
+
+    <p class="text-lg font-serif">Here we need to maintain a realtime leaderboard where player scores are constantly updated and we need to display the top 10 players instantly. So here we can use redus as sorted set data structure to store player scores, each player score is added to the sorted set with their ID as the key and the score as the value this automatically sorts the scores so we can quickly retrieve the top 10 players using a single command like <span class="font-bold">ZREVRANGE leaderboard 0 9</span>. Redis can then process this data to disk using RDB or AOF to ensure durability. </p>
+
+    <p class="text-lg font-serif mt-4">What internal data structures and optimizations allow it to store complex data types with minimal overhead?</p>
+
+    <h1 class="text-2xl font-serif my-7">Memory Management</h1>
+
+    <p class="font-serif text-lg">Redis's memory efficiency stems from its use of custom, highly-optimized data structures and dynamic encoding strategies.</p>
+
+    <ul class="text-lg font-serif mt-4 ml-4 list-disc">
+      <li> Redis does not use standard C-style null-terminated strings. Instead, it uses its own SDS structure. An SDS <span class="font-bold">(Simple Dynamic String)</span> is a struct that contains metadata (like the length of the string and the total allocated memory) followed by a byte array holding the actual data. This design provides several advantages which are</li>
+
+      <ul>
+        <li>O(1) Length Lookup: The length is stored directly in the struct, avoiding the need to scan the entire string.</li>
+
+        <li>When an SDS is grown, it allocates more memory than immediately required (e.g., 1MB of free space for a 1MB string), so subsequent appends may not require a new reallocation and memory copy.</li>
+      </ul>
+
+      <li>Redis dynamically switches internal encodings for a data type based on the data's size and content to save memory. For example </li>
+
+      <ul class="ml-4 list-disc">
+        <li>A Hash with few, small elements might be encoded as a ziplist (or listpack in newer versions), which stores all elements in a single, contiguous block of memory with no pointers, drastically reducing overhead. As the hash grows, Redis automatically converts it to a full hashtable for better performance on large datasets.</li>
+
+        <li>A Set containing only integers may be encoded as an intset, a specialized data structure that stores integers in a sorted array without any overhead.</li>
+
+        <li>Small Sorted Sets can also be encoded as a ziplist.</li>
+      </ul>
+    </ul>
+
+
+    <p class="font-serif text-lg mt-4">That's all from my side for the very first part of deep diving into redis, we got more parts for redis to explore for next few blogs :) Hope I was able to add few value to your today's learning :)</p>
+
+
+    <hr class="my-10" />
+    <footer class="my-8">
+      <div class="flex justify-between items-center">
+        <p>By Mrinal</p>
+
+        <a href="https://buymeacoffee.com/mrinalxdev">BuyMeACoffee</a>
+      </div>
+    </footer>
+  </body>
+</html>
