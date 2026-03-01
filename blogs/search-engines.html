@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Engines</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script
+      id="MathJax-script"
+      async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    ></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-4VP1VKLPKJ"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-4VP1VKLPKJ");
+    </script>
+  </head>
+  <body class="bg-orange-100 w-full max-w-[95%] md:w-[75%] mx-auto">
+    <nav class="mt-6">
+      <div>
+        <h1 class="font-serif text-4xl">Mrinal's Blog</h1>
+        <div class="mt-5 flex flex-wrap gap-5">
+          <a
+            href="../index.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Home</a
+          >
+          <a
+            href="./blog.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Blogs</a
+          >
+          <a
+            href="../research-notes/research.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Research Notes</a
+          >
+
+          <a
+            href="../maths/maths.html"
+            class="relative after:content-[''] after:absolute after:w-0 after:h-[2px] after:bg-black after:bottom-[-4px] after:left-0 hover:after:w-full after:transition-all after:duration-300"
+            >Maths</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <hr class="mt-3" />
+
+    <h1 class="text-4xl mt-[57px] mb-3 font-serif">
+      Search Engines from Beginners POV
+    </h1>
+    <span class="text-sm text-gray-500">1st March, 2026</span>
+
+    <p class="text-lg font-serif mt-4">
+      Search engines are simple to define with respect to their core job which
+      is to return the most relevant documents for a query in milliseconds. But
+      still it is arguably the most complex software systems in existence.
+    </p>
+
+    <img
+      src="../blogs/assets/search-engines/banner.png"
+      class="w-full max-w-[550px] h-auto mx-auto my-10"
+      alt=""
+    />
+
+    <h1 class="text-3xl font-serif">How Inverted Indices Work</h1>
+
+    <p class="text-lg font-serif mt-4">
+      To understand the "Search" part of search engines, one must first
+      understand why traditional databases fail at it. In a standard relational
+      database (like PostgreSQL or MySQL), data is stored in rows. If you want
+      to find a specific word in a description column, the database effectively
+      has to open every single row and scan the text to see if the word exists.
+      In computer science terms, this is an \( O(n) \) operation which means as
+      my data will grow, the speed to reach that drops linearly. For a web scale
+      dataset this is unacceptably slow. <br />
+      The solution for this is Inverted Index
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      Instead of mapping Documenting terms like a book's chapter, an inverted
+      index maps the terms according to the documents.
+    </p>
+
+    <img
+      src="../blogs/assets/search-engines/2.png"
+      class="w-full max-w-[600px] h-auto mx-auto my-10"
+      alt=""
+    />
+
+    <p class="text-lg font-serif mt-4">
+      Inverted Index consists of two components, first one is
+      <span class="font-bold">Term Dictionary</span> which is an aplhabetized
+      list of every unique word (term) found in entire dataset. This is often
+      kept in memory using a Hash Map or a Trie(Prefix tree) for speed. Second
+      one is <span class="font-bold">Posting Lists</span> for every term in the
+      dictionary, there is an associated list of document IDs where that term
+      appears.
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      This makes a search engine to query millions of documents in thee exact
+      same amount of time it takes to query one but the questions is how does it
+      even happen ??
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      When the user searches for the word "data," the engine does not scan
+      documents. Instead it hashes the word "data" and then jumps directly to
+      that entry in the term dictionary (an \(O(1)\) or constant time
+      operation). Than retrieves the the posting list like [Doc1, Doc4, Doc87]
+    </p>
+
+    <p class="text-lg font-serif mt-4">
+      However, this raw speed relies on exact matching. A computer views
+      "Running" and "run" as completely different binary strings. If our index
+      is too literal, it becomes brittle. But if we just store every word, how
+      do we handle "running" vs "run" or typos ??
+    </p>
+
+    <h1 class="text-3xl font-serif my-7">
+      Tokenization, Stemming and Analysis
+    </h1>
+
+    <p class="text-lg font-serif mt-4">
+      So to handle the variation of human language is not by indexing instead by
+      transforming the data before it enters the index. This process is called
+      <span class="font-bold">Analysis</span>. When we insert text into a search
+      engine, it doesn't just store the string. It passes the text through an
+      Analysis Chain, a pipeline of processors that standardize the text
+    </p>
+
+    <p class="text-xl py-3 font-serif">The Analysis Pipeline</p>
+
+    <p class="text-lg font-serif">
+      (<span class="font-bold">Character filters</span>) The raw stream is
+      cleaned, like the stripping HTML tags to make <"h1">Hello<"/h1"> into
+      Hello or converting & to and. Then comes (<span class="font-bold"
+        >Tokenizer</span
+      >) the text is chopped into discrete chunks called tokens. A standard
+      whitespace tokenizer splits "Hello, myself Mrinal" into [Hello, myself,
+      Mrinal]
+    </p>
+
+    <p class="text-lg font-serif">
+      (<span class="font-bold">Tokenizers</span>) the text is chopped into
+      discrete chunks called tokens. A standard whitespace tokenizer splits "The
+      quick brown fox" into [The, quick, brown, fox]
+    </p>
+
+    <img src="../blogs/assets/search-engines/3.png" class="w-full max-w-[700px] h-auto mx-auto my-10" alt="" />
+
+    <p class="text-lg font-serif">
+      Now there are few steps which get followed for the process where the
+      normalization happens. The tokens flow through a series of transformations
+    </p>
+
+    <ul class="list-disc ml-8 my-5 font-serif text-lg">
+      <li>
+        <span class="font-bold">Lowercasing</span> : "The" becomes "the". this
+        ensures searches are case insensitive.
+      </li>
+
+      <li>
+        <span class="font-bold">Stop word removal</span> : Common words with
+        little semantic value (like "a", "an", "the", "is") are often removed to
+        save space and reduce noice.
+      </li>
+
+      <li>
+        <span class="font-bold">Stemming</span> : This algorithm reduces words
+        to their root form. It chops suffixes, turning "running," "runs," and
+        "ran" all into the root token "run." This ensures a search for one tense
+        finds all variations.
+      </li>
+
+      <li>
+        <span class="font-bold">Synonyms</span> : You can inject rules where if
+        the engine sees "notebook," it also indexes the token "laptop."
+      </li>
+    </ul>
+
+    <img
+      src="../blogs/assets/search-engines/4.png"
+      class="w-full max-w-[800px] h-auto mx-auto my-10"
+      alt=""
+    />
+
+    <p class="text-xl py-3 font-serif">Why "CAT" != "cat != "kitten"</p>
+
+    <p class="text-lg font-serif">
+      Without this pipeline, the byte sequence for "CAT" does not match "cat".
+      By running both the document text and the user's query text through the
+      same analysis chain, we ensure they meet in the middle. If the document
+      contains "Running" and the user searches "run," the analyzer reduces both
+      to "run," creating a match
+    </p>
+
+    <p class="text-lg font-serif">
+      Now we have a system that can tolerate human variation and retrieve all
+      documents containing our terms. However, mere retrieval is not enough. If
+      I search for "News," I might get 10 millions documents. So we can index
+      text effectively, but how do we actually decide what results matter most
+      ??
+    </p>
+
+    <h1 class="text-3xl font-serif my-7">Ranking and Relevance</h1>
+
+    <p class="text-lg font-serif">
+      We decide what matters most by calculating a
+      <span>Relevance Score</span> for every matching document. This is not
+      boolean "yes/no" but a floating point number representing how well a
+      document matches the query. Although newer engines uses machine learning
+      (learning to rank), the foundational algorithms rely on statitical
+      probablity
+    </p>
+
+    <p class="text-2xl py-3 font-serif my-5">TF-IDF | Measuring the rarity</p>
+
+    <p class="font-serif text-lg">
+      Term Frequency Inverse Document Frequency. This method quantifies how
+      important a word is to a document within a larger collection (or corpus)
+      by balancing two key intuition
+    </p>
+
+    <p class="text-xl py-3 font-serif my-3">TF (Term Frequency)</p>
+
+    <p class="text-lg font-serif">
+      This measures how frequently a term appears in a specific document. The
+      underlying idea is that repetition signals importance. For instance, if
+      the search term "quantum" appears 5 times in Document A and only once in
+      Document B, Document A is likely more relevant to a query about quantum
+      physics. The basic formula is \[ \text{TF (t, d)} = \text{count of term t
+      in document d} \] Variations exist, such as normalized TF to account for
+      document lenght \[ \text{TF(t, d)} = \frac{ \text{count of t in d}}{
+      \text{total words in d}} \] this prevents longer documents from being
+      unfairly favoured due to huge size.
+    </p>
+
+    <img src="../blogs/assets/search-engines/5.png" class="w-full max-w-[650px] h-auto mx-auto my-10" alt="" />
+    <img
+      src="../blogs/assets/search-engines/6.png"
+      class="w-full max-w-[500px] h-auto mx-auto my-10"
+      alt=""
+    />
+
+    <p class="text-xl py-3 font-serif my-3">IDF (Inverse Document Frequency)</p>
+
+    <p class="text-lg font-serif">
+      Not all words are created equal, common ones like "the" or "and" appear
+      everywhere and offer little discriminatory power. IDF downweights these by
+      highlighting rarity. For example in a search for "The Matrix," the word
+      "The" is universal and useless, while "Matrix" is rarer and thus more
+      informative. The formula is <br />
+      \[ \text{IDF(t)} = \log \frac{\text{Total number of documents in
+      corpus}}{\text{Number of documents containing t}} \]
+    </p>
+
+    <p class="text-lg font-serif">
+      The logarithm smooths the scale and adding 1 to the denominator avoids
+      division by zero ... <br />
+      \[ \text{IDF(t)} = \log \frac{\text{Total number of documents in corpus +
+      1}}{\text{Number of documents containing t + 1}} \]
+    </p>
+
+    <p class="font-serif text-lg">
+      The final TF-IDF weight for a term in a document combines these \[
+      Weight(t, d) = TF(t, d) \times IDF(t) \] Higher weights indicate terms
+      that are both frequent in the document and rare across the corpus, making
+      them strong indicators of relevance.
+    </p>
+
+    <p class="text-xl py-3 font-serif my-3">
+      Example usecase using a calculation
+    </p>
+
+    <p class="font-serif text-lg">
+      we have a corpus of 100 documents, and we're querying for "apple
+      computer." The term "apple" appears in 10 documents (IDF = log(100/10) ≈
+      1.0), while "computer" appears in 20 (IDF ≈ 0.7). In Document A: "apple"
+      appears 3 times (TF=3), "computer" 2 times (TF=2). TF-IDF for "apple" = 3
+      × 1.0 = 3; for "computer" = 2 × 0.7 = 1.4. The document's score could be
+      the sum or average of these, depending on the implementation.
+    </p>
+
+    <h1 class="text-3xl font-serif my-7">Vector Space Model</h1>
+
+    <p class="font-serif text-lg">
+      TF-IDF weights form the foundation for representing text in a mathematical
+      framework called the Vector Space Model (VSM). Here, each document and
+      query is treated as a vector in a high-dimensional space, where each
+      dimension corresponds to a unique term in the vocabulary.
+    </p>
+
+    <ul class="ml-4 list-disc font-serif text-lg">
+      <li class="p-2">
+        <span class="italic">Vector Representation</span> : If the corpus
+        vocabulary has 10,000 unique words, every document becomes a
+        10,000-dimensional vector. The value in each dimension is the TF-IDF
+        weight for that term (or 0 if absent). For a query like "The Matrix,"
+        its vector would have non-zero weights only for relevant terms.
+        <br />This sparse representation (mostly zeros) is efficient but can be
+        computationally intensive for large vocabularies.
+      </li>
+
+      <li class="p-2">
+        <span>Similarity Measurement</span> : To rank documents, we compare the query vector  \(  \vec{q} \) to each document vector \(  \vec{d}  \). The most common metric is Cosine Similarity, which measures the angle between vectors (ignoring magnitude to focus on direction/orientation) <br>
+        \[   Cosine(\vec{q}, \vec{d}) = \frac{\vec{q} \cdot \vec{d}}{||\vec{q}|| \times ||\vec{d}||}   \]
+
+        Where \[  \vec{q} \cdot \vec{d}  \] is the dot product, and \[  ||\vec{q}||  \] is the Euclidean norm. Scores range from -1 (opposite) to 1 (identical); higher values indicate closer semantic alignment. A smaller angle means better relevance.
+      </li>
+    </ul>
+
+    <h1  class="text-3xl font-serif my-7">Whats Next ??</h1>
+
+    <p class="font-serif text-lg"">We have covered how to find and rank text, but what happens when the data is too big to fit on one machine? In Part II, we will look at Distributed Search, exploring Sharding, Replication, and the consensus algorithms that keep the engine running when servers fail.</p>
+
+    <p class="font-serif text-lg">That's all from my side for the first part, I am working on part II and will be releasing it soon .... Hope I was able to add some value to your learning ^^</p>
+
+    <footer class="my-8">
+      <div class="flex justify-between items-center">
+        <p>By Mrinal</p>
+
+        <a href="https://buymeacoffee.com/mrinalxdev">BuyMeACoffee</a>
+      </div>
+    </footer>
+  </body>
+</html>
